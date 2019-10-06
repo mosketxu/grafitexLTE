@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\{Campaign, CampaignStore, Store};
 use Illuminate\Http\Request;
+use Datatables;
 use Illuminate\Support\Str;
 
 class CampaignController extends Controller
@@ -21,6 +22,26 @@ class CampaignController extends Controller
             ->paginate(10);
         return view('campaign.index', compact('campaigns','stores'));
     }
+
+    public function simple()
+    {
+        $stores=Store::all();
+        $campaigns = Campaign::all();
+        return view('campaign.simple', compact('campaigns','stores'));
+    }
+
+    public function datatable()
+    {
+        $stores=Store::all();
+        $campaigns = Campaign::all();
+        return view('campaign.datatable', compact('campaigns','stores'));
+    }
+
+    public function ajax()
+    {
+        return view('campaign.ajax');
+    }
+
 
     /**
      * Show the form for creating a new resource.

@@ -22,7 +22,7 @@ class CampaignsTableSeeder extends Seeder
             }
         });
 
-        factory(\App\Campaign::class, 3)->create()
+        factory(\App\Campaign::class, 500)->create()
         ->each(function(\App\Campaign $b){
             factory(\App\CampaignStore::class,6)->create(['campaign_id'=>$b->id]);
         });

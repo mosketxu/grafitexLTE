@@ -11,22 +11,27 @@
 |
 */
 
+Auth::routes([
+    'register' => false,
+]);
+// Auth::routes();
+
 Route::get('/', function () {
     return view('auth/login');
 });
+
 Route::get('/home', 'CampaignController@index')->name('home');
 
-// Auth::routes([
-//     'register' => false,
-// ]);
-Auth::routes();
-
 Route::group(['middleware' => ['auth']], function () {
-    // Route::resource('user', 'UserController');//->middleware('admin');
-    // Route::resource('store', 'StoreController');//->middleware('admin');
-    // Route::resource('address', 'AddressController');//->middleware('admin');
+    Route::resource('user', 'UserController');//->middleware('admin');
+    Route::resource('store', 'StoreController');//->middleware('admin');
+    Route::resource('address', 'AddressController');//->middleware('admin');
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
-    // Route::resource('element', 'ElementController');//->middleware('admin');
+    Route::resource('element', 'ElementController');//->middleware('admin');
+
+    Route::get('/simple','CampaignController@simple')->name('simple');
+    Route::get('/datatable','CampaignController@datatable')->name('datatable');
+    Route::get('/ajax','CampaignController@ajax')->name('ajax');
     
     // ruta stores asociadas
     // Route::group(['prefix' => 'campaign'], function () {

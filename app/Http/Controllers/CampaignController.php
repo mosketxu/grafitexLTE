@@ -16,11 +16,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $stores=Store::all();
-        $campaigns = Campaign::with('CampaignStore')
-            ->orderBy('id','desc')
-            ->paginate(10);
-        return view('campaign.index', compact('campaigns','stores'));
+        return view('campaign.index',compact('nombre'));
     }
 
     public function simple()

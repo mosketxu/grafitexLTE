@@ -14,30 +14,27 @@
 
 @section('content')
 <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper pt-2">
-        <div id="content-app">
+    <div class="content-wrapper">
+        {{-- content header --}}
+        @include('_partials._header')
+        {{-- Main content --}}
+        <section class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header text-primary m-0 p-0">
-                        @include('_partials._header')
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="tCampaigns" class="table table-hover table-sm small" cellspacing="0" width=100%>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Campaña</th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Fin Prevista</th>
-                                    <th>Creada el:</th>
-                                    <th>Modificada el:</th>
-                                    <th class="text-right">Est. &nbsp; &nbsp; &nbsp; Op. &nbsp; &nbsp; </th>
-                                </tr>
-                            </thead>
-                            <tbody class="">
-                                @foreach ($campaigns as $campaign)
+                <div class="table-responsive">
+                    <table id="tCampaigns" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Campaña</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin Prevista</th>
+                                <th>Creada el:</th>
+                                <th>Modificada el:</th>
+                                <th class="text-right">Est. &nbsp; &nbsp; &nbsp; Op. &nbsp; &nbsp; </th>
+                            </tr>
+                        </thead>
+                        <tbody class="">
+                            @foreach ($campaigns as $campaign)
                                 <tr data-entry-id="{{ $campaign->id }}">
                                     <td>{{$campaign->id ?? '' }}</td>
                                     <td>{{$campaign->campaign_name ?? '' }}</td>
@@ -62,14 +59,13 @@
                                                 class="far fa-trash-alt text-danger"></i></a>
                                     </td>
                                 </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                {{-- @include('campaign._campaignCreateModal') --}}
             </div>
-        </div>
+            {{-- @include('campaign._campaignCreateModal') --}}
+        </section>
     </div>
 @endsection
 

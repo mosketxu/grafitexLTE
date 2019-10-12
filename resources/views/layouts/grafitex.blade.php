@@ -8,20 +8,15 @@
         <!-- Descripcion -->        
         <meta name="description" content="Aplicación desarrollada por Grafitex">
 
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css')}}">
-        <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
-
-        <!-- particular style -->
+        <!-- styles -->
+        @include('_partials._styles')
         @yield('styles')
+
+        <title>@yield('title')</title>
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title')</title>
 
     </head>
 
@@ -42,19 +37,7 @@
          </div>
         <!-- ./wrapper -->
 
-        <!-- scripts -->
-        <!-- jQuery -->
-        <script src="{{ asset('plugins/jquery/jquery.min.js')}}"></script>
-        <!-- jQuery UI 1.11.4 -->
-        <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-        <script>
-            $.widget.bridge('uibutton', $.ui.button)
-        </script>
-        <!-- Bootstrap 4 -->
-        <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-        <!-- AdminLTE App -->
-        <script src="{{ asset('js/adminlte.js')}}"></script>
+        @include('_partials._scripts')
 
         @yield('script')
         @stack('scriptchosen')

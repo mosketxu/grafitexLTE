@@ -29,12 +29,13 @@
                                 <input type="date" class="form-control form-control-sm" id="campaign_enddate" name="campaign_enddate" value="{{ old('campaign_enddate') }}"/>
                             </div>
                         </div>
+                        
                         <div class="row">
                             <div class="input-group input-group-sm mb-3 col-12">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-store text-primary"></i></span>
                                 </div>
-                                <select id="listastores" data-placeholder="Stores..." class="form-control select2" style="width:90%;" multiple  name="campaign_storeId[]">
+                                <select id="idStores" data-placeholder="Stores..." class="form-control select2" style="width:90%;" multiple  name="campaign_storeId[]">
                                     @foreach ($stores as $store )
                                         <option value="{{$store->id}}">{{$store->id}} {{$store->store_name}}</option>                                
                                     @endforeach
@@ -50,14 +51,3 @@
             </div>
         </div>
     </div>
-    
-    @push('scriptchosen')
-        <script>
-            $(document).ready(function() {
-            
-            $('.select2').select2({
-                placeholder: 'Stores de la campaña'
-                });
-            });
-        </script>
-    @endpush

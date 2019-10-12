@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/simple','CampaignController@simple')->name('simple');
     Route::get('/datatable','CampaignController@datatable')->name('datatable');
     Route::get('/ajax','CampaignController@ajax')->name('ajax');
+    Route::get('/select2','CampaignController@select2')->name('select2');
     
     // ruta stores asociadas
     // Route::group(['prefix' => 'campaign'], function () {

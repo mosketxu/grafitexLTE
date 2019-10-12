@@ -13,6 +13,10 @@ Breadcrumbs::for('campaign', function ($trail) {
   $trail->push('Campañas', route('campaign.index'));
  });
 
+ Breadcrumbs::for('campaignEdit', function ($trail) {
+  $trail->parent('campaign');
+  $trail->push('Edit', route('campaign.index'));
+ });
 
  
 // Home

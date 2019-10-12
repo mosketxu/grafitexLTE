@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignStore, Store};
+use App\{Campaign, CampaignStore, Element, Store};
 use Illuminate\Http\Request;
 use Datatables;
 use Illuminate\Support\Str;
@@ -16,7 +16,8 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        return view('campaign.index',compact('nombre'));
+        $stores=Store::all();
+        return view('campaign.index',compact('stores'));
     }
 
     public function simple()
@@ -38,6 +39,10 @@ class CampaignController extends Controller
         return view('campaign.ajax');
     }
 
+    public function select2()
+    {
+        return view('campaign.select2');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -104,7 +109,17 @@ class CampaignController extends Controller
             $query->select('store_id')->from('campaign_stores')->where('campaign_id', '=', $id);
         })->get();
 
+        $medidasDisponibles=Element::whereNotIn('id',function($query) use($id){
+            $query->select('medida')->from('campaign_medidas')->where('campaign_id', '=', $id);
+            })->get();
+
+        $medidasAsociadas = Element::whereIn('id', function ($query) use ($id) {
+            $query->select('medida_id')->from('campaign_medidads')->where('campaign_id', '=', $id);
+        })->get();
+            
         return view('campaign.edit', compact('campaignEdit', 'storesDisponibles', 'storesAsociadas'));
+        // return view('campaign.edit', compact('campaignEdit'));
+    
     }
 
     /**

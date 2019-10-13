@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class MedidasTableSeeder extends Seeder
+class MedidaTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

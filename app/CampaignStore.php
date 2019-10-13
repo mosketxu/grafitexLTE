@@ -6,16 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class CampaignStore extends Model
 {
-    protected $fillable=['id','campaign_id','store_id'];
-    // protected $dates = ['deleted_at'];
+    protected $fillable=['campaign_id','store_id','store'];
 
     public function campaign()
     {
         return $this->belongsTo(Campaign::class);
-    }
-
-    public function store()
-    {
-        return $this->belongsTo(Store::class);
     }
 }

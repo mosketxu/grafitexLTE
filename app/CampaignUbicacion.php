@@ -4,13 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CampaignMedida extends Model
+class CampaignUbicacion extends Model
 {
-    protected $fillable=['campaign_id','medida_id','medida'];
+    protected $fillable=['campaign_id','ubicacion_id','ubicacion'];
 
     public function campaign()
     {
         return $this->belongsTo(Campaign::class);
     }
-
 }

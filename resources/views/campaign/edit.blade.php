@@ -38,7 +38,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-body">
+                <div class="card-header">
                     <div class="row">
                         <div class="col">
                             <div class="row">
@@ -63,86 +63,247 @@
                                         disabled />
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <!-- Filtro Stores -->
-                                        <div class="card card-default">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Stores</h3>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="collapse"><i
-                                                            class="fas fa-minus"></i></button>
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="remove"><i class="fas fa-remove"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <form id="storesform" action="#" method="post">
-                                                            <div class="form-group">
-                                                                <select class="duallistbox" multiple="multiple"
-                                                                    name="storesduallistbox[]" size="5">
-                                                                    @foreach ($storesDisponibles as $store )
-                                                                    <option value="{{$store->id}}">{{$store->id}}
-                                                                        {{$store->store_name}}</option>
-                                                                    @endforeach
-                                                                    @foreach ($storesAsociadas as $store )
-                                                                    <option value="{{$store->id}}" selected="selected">
-                                                                        {{$store->id}}
-                                                                        {{$store->store_name}} </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <button type="submit"
-                                                                class="btn btn-default btn-block">Submit</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Filtro Medidas -->
-                                        <div class="card card-default">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Medidas</h3>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="collapse"><i
-                                                            class="fas fa-minus"></i></button>
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="remove"><i class="fas fa-remove"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <form id="medidasform" action="#" method="post">
-                                                            <div class="form-group">
-                                                                <select class="duallistbox" multiple="multiple"
-                                                                    name="medidasduallistbox[]" size="5">
-                                                                    @foreach ($medidasDisponibles as $medida )
-                                                                    <option value="{{$medida->medida}}">{{$medida->medida}}</option>
-                                                                    @endforeach
-                                                                    @foreach ($storesAsociadas as $store )
-                                                                    <option value="{{$medida->medida}}" selected="selected">{{$medida->medida}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <button type="submit"
-                                                                class="btn btn-default btn-block">Submit</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="card-body">
+                    <!-- Filtro Stores -->
+                    <div class="card ">
+                        <div class="card-header text-white bg-primary p-0"  data-toggle="collapse" data-target="#stores">
+                            <h3 class="card-title pl-3">Stores</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnstores" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="stores" class="card-body collapse">
+                            <form id="storesform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="storesduallistbox[]" size="5">
+                                        @foreach ($storesDisponibles as $store )
+                                        <option value="{{$store->id}}">{{$store->id}} {{$store->store_name}}
+                                        </option>
+                                        @endforeach
+                                        @foreach ($storesAsociadas as $store )
+                                        <option value="{{$store->id}}" selected="selected"> {{$store->id}}
+                                            {{$store->store_name}} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Filtro Medidas -->
+                    <div class="card ">
+                        <div class="card-header text-white bg-secondary p-0"  data-toggle="collapse" data-target="#medidas">
+                            <h3 class="card-title pl-3">Medidas</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool "><i id="btnmedidas" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="medidas" class="card-body collapse">
+                            <form id="medidasform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="medidasduallistbox[]"
+                                        size="5">
+                                        @foreach ($medidasDisponibles as $medida )
+                                        <option value="{{$medida->id}}">{{$medida->medida}}</option>
+                                        @endforeach
+                                        @foreach ($medidasAsociadas as $medida )
+                                        <option value="{{$medida->medida_id}}" selected="selected">{{$medida->medida}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Filtro Carteleria -->
+                    <div class="card ">
+                        <div class="card-header text-white bg-info p-0"  data-toggle="collapse" data-target="#cartelerias">
+                            <h3 class="card-title pl-3">Carteleria</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btncartelerias" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="cartelerias" class="card-body collapse">
+                            <form id="carteleriaform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="carteleriasduallistbox[]"
+                                        size="5">
+                                        @foreach ($carteleriasDisponibles as $carteleria )
+                                        <option value="{{$carteleria->id}}">{{$carteleria->carteleria}}</option>
+                                        @endforeach
+                                        @foreach ($carteleriasAsociadas as $carteleria )
+                                        <option value="{{$carteleria->carteleria_id}}" selected="selected">
+                                            {{$carteleria->carteleria}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Filtro Mobiliario -->
+                    <div class="card">
+                        <div class="card-header text-white bg-success p-0"  data-toggle="collapse" data-target="#mobiliarios">
+                            <h3 class="card-title pl-3">Mobiliario</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnmobiliarios" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="mobiliarios" class="card-body collapse">
+                            <form id="mobiliarioform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="mobiliariosduallistbox[]"
+                                        size="5">
+                                        @foreach ($mobiliariosDisponibles as $mobiliario )
+                                        <option value="{{$mobiliario->id}}">{{$mobiliario->mobiliario}}</option>
+                                        @endforeach
+                                        @foreach ($mobiliariosAsociadas as $mobiliario )
+                                        <option value="{{$mobiliario->mobiliario_id}}" selected="selected">
+                                            {{$mobiliario->mobiliario}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Filtro Ubicacion -->
+                    <div class="card">
+                        <div class="card-header text-black bg-warning p-0" data-toggle="collapse" data-target="#ubicaciones">
+                            <h3 class="card-title pl-3">Ubicación</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool" ><i id="btnubicaciones" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="ubicaciones" class="card-body collapse">
+                            <form id="ubicacionform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="ubicacionesduallistbox[]"
+                                        size="5">
+                                        @foreach ($ubicacionesDisponibles as $ubicacion )
+                                        <option value="{{$ubicacion->id}}">{{$ubicacion->ubicacion}}</option>
+                                        @endforeach
+                                        @foreach ($ubicacionesAsociadas as $ubicacion )
+                                        <option value="{{$ubicacion->ubicacion_id}}" selected="selected">
+                                            {{$ubicacion->ubicacion}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Filtro Segmento -->
+                    <div class="card">
+                        <div class="card-header text-white bg-indigo p-0"  data-toggle="collapse" data-target="#segmentos">
+                            <h3 class="card-title pl-3">Segmentos</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnsegmentos" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="segmentos" class="card-body collapse">
+                            <form id="segmentoform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="segmentosduallistbox[]"
+                                        size="5">
+                                        @foreach ($segmentosDisponibles as $segmento )
+                                        <option value="{{$segmento->id}}">{{$segmento->segmento}}</option>
+                                        @endforeach
+                                        @foreach ($segmentosAsociadas as $segmento )
+                                        <option value="{{$segmento->segmento_id}}" selected="selected">
+                                            {{$segmento->segmento}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Filtro Store Concept -->
+                    <div class="card">
+                        <div class="card-header text-white bg-navy p-0"  data-toggle="collapse" data-target="#storeconcepts">
+                            <h3 class="card-title pl-3">Store Concepts</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnstoreconcepts"
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="storeconcepts" class="card-body collapse">
+                            <form id="storeconceptform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="storeconceptsduallistbox[]"
+                                        size="5">
+                                        @foreach ($storeconceptsDisponibles as $storeconcept )
+                                        <option value="{{$storeconcept->id}}">{{$storeconcept->storeconcept}}</option>
+                                        @endforeach
+                                        @foreach ($storeconceptsAsociadas as $storeconcept )
+                                        <option value="{{$storeconcept->storeconcept_id}}" selected="selected">
+                                            {{$storeconcept->storeconcept}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Filtro Area -->
+                    <div class="card">
+                        <div class="card-header text-white bg-purple p-0"  data-toggle="collapse" data-target="#areas">
+                            <h3 class="card-title pl-3">Area</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnareas" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="areas" class="card-body collapse">
+                            <form id="areaform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="areasduallistbox[]" size="5">
+                                        @foreach ($areasDisponibles as $area )
+                                        <option value="{{$area->id}}">{{$area->area}}</option>
+                                        @endforeach
+                                        @foreach ($areasAsociadas as $area )
+                                        <option value="{{$area->area_id}}" selected="selected">
+                                            {{$area->area}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Filtro Country -->
+                    <div class="card">
+                        <div class="card-header text-white bg-fuchsia p-0" data-toggle="collapse" data-target="#countries"">
+                            <h3 class="card-title pl-3">Country</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool" ><i id="btncountries" class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="countries" class="card-body collapse">
+                            <form id="countryform" action="#" method="post">
+                                <div class="form-group">
+                                    <select class="duallistbox" multiple="multiple" name="countriesduallistbox[]" size="5">
+                                        @foreach ($countriesDisponibles as $country )
+                                        <option value="{{$country->id}}">{{$country->country}}</option>
+                                        @endforeach
+                                        @foreach ($countriesAsociadas as $country )
+                                        <option value="{{$country->country_id}}" selected="selected">
+                                            {{$country->country}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -155,8 +316,78 @@
     $(document).ready( function () {
 
     });
+
+    //boton collapse  Stores
+    $('#stores').on('shown.bs.collapse', function() {
+        $("#btnstores").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#stores').on('hidden.bs.collapse', function() {
+        $("#btnstores").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+
+    //boton collapse  Medidas
+    $('#medidas').on('shown.bs.collapse', function() {
+        $("#btnmedidas").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#medidas').on('hidden.bs.collapse', function() {
+        $("#btnmedidas").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+
+    //boton collapse  Cartelerias
+    $('#cartelerias').on('shown.bs.collapse', function() {
+        $("#btncartelerias").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#cartelerias').on('hidden.bs.collapse', function() {
+        $("#btncartelerias").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+    //boton collapse  Mobiliarios
+    $('#mobiliarios').on('shown.bs.collapse', function() {
+        $("#btnmobiliarios").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#mobiliarios').on('hidden.bs.collapse', function() {
+        $("#btnmobiliarios").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+    //boton collapse  Ubicaciones
+    $('#ubicaciones').on('shown.bs.collapse', function() {
+        $("#btnubicaciones").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#ubicaciones').on('hidden.bs.collapse', function() {
+        $("#btnubicaciones").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+    //boton collapse  Segmentos
+    $('#segmentos').on('shown.bs.collapse', function() {
+        $("#btnsegmentos").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#segmentos').on('hidden.bs.collapse', function() {
+        $("#btnsegmentos").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+
+    //boton collapse  Store Concepts
+    $('#storeconcepts').on('shown.bs.collapse', function() {
+        $("#btnstoreconcepts").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#storeconcepts').on('hidden.bs.collapse', function() {
+        $("#btnstoreconcepts").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+
+    //boton collapse  Area Concepts
+    $('#areas').on('shown.bs.collapse', function() {
+        $("#btnareas").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#areas').on('hidden.bs.collapse', function() {
+        $("#btnareas").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+
+    //boton collapse  Country Concepts
+    $('#countries').on('shown.bs.collapse', function() {
+        $("#btncountries").removeClass("fas fa-plus").addClass("fas fa-minus");
+    });
+    $('#countries').on('hidden.bs.collapse', function() {
+        $("#btncountries").removeClass("fas fa-minus").addClass("fas fa-plus");
+    });
+
     //Bootstrap Duallistbox
-    var demo1 = $('.duallistbox').bootstrapDualListbox({
+    var duallist = $('.duallistbox').bootstrapDualListbox({
         nonSelectedListLabel: 'No Seleccionadas',
         selectedListLabel: 'Seleccionadas',
         preserveSelectionOnMove: 'moved',

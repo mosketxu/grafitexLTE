@@ -15,7 +15,7 @@ class CreateMedidasTable extends Migration
     {
         Schema::create('medidas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('medida');
+            $table->string('medida')->unique;
             $table->timestamps();
         });
     }

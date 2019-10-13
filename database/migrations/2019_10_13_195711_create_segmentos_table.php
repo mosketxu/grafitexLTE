@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampaignMedidasTable extends Migration
+class CreateSegmentosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCampaignMedidasTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_medidas', function (Blueprint $table) {
+        Schema::create('segmentos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->references('id')->on('campaigns');
-            $table->bigInteger('medida_id');            
-            $table->string('medida');
+            $table->string('segmento')->unique;
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateCampaignMedidasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campaign_medidas');
+        Schema::dropIfExists('segmentos');
     }
 }

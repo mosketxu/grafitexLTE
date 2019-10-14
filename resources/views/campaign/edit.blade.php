@@ -286,19 +286,23 @@
                             </div>
                         </div>
                         <div id="countries" class="card-body collapse">
-                            <form id="countryform" action="#" method="post">
+                            {{-- <form method="post" id="countryform" action="{{ route('campaigncountry.store') }}" > --}}
+                            <form method="post" id="countryform" action="" >
+                                <input type="hidden" name="_token" value="{{ csrf_token()}}" id="token">
                                 <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value={{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="countriesduallistbox[]" size="5">
                                         @foreach ($countriesDisponibles as $country )
                                         <option value="{{$country->id}}">{{$country->country}}</option>
                                         @endforeach
                                         @foreach ($countriesAsociadas as $country )
-                                        <option value="{{$country->country_id}}" selected="selected">
+                                        <option value="{{$country->id}}" selected="selected">
                                             {{$country->country}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar" onclick="Asociar({{ $campaignEdit->id}})">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -397,6 +401,28 @@
       alert($('[name="storesduallistbox[]"]').val());
       return false;
     });
+
+    function Asociar(campaignId) {
+    var token = $("#token").val();
+    var route = "/campaigncountry";
+    var countries=$('[name="countriesduallistbox[]"]').val();
+    $.ajax({
+        url: route,
+        headers: { "X-CSRF-TOKEN": token },
+        type: "POST",
+        dataType: "json",
+        data: { campaign_id: campaignId, countries:countries  },
+        success: function(data) {
+            console.log(data);
+            alert('guay');
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            alert(errorThrown);
+			}
+    });
+}
+
+
 </script>
 
 @endpush

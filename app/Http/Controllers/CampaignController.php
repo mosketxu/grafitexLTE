@@ -137,11 +137,15 @@ class CampaignController extends Controller
 
         $areasAsociadas =CampaignArea::where('campaign_id','=',$id)->get();
 
-        $countriesDisponibles=Country::whereNotIn('id',function($query) use($id){
+        $countriesDisponibles=Country::select('id','country')
+            ->whereNotIn('id',function($query) use($id){
             $query->select('country_id')->from('campaign_countries')->where('campaign_id', '=', $id);
             })->get();
 
-        $countriesAsociadas =CampaignCountry::where('campaign_id','=',$id)->get();
+        $countriesAsociadas =CampaignCountry::join('countries','countries.id','=','country_id')
+        ->select('countries.id as id','countries.country as country','campaign_countries.id as campaigncountryid')
+        ->where('campaign_id','=',$id)
+        ->get();
 
         // Element::whereIn('id', function ($query) use ($id) {
         //     $query->select('medida_id')->from('campaign_medidads')->where('campaign_id', '=', $id);

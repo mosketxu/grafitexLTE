@@ -27,6 +27,10 @@
         {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css"> --}}
         {{-- <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.css')}}"> --}}
 
+    
+        <!-- Toastr -->
+        <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
+    
         <!-- ChartJS -->
         {{-- <script src="{{ asset('plugins/chart.js/Chart.min.js')}}"></script> --}}
         

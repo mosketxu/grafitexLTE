@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\{CampaignCountry,Country};
+use App\Http\Requests\CampaignCountryRequest;
 use Illuminate\Http\Request;
+
 
 class CampaignCountryController extends Controller
 {
@@ -33,7 +35,8 @@ class CampaignCountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(CampaignCountryRequest $request){
+
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
             $countries = $request->countries;
@@ -52,30 +55,9 @@ class CampaignCountryController extends Controller
             
             CampaignCountry::insert($data);
           
-            return response()->json([
-                "mensaje" => $request,
-            ]);
+            return response()->json(["mensaje" => $request->all()]);
         }
     }
-
-    public function add(Request $request) { 
-        if($request->ajax()) { 
-            $books=$request->books; 
-            $data = array(); 
-            foreach($books as $book) { 
-                if(!empty($book)) { 
-                    $data[] =[ 
-                        'name' => $book, 
-                        'user_id' => Auth::id(), 
-                    ]; 
-                }
-            } 
-            Book::insert($data);  
-        }
-    }
-
-
-
 
     /**
      * Display the specified resource.

@@ -290,6 +290,12 @@
                             <form method="post" id="countryform" action="" >
                                 <input type="hidden" name="_token" value="{{ csrf_token()}}" id="token">
                                 <div class="form-group">
+                                    <div class="alert alert-success alert-dissmisible" id="msj-success" role="alert" style="display:none">
+                                        <strong>Todo OK</strong>
+                                    </div>
+                                    <div id="msj-error" class="alert alert-danger alert-dismissible" role="alert" style="display:none">
+                                        <strong id="msj"> </strong>
+                                    </div>
                                     @csrf
                                     <input type="hidden" class="" name="campaign_id" value={{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="countriesduallistbox[]" size="5">
@@ -413,11 +419,20 @@
         dataType: "json",
         data: { campaign_id: campaignId, countries:countries  },
         success: function(data) {
-            console.log(data);
-            alert('guay');
+            toastr.info('Datos actualizados con éxito','Filtro Country',{
+                "progressBar":true,
+                "positionClass":"toast-top-center"
+            });
+            // $("#msj-success").fadeIn();
         },
-        error:function(jqXHR, textStatus, errorThrown){
-            alert(errorThrown);
+        error:function(msj){
+            // console.log(msj.responseJSON.errors);
+            // $("#msj").html(msj.responseJSON.errors.campaign_id);
+            // $("#msj-error").fadeIn();
+            toastr.error(msj.responseJSON.errors.campaign_id,'Fitro Country',{
+                "progressBar":true,
+                "positionClass":"toast-top-center"
+            });
 			}
     });
 }

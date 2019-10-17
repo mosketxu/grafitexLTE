@@ -10,6 +10,9 @@
 <!-- daterange picker -->
 <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css')}}">
 
+  <!-- Toastr -->
+ <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css')}}">
+
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
 

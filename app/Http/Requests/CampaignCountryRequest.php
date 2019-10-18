@@ -32,7 +32,7 @@ class CampaignCountryRequest extends FormRequest
 {
     return [
         'campaign_id.required' => 'required',
-        'campaign_id.alpha_num' => 'No se ha actualizado',
+        'campaign_id.alpha' => 'No se ha actualizado',
     ];
 }
 }

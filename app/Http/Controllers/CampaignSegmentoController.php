@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\{CampaignCountry,Country};
-use App\Http\Requests\CampaignCountryRequest; 
+use App\{CampaignSegmento,Segmento};
 use Illuminate\Http\Request;
 
 
-class CampaignCountryController extends Controller
+class CampaignSegmentoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,25 +34,25 @@ class CampaignCountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CampaignCountryRequest $request){
+    public function store(Request $request){
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $countries = $request->countries;
-            CampaignCountry::where('campaign_id','=',$campaign)->delete();
+            $segmentos = $request->segmentos;
+            CampaignSegmento::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($countries as $country){
-                if(!empty($country)){
-                    $c=Country::find($country);
+            foreach($segmentos as $segmento){
+                if(!empty($segmento)){
+                    $c=Segmento::find($segmento);
                     $data[]=[
                         'campaign_id'=>$campaign,
-                        'country_id'=>$country,
-                        'country'=>$c->country
+                        'segmento_id'=>$segmento,
+                        'segmento'=>$c->segmento
                     ];
                 }
             }
             
-            CampaignCountry::insert($data);
+            CampaignSegmento::insert($data);
           
             return response()->json(["mensaje" => $request->all()]);
         }

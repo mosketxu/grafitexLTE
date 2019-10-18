@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\{CampaignCountry,Country};
-use App\Http\Requests\CampaignCountryRequest; 
+use App\{CampaignArea,Area};
 use Illuminate\Http\Request;
 
 
-class CampaignCountryController extends Controller
+class CampaignAreaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,25 +34,25 @@ class CampaignCountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CampaignCountryRequest $request){
+    public function store(Request $request){
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $countries = $request->countries;
-            CampaignCountry::where('campaign_id','=',$campaign)->delete();
+            $areas = $request->areas;
+            CampaignArea::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($countries as $country){
-                if(!empty($country)){
-                    $c=Country::find($country);
+            foreach($areas as $area){
+                if(!empty($area)){
+                    $c=Area::find($area);
                     $data[]=[
                         'campaign_id'=>$campaign,
-                        'country_id'=>$country,
-                        'country'=>$c->country
+                        'area_id'=>$area,
+                        'area'=>$c->area
                     ];
                 }
             }
             
-            CampaignCountry::insert($data);
+            CampaignArea::insert($data);
           
             return response()->json(["mensaje" => $request->all()]);
         }

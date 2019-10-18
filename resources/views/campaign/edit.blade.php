@@ -69,10 +69,11 @@
                 <div class="card-body">
                     <!-- Filtro Stores -->
                     <div class="card ">
-                        <div class="card-header text-white bg-primary p-0"  data-toggle="collapse" data-target="#stores">
+                        <div class="card-header text-white bg-primary p-0" data-toggle="collapse" data-target="#stores">
                             <h3 class="card-title pl-3">Stores</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool"><i id="btnstores" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btnstores"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="stores" class="card-body collapse">
@@ -95,10 +96,12 @@
                     </div>
                     <!-- Filtro Medidas -->
                     <div class="card ">
-                        <div class="card-header text-white bg-secondary p-0"  data-toggle="collapse" data-target="#medidas">
+                        <div class="card-header text-white bg-secondary p-0" data-toggle="collapse"
+                            data-target="#medidas">
                             <h3 class="card-title pl-3">Medidas</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool "><i id="btnmedidas" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool "><i id="btnmedidas"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="medidas" class="card-body collapse">
@@ -121,10 +124,12 @@
                     </div>
                     <!-- Filtro Carteleria -->
                     <div class="card ">
-                        <div class="card-header text-white bg-info p-0"  data-toggle="collapse" data-target="#cartelerias">
+                        <div class="card-header text-white bg-info p-0" data-toggle="collapse"
+                            data-target="#cartelerias">
                             <h3 class="card-title pl-3">Carteleria</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool"><i id="btncartelerias" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btncartelerias"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="cartelerias" class="card-body collapse">
@@ -147,10 +152,12 @@
                     </div>
                     <!-- Filtro Mobiliario -->
                     <div class="card">
-                        <div class="card-header text-white bg-success p-0"  data-toggle="collapse" data-target="#mobiliarios">
+                        <div class="card-header text-white bg-success p-0" data-toggle="collapse"
+                            data-target="#mobiliarios">
                             <h3 class="card-title pl-3">Mobiliario</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool"><i id="btnmobiliarios" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btnmobiliarios"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="mobiliarios" class="card-body collapse">
@@ -173,17 +180,23 @@
                     </div>
                     <!-- Filtro Ubicacion -->
                     <div class="card">
-                        <div class="card-header text-black bg-warning p-0" data-toggle="collapse" data-target="#ubicaciones">
+                        <div class="card-header text-black bg-warning p-0" data-toggle="collapse"
+                            data-target="#ubicaciones">
                             <h3 class="card-title pl-3">Ubicación</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool" ><i id="btnubicaciones" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btnubicaciones"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="ubicaciones" class="card-body collapse">
                             <form id="ubicacionform" action="#" method="post">
+                                <input type="hidden" name="_tokenUbicacion" value="{{ csrf_token()}}"
+                                    id="tokenUbicacion">
                                 <div class="form-group">
-                                    <select class="duallistbox" multiple="multiple" name="ubicacionesduallistbox[]"
-                                        size="5">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                    <select class="duallistboxSinFiltro" multiple="multiple"
+                                        name="ubicacionesduallistbox[]" size="5">
                                         @foreach ($ubicacionesDisponibles as $ubicacion )
                                         <option value="{{$ubicacion->id}}">{{$ubicacion->ubicacion}}</option>
                                         @endforeach
@@ -193,23 +206,29 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarUbicacion({{ $campaignEdit->id}})">Asociar Ubicaciones</button>
                             </form>
                         </div>
                     </div>
                     <!-- Filtro Segmento -->
                     <div class="card">
-                        <div class="card-header text-white bg-indigo p-0"  data-toggle="collapse" data-target="#segmentos">
+                        <div class="card-header text-white bg-indigo p-0" data-toggle="collapse"
+                            data-target="#segmentos">
                             <h3 class="card-title pl-3">Segmentos</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool"><i id="btnsegmentos" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btnsegmentos"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="segmentos" class="card-body collapse">
                             <form id="segmentoform" action="#" method="post">
+                                <input type="hidden" name="_tokenSegmento" value="{{ csrf_token()}}" id="tokenSegmento">
                                 <div class="form-group">
-                                    <select class="duallistbox" multiple="multiple" name="segmentosduallistbox[]"
-                                        size="5">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                    <select class="duallistboxSinFiltro" multiple="multiple"
+                                        name="segmentosduallistbox[]" size="5">
                                         @foreach ($segmentosDisponibles as $segmento )
                                         <option value="{{$segmento->id}}">{{$segmento->segmento}}</option>
                                         @endforeach
@@ -219,13 +238,15 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarSegmento({{ $campaignEdit->id}})">Asociar Segmentos</button>
                             </form>
                         </div>
                     </div>
                     <!-- Filtro Store Concept -->
                     <div class="card">
-                        <div class="card-header text-white bg-navy p-0"  data-toggle="collapse" data-target="#storeconcepts">
+                        <div class="card-header text-white bg-navy p-0" data-toggle="collapse"
+                            data-target="#storeconcepts">
                             <h3 class="card-title pl-3">Store Concepts</h3>
                             <div class="card-tools pr-3">
                                 <button type="button" class="btn btn-tool"><i id="btnstoreconcepts"
@@ -234,7 +255,11 @@
                         </div>
                         <div id="storeconcepts" class="card-body collapse">
                             <form id="storeconceptform" action="#" method="post">
+                                <input type="hidden" name="_tokenStoreconcept" value="{{ csrf_token()}}"
+                                    id="tokenStoreconcept">
                                 <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="storeconceptsduallistbox[]"
                                         size="5">
                                         @foreach ($storeconceptsDisponibles as $storeconcept )
@@ -246,22 +271,28 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarStoreconcept({{ $campaignEdit->id}})">Asociar Store
+                                    Concepts</button>
                             </form>
                         </div>
                     </div>
 
                     <!-- Filtro Area -->
                     <div class="card">
-                        <div class="card-header text-white bg-purple p-0"  data-toggle="collapse" data-target="#areas">
+                        <div class="card-header text-white bg-purple p-0" data-toggle="collapse" data-target="#areas">
                             <h3 class="card-title pl-3">Area</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool"><i id="btnareas" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btnareas"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="areas" class="card-body collapse">
-                            <form id="areaform" action="#" method="post">
+                            <form method="post" id="areaform" action="">
+                                <input type="hidden" name="_tokenArea" value="{{ csrf_token()}}" id="tokenArea">
                                 <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="areasduallistbox[]" size="5">
                                         @foreach ($areasDisponibles as $area )
                                         <option value="{{$area->id}}">{{$area->area}}</option>
@@ -272,33 +303,30 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarArea({{ $campaignEdit->id}})">Asociar Areas</button>
                             </form>
                         </div>
                     </div>
 
                     <!-- Filtro Country -->
                     <div class="card">
-                        <div class="card-header text-white bg-fuchsia p-0" data-toggle="collapse" data-target="#countries"">
-                            <h3 class="card-title pl-3">Country</h3>
+                        <div class="card-header text-white bg-fuchsia p-0" data-toggle="collapse"
+                            data-target="#countries"">
+                            <h3 class=" card-title pl-3">Country</h3>
                             <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool" ><i id="btncountries" class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-tool"><i id="btncountries"
+                                        class="fas fa-plus"></i></button>
                             </div>
                         </div>
                         <div id="countries" class="card-body collapse">
-                            {{-- <form method="post" id="countryform" action="{{ route('campaigncountry.store') }}" > --}}
-                            <form method="post" id="countryform" action="" >
-                                <input type="hidden" name="_token" value="{{ csrf_token()}}" id="token">
+                            <form method="post" id="countryform" action="">
+                                <input type="hidden" name="_tokenCountry" value="{{ csrf_token()}}" id="tokenCountry">
                                 <div class="form-group">
-                                    <div class="alert alert-success alert-dissmisible" id="msj-success" role="alert" style="display:none">
-                                        <strong>Todo OK</strong>
-                                    </div>
-                                    <div id="msj-error" class="alert alert-danger alert-dismissible" role="alert" style="display:none">
-                                        <strong id="msj"> </strong>
-                                    </div>
                                     @csrf
-                                    <input type="hidden" class="" name="campaign_id" value={{$campaignEdit->id}} " />
-                                    <select class="duallistbox" multiple="multiple" name="countriesduallistbox[]" size="5">
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                    <select class="duallistboxSinFiltro" multiple="multiple"
+                                        name="countriesduallistbox[]" size="5">
                                         @foreach ($countriesDisponibles as $country )
                                         <option value="{{$country->id}}">{{$country->country}}</option>
                                         @endforeach
@@ -308,12 +336,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="button" class="btn btn-default btn-block" name="Guardar" onclick="Asociar({{ $campaignEdit->id}})">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarCountry({{ $campaignEdit->id}})">Asociar Countries</button>
                             </form>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -326,118 +353,8 @@
     $(document).ready( function () {
 
     });
-
-    //boton collapse  Stores
-    $('#stores').on('shown.bs.collapse', function() {
-        $("#btnstores").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#stores').on('hidden.bs.collapse', function() {
-        $("#btnstores").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-
-    //boton collapse  Medidas
-    $('#medidas').on('shown.bs.collapse', function() {
-        $("#btnmedidas").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#medidas').on('hidden.bs.collapse', function() {
-        $("#btnmedidas").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-
-    //boton collapse  Cartelerias
-    $('#cartelerias').on('shown.bs.collapse', function() {
-        $("#btncartelerias").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#cartelerias').on('hidden.bs.collapse', function() {
-        $("#btncartelerias").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-    //boton collapse  Mobiliarios
-    $('#mobiliarios').on('shown.bs.collapse', function() {
-        $("#btnmobiliarios").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#mobiliarios').on('hidden.bs.collapse', function() {
-        $("#btnmobiliarios").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-    //boton collapse  Ubicaciones
-    $('#ubicaciones').on('shown.bs.collapse', function() {
-        $("#btnubicaciones").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#ubicaciones').on('hidden.bs.collapse', function() {
-        $("#btnubicaciones").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-    //boton collapse  Segmentos
-    $('#segmentos').on('shown.bs.collapse', function() {
-        $("#btnsegmentos").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#segmentos').on('hidden.bs.collapse', function() {
-        $("#btnsegmentos").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-
-    //boton collapse  Store Concepts
-    $('#storeconcepts').on('shown.bs.collapse', function() {
-        $("#btnstoreconcepts").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#storeconcepts').on('hidden.bs.collapse', function() {
-        $("#btnstoreconcepts").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-
-    //boton collapse  Area Concepts
-    $('#areas').on('shown.bs.collapse', function() {
-        $("#btnareas").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#areas').on('hidden.bs.collapse', function() {
-        $("#btnareas").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-
-    //boton collapse  Country Concepts
-    $('#countries').on('shown.bs.collapse', function() {
-        $("#btncountries").removeClass("fas fa-plus").addClass("fas fa-minus");
-    });
-    $('#countries').on('hidden.bs.collapse', function() {
-        $("#btncountries").removeClass("fas fa-minus").addClass("fas fa-plus");
-    });
-
-    //Bootstrap Duallistbox
-    var duallist = $('.duallistbox').bootstrapDualListbox({
-        nonSelectedListLabel: 'No Seleccionadas',
-        selectedListLabel: 'Seleccionadas',
-        preserveSelectionOnMove: 'moved',
-        moveOnSelect: false,
-    });
-    $("#storeform").submit(function() {
-      alert($('[name="storesduallistbox[]"]').val());
-      return false;
-    });
-
-    function Asociar(campaignId) {
-    var token = $("#token").val();
-    var route = "/campaigncountry";
-    var countries=$('[name="countriesduallistbox[]"]').val();
-    $.ajax({
-        url: route,
-        headers: { "X-CSRF-TOKEN": token },
-        type: "POST",
-        dataType: "json",
-        data: { campaign_id: campaignId, countries:countries  },
-        success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro Country',{
-                "progressBar":true,
-                "positionClass":"toast-top-center"
-            });
-            // $("#msj-success").fadeIn();
-        },
-        error:function(msj){
-            // console.log(msj.responseJSON.errors);
-            // $("#msj").html(msj.responseJSON.errors.campaign_id);
-            // $("#msj-error").fadeIn();
-            toastr.error(msj.responseJSON.errors.campaign_id,'Fitro Country',{
-                "progressBar":true,
-                "positionClass":"toast-top-center"
-            });
-			}
-    });
-}
-
-
 </script>
+<script src="{{ asset('js/campaignEdit.js')}}"></script>
+
 
 @endpush

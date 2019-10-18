@@ -29,6 +29,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
     Route::resource('element', 'ElementController');//->middleware('admin');
 
+    Route::resource('campaignubicacion', 'CampaignUbicacionController');//->middleware('admin');
+    Route::resource('campaignsegmento', 'CampaignSegmentoController');//->middleware('admin');
+    Route::resource('campaignstoreconcept', 'CampaignStoreconceptController');//->middleware('admin');
+    Route::resource('campaignarea', 'CampaignAreaController');//->middleware('admin');
     Route::resource('campaigncountry', 'CampaignCountryController');//->middleware('admin');
 
     

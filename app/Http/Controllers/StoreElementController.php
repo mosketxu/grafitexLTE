@@ -15,7 +15,7 @@ class StoreElementController extends Controller
         // $stoAsoc=CampaignStore::where('campaign_id',$campaignid)->get();
 
         $eleAsoc=StoreElement::join('stores','stores.id',"=","store_id")
-        ->select('store_elements.id as stoEleId','stores.id', 'stores.store_name')
+        ->select('store_elements.id as stoEleId','stores.id', 'stores.store')
         ->where('store_id',$storeid)->get();
 
         return response()->json(

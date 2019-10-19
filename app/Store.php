@@ -9,7 +9,7 @@ class Store extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['id','store_name','store_country','store_area','store_segment','store_concept','address_id'];
+    protected $fillable=['id','store','country','area','segment','concept','address_id'];
     protected $dates = ['deleted_at'];
 
     // public function address()

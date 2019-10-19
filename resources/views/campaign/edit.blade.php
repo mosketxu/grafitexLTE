@@ -86,7 +86,7 @@
                                     <select class="duallistbox" multiple="multiple" name="storesduallistbox[]"
                                         size="5">
                                         @foreach ($storesDisponibles as $store )
-                                        <option value="{{$store->id}}">{{$store->id}} {{$store->store_name}}
+                                        <option value="{{$store->id}}">{{$store->id}} {{$store->store}}
                                         </option>
                                         @endforeach
                                         @foreach ($storesAsociadas as $store )

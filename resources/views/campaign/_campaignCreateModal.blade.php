@@ -37,7 +37,7 @@
                                 </div>
                                 <select id="idStores" data-placeholder="Stores..." class="form-control select2" style="width:90%;" multiple  name="campaign_storeId[]">
                                     @foreach ($stores as $store )
-                                        <option value="{{$store->id}}">{{$store->id}} {{$store->store_name}}</option>                                
+                                        <option value="{{$store->id}}">{{$store->id}} {{$store->store}}</option>                                
                                     @endforeach
                                 </select>
                             </div>

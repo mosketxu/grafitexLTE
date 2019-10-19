@@ -16,7 +16,7 @@ class CampaignStoreController extends Controller
         // $stoAsoc=CampaignStore::where('campaign_id',$campaignid)->get();
 
         $stoAsoc = CampaignStore::join('stores', 'stores.id', "=", "store_id")
-            ->select('campaign_stores.id as campStoId', 'stores.id', 'stores.store_name')
+            ->select('campaign_stores.id as campStoId', 'stores.id', 'stores.store')
             ->where('campaign_id', $campaignid)->get();
 
         return response()->json(
@@ -99,7 +99,7 @@ class CampaignStoreController extends Controller
                         $data[] = [
                             'campaign_id' => $campaign,
                             'store_id' => $store,
-                            'store' => $c->store_name
+                            'store' => $c->store
                         ];
                     }
                 }
@@ -168,11 +168,11 @@ class CampaignStoreController extends Controller
                 ->where('store_id', $request->stoId)
                 ->delete();
 
-            $a = Store::first()->store_name;
+            $a = Store::first()->store;
 
             return response()->json(
                 [
-                    'storename' => $sto->store_name,
+                    'storename' => $sto->store,
                     'campId' => $request->campId,
                     'campStoId' => $request->campstoId,
                 ]

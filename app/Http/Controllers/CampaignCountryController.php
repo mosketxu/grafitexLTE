@@ -42,20 +42,26 @@ class CampaignCountryController extends Controller
             $countries = $request->countries;
             CampaignCountry::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($countries as $country){
-                if(!empty($country)){
-                    $c=Country::find($country);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'country_id'=>$country,
-                        'country'=>$c->country
-                    ];
+            $contador=!is_null($request->countries);
+
+            if(!is_null($request->countries)){
+                foreach($countries as $country){
+                    if(!empty($country)){
+                        $c=Country::find($country);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            'country_id'=>$country,
+                            'country'=>$c->country
+                        ];
+                    }
                 }
+                
+                CampaignCountry::insert($data);
             }
-            
-            CampaignCountry::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

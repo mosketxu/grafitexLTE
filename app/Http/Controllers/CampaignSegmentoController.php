@@ -41,20 +41,26 @@ class CampaignSegmentoController extends Controller
             $segmentos = $request->segmentos;
             CampaignSegmento::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($segmentos as $segmento){
-                if(!empty($segmento)){
-                    $c=Segmento::find($segmento);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'segmento_id'=>$segmento,
-                        'segmento'=>$c->segmento
-                    ];
+            $contador=!is_null($request->segmentos);
+
+            if(!is_null($request->segmentos)){            
+                foreach($segmentos as $segmento){
+                    if(!empty($segmento)){
+                        $c=Segmento::find($segmento);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            'segmento_id'=>$segmento,
+                            'segmento'=>$c->segmento
+                        ];
+                    }
                 }
-            }
             
-            CampaignSegmento::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+                CampaignSegmento::insert($data);
+            }
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

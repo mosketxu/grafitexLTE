@@ -41,6 +41,9 @@ class CampaignStoreconceptController extends Controller
             $storeconcepts = $request->storeconcepts;
             CampaignStoreconcept::where('campaign_id','=',$campaign)->delete();
             $data=array();
+            $contador=!is_null($request->storeconcepts);
+
+            if(!is_null($request->storeconcepts)){
             foreach($storeconcepts as $storeconcept){
                 if(!empty($storeconcept)){
                     $c=StoreConcept::find($storeconcept);
@@ -53,8 +56,11 @@ class CampaignStoreconceptController extends Controller
             }
             
             CampaignStoreconcept::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+        }  
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

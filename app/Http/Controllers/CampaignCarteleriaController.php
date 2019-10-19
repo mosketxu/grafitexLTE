@@ -41,20 +41,25 @@ class CampaignCarteleriaController extends Controller
             $cartelerias = $request->cartelerias;
             CampaignCarteleria::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($cartelerias as $carteleria){
-                if(!empty($carteleria)){
-                    $c=Carteleria::find($carteleria);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'carteleria_id'=>$carteleria,
-                        'carteleria'=>$c->carteleria
-                    ];
+            $contador=!is_null($request->cartelerias);
+
+            if(!is_null($request->cartelerias)){
+                foreach($cartelerias as $carteleria){
+                    if(!empty($carteleria)){
+                        $c=Carteleria::find($carteleria);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            'carteleria_id'=>$carteleria,
+                            'carteleria'=>$c->carteleria
+                        ];
+                    }
                 }
+                CampaignCarteleria::insert($data);
             }
-            
-            CampaignCarteleria::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

@@ -101,10 +101,18 @@ function asociarStore(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, stores:stores  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro stores',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtro Stores',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Stores borrados','Filtro Stores',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -134,10 +142,18 @@ function asociarMedida(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, medidas:medidas  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro medidas',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtro Medidas',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Medidas borrados','Filtro Medidas',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -168,10 +184,18 @@ function asociarCarteleria(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, cartelerias:cartelerias  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro cartelerias',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtro Cartelerias',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Cartelerias borrados','Filtro Cartelerias',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -200,10 +224,18 @@ function asociarMobiliario(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, mobiliarios:mobiliarios  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro mobiliarios',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtros Mobiliarios',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Mobiliarios borrados','Filtro Mobiliarios',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -233,10 +265,18 @@ function asociarUbicacion(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, ubicaciones:ubicaciones  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro ubicaciones',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtro Ubicaciones',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Ubicaciones borrados','Filtro Ubicaciones',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -266,10 +306,18 @@ function asociarSegmento(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, segmentos:segmentos  },
       success: function(data) {
+         if(data.cont==true){
             toastr.info('Datos actualizados con éxito','Filtro Segmentos',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Segmentos borrados','Filtro Segmentos',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -298,10 +346,18 @@ function asociarStoreconcept(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, storeconcepts:storeconcepts  },
       success: function(data) {
+         if(data.cont==true){
             toastr.info('Datos actualizados con éxito','Filtro Store Concepts',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Store Concepts borrados','Filtro Store Concepts',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             console.log(msj.responseJSON.errors);
@@ -330,13 +386,21 @@ function asociarArea(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, areas:areas  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro Area',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtro Areas',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
+         }
+         else{
+            toastr.warning('Todos los filtros Areas borrados','Filtro Areas',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
-            // console.log(msj.responseJSON.errors);
+            console.log(msj.responseJSON.errors);
             toastr.error("Ha habido un error. <br />No se ha podido grabar. <br />Si se repite contacte con el Administrador.",'Fitro Area',{
                "closeButton": true,
                "progressBar":true,
@@ -363,11 +427,18 @@ function asociarCountry(campaignId) {
       dataType: "json",
       data: { campaign_id: campaignId, countries:countries  },
       success: function(data) {
-            toastr.info('Datos actualizados con éxito','Filtro Country',{
+         if(data.cont==true){
+            toastr.info('Datos actualizados con éxito','Filtro Countries',{
                "progressBar":true,
                "positionClass":"toast-top-center"
             });
-            // $("#msj-success").fadeIn();
+         }
+         else{
+            toastr.warning('Todos los filtros Countries borrados','Filtro Countries',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+         }
       },
       error:function(msj){
             // console.log(msj.responseJSON.errors);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{CampaignUbicacion,Ubicacion};
+use App\{CampaignUbicacion, Ubicacion};
 use Illuminate\Http\Request;
 
 
@@ -34,27 +34,35 @@ class CampaignUbicacionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         if ($request->ajax()) {
-            $campaign=$request->campaign_id;
+            $campaign = $request->campaign_id;
             $ubicaciones = $request->ubicaciones;
-            CampaignUbicacion::where('campaign_id','=',$campaign)->delete();
-            $data=array();
-            foreach($ubicaciones as $ubicacion){
-                if(!empty($ubicacion)){
-                    $c=Ubicacion::find($ubicacion);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'ubicacion_id'=>$ubicacion,
-                        'ubicacion'=>$c->ubicacion
-                    ];
+            CampaignUbicacion::where('campaign_id', '=', $campaign)->delete();
+            $data = array();
+            $contador = !is_null($request->ubicaciones);
+
+            if (!is_null($request->ubicaciones)) {
+                foreach ($ubicaciones as $ubicacion) {
+                    if (!empty($ubicacion)) {
+                        $c = Ubicacion::find($ubicacion);
+                        $data[] = [
+                            'campaign_id' => $campaign,
+                            'ubicacion_id' => $ubicacion,
+                            'ubicacion' => $c->ubicacion
+                        ];
+                    }
                 }
+
+                CampaignUbicacion::insert($data);
             }
-            
-            CampaignUbicacion::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont" => $contador,
+            ]);
         }
     }
 
@@ -102,6 +110,4 @@ class CampaignUbicacionController extends Controller
     {
         //
     }
-
-
 }

@@ -41,20 +41,26 @@ class CampaignMobiliarioController extends Controller
             $mobiliarios = $request->mobiliarios;
             CampaignMobiliario::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($mobiliarios as $mobiliario){
-                if(!empty($mobiliario)){
-                    $c=Mobiliario::find($mobiliario);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'mobiliario_id'=>$mobiliario,
-                        'mobiliario'=>$c->mobiliario
-                    ];
+            $contador=!is_null($request->mobiliarios);
+
+            if(!is_null($request->mobiliarios)){            
+                foreach($mobiliarios as $mobiliario){
+                    if(!empty($mobiliario)){
+                        $c=Mobiliario::find($mobiliario);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            'mobiliario_id'=>$mobiliario,
+                            'mobiliario'=>$c->mobiliario
+                        ];
+                    }
                 }
-            }
             
-            CampaignMobiliario::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+                CampaignMobiliario::insert($data);
+            }
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

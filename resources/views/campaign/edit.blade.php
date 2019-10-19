@@ -90,8 +90,7 @@
                                         </option>
                                         @endforeach
                                         @foreach ($storesAsociadas as $store )
-                                        <option value="{{$store->id}}" selected="selected"> {{$store->id}}
-                                            {{$store->store_name}} </option>
+                                        <option value="{{$store->store_id}}" selected="selected">{{$store->store_id}} {{$store->store}} </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -135,41 +134,6 @@
                         </div>
                     </div>
 
-
-
-                    <!-- Filtro Medidas -->
-                    {{-- <div class="card ">
-                        <div class="card-header text-white bg-secondary p-0" data-toggle="collapse"
-                            data-target="#medidas">
-                            <h3 class="card-title pl-3">Medidas</h3>
-                            <div class="card-tools pr-3">
-                                <button type="button" class="btn btn-tool "><i id="btnmedidas"
-                                        class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <div id="medidas" class="card-body collapse">
-                            <form id="medidasform" action="#" method="post">
-                                <input type="hidden" name="_tokenMedida" value="{{ csrf_token()}}"
-                                    id="tokenMedida">
-                                <div class="form-group">
-                                    @csrf
-                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
-                                    <select class="duallistbox" multiple="multiple" name="medidasduallistbox[]"
-                                        size="5">
-                                        @foreach ($medidasDisponibles as $medida )
-                                        <option value="{{$medida->id}}">{{$medida->medida}}</option>
-                                        @endforeach
-                                        @foreach ($medidasAsociadas as $medida )
-                                        <option value="{{$medida->medida_id}}" selected="selected">{{$medida->medida}}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarMedida({{ $campaignEdit->id}})">Asociar Medidas</button>
-                            </form>
-                        </div>
-                    </div> --}}
                     <!-- Filtro Carteleria -->
                     <div class="card ">
                         <div class="card-header text-white bg-info p-0" data-toggle="collapse"

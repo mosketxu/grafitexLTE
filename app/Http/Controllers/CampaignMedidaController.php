@@ -41,20 +41,26 @@ class CampaignMedidaController extends Controller
             $medidas = $request->medidas;
             CampaignMedida::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($medidas as $medida){
-                if(!empty($medida)){
-                    $c=Medida::find($medida);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'medida_id'=>$medida,
-                        'medida'=>$c->medida
-                    ];
+            $contador=!is_null($request->medidas);
+
+            if(!is_null($request->medidas)){
+                foreach($medidas as $medida){
+                    if(!empty($medida)){
+                        $c=Medida::find($medida);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            'medida_id'=>$medida,
+                            'medida'=>$c->medida
+                        ];
+                    }
                 }
-            }
             
-            CampaignMedida::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+                CampaignMedida::insert($data);
+            }          
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

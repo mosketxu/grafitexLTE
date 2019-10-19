@@ -41,20 +41,26 @@ class CampaignAreaController extends Controller
             $areas = $request->areas;
             CampaignArea::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            foreach($areas as $area){
-                if(!empty($area)){
-                    $c=Area::find($area);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'area_id'=>$area,
-                        'area'=>$c->area
-                    ];
+            $contador=!is_null($request->areas);
+
+            if(!is_null($request->areas)){
+                foreach($areas as $area){
+                    if(!empty($area)){
+                        $c=Area::find($area);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            'area_id'=>$area,
+                            'area'=>$c->area
+                        ];
+                    }
                 }
+                CampaignArea::insert($data);
             }
-            
-            CampaignArea::insert($data);
           
-            return response()->json(["mensaje" => $request->all()]);
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
         }
     }
 

@@ -15,9 +15,9 @@ class CampaignStoreController extends Controller
     {
         // $stoAsoc=CampaignStore::where('campaign_id',$campaignid)->get();
 
-        $stoAsoc=CampaignStore::join('stores','stores.id',"=","store_id")
-        ->select('campaign_stores.id as campStoId','stores.id', 'stores.store_name')
-        ->where('campaign_id',$campaignid)->get();
+        $stoAsoc = CampaignStore::join('stores', 'stores.id', "=", "store_id")
+            ->select('campaign_stores.id as campStoId', 'stores.id', 'stores.store_name')
+            ->where('campaign_id', $campaignid)->get();
 
         return response()->json(
             $stoAsoc->toArray()
@@ -26,9 +26,9 @@ class CampaignStoreController extends Controller
 
     public function stoDisp($campaignid)
     {
-     
-        $stoDisp=Store::whereNotIn('id', function ($query) use ($campaignid) {
-             $query->select('store_id')->from('campaign_stores')->where('campaign_id', '=', $campaignid);
+
+        $stoDisp = Store::whereNotIn('id', function ($query) use ($campaignid) {
+            $query->select('store_id')->from('campaign_stores')->where('campaign_id', '=', $campaignid);
         })->get();
 
         return response()->json(
@@ -65,7 +65,7 @@ class CampaignStoreController extends Controller
      */
     public function storeOld(Request $request)
     {
-        $camStoId=DB::table('campaign_stores')->insertGetId([
+        $camStoId = DB::table('campaign_stores')->insertGetId([
             'campaign_id' => $request->campaignId,
             'store_id' =>  $request->storeId
         ]);
@@ -82,27 +82,35 @@ class CampaignStoreController extends Controller
         ]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         if ($request->ajax()) {
-            $campaign=$request->campaign_id;
+            $campaign = $request->campaign_id;
             $stores = $request->stores;
-            CampaignStore::where('campaign_id','=',$campaign)->delete();
-            $data=array();
-            foreach($stores as $store){
-                if(!empty($store)){
-                    $c=Store::find($store);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'store_id'=>$store,
-                        'store'=>$c->store_name
-                    ];
+            CampaignStore::where('campaign_id', '=', $campaign)->delete();
+            $data = array();
+            $contador = !is_null($request->stores);
+
+            if (!is_null($request->stores)) {
+                foreach ($stores as $store) {
+                    if (!empty($store)) {
+                        $c = Store::find($store);
+                        $data[] = [
+                            'campaign_id' => $campaign,
+                            'store_id' => $store,
+                            'store' => $c->store_name
+                        ];
+                    }
                 }
+
+                CampaignStore::insert($data);
             }
-            
-            CampaignStore::insert($data);
-          
-            return response()->json(["mensaje" => $request->all()]);
+
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont" => $contador,
+            ]);
         }
     }
 
@@ -160,14 +168,15 @@ class CampaignStoreController extends Controller
                 ->where('store_id', $request->stoId)
                 ->delete();
 
-            $a=Store::first()->store_name;
+            $a = Store::first()->store_name;
 
             return response()->json(
                 [
-                    'storename'=>$sto->store_name,
+                    'storename' => $sto->store_name,
                     'campId' => $request->campId,
                     'campStoId' => $request->campstoId,
                 ]
             );
         }
-    }}
+    }
+}

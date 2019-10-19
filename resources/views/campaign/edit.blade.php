@@ -78,8 +78,13 @@
                         </div>
                         <div id="stores" class="card-body collapse">
                             <form id="storesform" action="#" method="post">
+                                <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}"
+                                    id="tokenStore">
                                 <div class="form-group">
-                                    <select class="duallistbox" multiple="multiple" name="storesduallistbox[]" size="5">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                    <select class="duallistbox" multiple="multiple" name="storesduallistbox[]"
+                                        size="5">
                                         @foreach ($storesDisponibles as $store )
                                         <option value="{{$store->id}}">{{$store->id}} {{$store->store_name}}
                                         </option>
@@ -90,12 +95,50 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarStore({{ $campaignEdit->id}})">Asociar Stores</button>
                             </form>
                         </div>
                     </div>
-                    <!-- Filtro Medidas -->
+
+                    <!-- Filtro Medida -->
                     <div class="card ">
+                        <div class="card-header text-white bg-info p-0" data-toggle="collapse"
+                            data-target="#medidas">
+                            <h3 class="card-title pl-3">Medida</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnmedidas"
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div id="medidas" class="card-body collapse">
+                            <form id="medidaform" action="#" method="post">
+                                <input type="hidden" name="_tokenMedida" value="{{ csrf_token()}}"
+                                    id="tokenMedida">
+                                <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                    <select class="duallistbox" multiple="multiple" name="medidasduallistbox[]"
+                                        size="5">
+                                        @foreach ($medidasDisponibles as $medida )
+                                        <option value="{{$medida->id}}">{{$medida->medida}}</option>
+                                        @endforeach
+                                        @foreach ($medidasAsociadas as $medida )
+                                        <option value="{{$medida->medida_id}}" selected="selected">
+                                            {{$medida->medida}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarMedida({{ $campaignEdit->id}})">Asociar Medidas</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Filtro Medidas -->
+                    {{-- <div class="card ">
                         <div class="card-header text-white bg-secondary p-0" data-toggle="collapse"
                             data-target="#medidas">
                             <h3 class="card-title pl-3">Medidas</h3>
@@ -106,7 +149,11 @@
                         </div>
                         <div id="medidas" class="card-body collapse">
                             <form id="medidasform" action="#" method="post">
+                                <input type="hidden" name="_tokenMedida" value="{{ csrf_token()}}"
+                                    id="tokenMedida">
                                 <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="medidasduallistbox[]"
                                         size="5">
                                         @foreach ($medidasDisponibles as $medida )
@@ -118,10 +165,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarMedida({{ $campaignEdit->id}})">Asociar Medidas</button>
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- Filtro Carteleria -->
                     <div class="card ">
                         <div class="card-header text-white bg-info p-0" data-toggle="collapse"
@@ -134,7 +182,11 @@
                         </div>
                         <div id="cartelerias" class="card-body collapse">
                             <form id="carteleriaform" action="#" method="post">
+                                <input type="hidden" name="_tokenCarteleria" value="{{ csrf_token()}}"
+                                    id="tokenCarteleria">
                                 <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="carteleriasduallistbox[]"
                                         size="5">
                                         @foreach ($carteleriasDisponibles as $carteleria )
@@ -146,7 +198,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarCarteleria({{ $campaignEdit->id}})">Asociar Cartelerias</button>
                             </form>
                         </div>
                     </div>
@@ -162,7 +215,11 @@
                         </div>
                         <div id="mobiliarios" class="card-body collapse">
                             <form id="mobiliarioform" action="#" method="post">
+                                <input type="hidden" name="_tokenMobiliario" value="{{ csrf_token()}}"
+                                    id="tokenMobiliario">
                                 <div class="form-group">
+                                    @csrf
+                                    <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="mobiliariosduallistbox[]"
                                         size="5">
                                         @foreach ($mobiliariosDisponibles as $mobiliario )
@@ -174,7 +231,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="submit" class="btn btn-default btn-block">Submit</button>
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarMobiliario({{ $campaignEdit->id}})">Asociar Mobiliarios</button>
                             </form>
                         </div>
                     </div>

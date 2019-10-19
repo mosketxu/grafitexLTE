@@ -88,6 +88,139 @@ $('#countries').on('hidden.bs.collapse', function() {
 
 // Funciones asociar
 // =================
+
+// Asociar Store
+function asociarStore(campaignId) {
+   var token = $("#tokenStore").val();
+   var route = "/campaignstore";
+   var stores=$('[name="storesduallistbox[]"]').val();
+   $.ajax({
+      url: route,
+      headers: { "X-CSRF-TOKEN": token },
+      type: "POST",
+      dataType: "json",
+      data: { campaign_id: campaignId, stores:stores  },
+      success: function(data) {
+            toastr.info('Datos actualizados con éxito','Filtro stores',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+      },
+      error:function(msj){
+            console.log(msj.responseJSON.errors);
+            toastr.error("Ha habido un error. <br />No se ha podido grabar. <br />Si se repite contacte con el Administrador.",'Fitro stores',{
+               "closeButton": true,
+               "progressBar":true,
+               "positionClass":"toast-top-center",
+               "options.escapeHtml" : true,
+               "showDuration": "300",
+               "hideDuration": "1000",
+               "timeOut": 0,
+            });
+      }
+   });
+}
+
+
+// Asociar Medida
+function asociarMedida(campaignId) {
+   var token = $("#tokenMedida").val();
+   var route = "/campaignmedida";
+   var medidas=$('[name="medidasduallistbox[]"]').val();
+   $.ajax({
+      url: route,
+      headers: { "X-CSRF-TOKEN": token },
+      type: "POST",
+      dataType: "json",
+      data: { campaign_id: campaignId, medidas:medidas  },
+      success: function(data) {
+            toastr.info('Datos actualizados con éxito','Filtro medidas',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+      },
+      error:function(msj){
+            console.log(msj.responseJSON.errors);
+            toastr.error("Ha habido un error. <br />No se ha podido grabar. <br />Si se repite contacte con el Administrador.",'Fitro medidas',{
+               "closeButton": true,
+               "progressBar":true,
+               "positionClass":"toast-top-center",
+               "options.escapeHtml" : true,
+               "showDuration": "300",
+               "hideDuration": "1000",
+               "timeOut": 0,
+            });
+      }
+   });
+}
+
+
+
+// Asociar Carteleria
+function asociarCarteleria(campaignId) {
+   var token = $("#tokenCarteleria").val();
+   var route = "/campaigncarteleria";
+   var cartelerias=$('[name="carteleriasduallistbox[]"]').val();
+   $.ajax({
+      url: route,
+      headers: { "X-CSRF-TOKEN": token },
+      type: "POST",
+      dataType: "json",
+      data: { campaign_id: campaignId, cartelerias:cartelerias  },
+      success: function(data) {
+            toastr.info('Datos actualizados con éxito','Filtro cartelerias',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+      },
+      error:function(msj){
+            console.log(msj.responseJSON.errors);
+            toastr.error("Ha habido un error. <br />No se ha podido grabar. <br />Si se repite contacte con el Administrador.",'Fitro cartelerias',{
+               "closeButton": true,
+               "progressBar":true,
+               "positionClass":"toast-top-center",
+               "options.escapeHtml" : true,
+               "showDuration": "300",
+               "hideDuration": "1000",
+               "timeOut": 0,
+            });
+      }
+   });
+}
+
+// Asociar Mobiliario
+function asociarMobiliario(campaignId) {
+   var token = $("#tokenMobiliario").val();
+   var route = "/campaignmobiliario";
+   var mobiliarios=$('[name="mobiliariosduallistbox[]"]').val();
+   $.ajax({
+      url: route,
+      headers: { "X-CSRF-TOKEN": token },
+      type: "POST",
+      dataType: "json",
+      data: { campaign_id: campaignId, mobiliarios:mobiliarios  },
+      success: function(data) {
+            toastr.info('Datos actualizados con éxito','Filtro mobiliarios',{
+               "progressBar":true,
+               "positionClass":"toast-top-center"
+            });
+      },
+      error:function(msj){
+            console.log(msj.responseJSON.errors);
+            toastr.error("Ha habido un error. <br />No se ha podido grabar. <br />Si se repite contacte con el Administrador.",'Fitro Mobiliarios',{
+               "closeButton": true,
+               "progressBar":true,
+               "positionClass":"toast-top-center",
+               "options.escapeHtml" : true,
+               "showDuration": "300",
+               "hideDuration": "1000",
+               "timeOut": 0,
+            });
+      }
+   });
+}
+
+
 // Asociar Ubicaciones
 function asociarUbicacion(campaignId) {
    var token = $("#tokenUbicacion").val();

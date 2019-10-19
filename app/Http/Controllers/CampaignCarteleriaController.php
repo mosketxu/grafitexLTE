@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\{CampaignCarteleria,Carteleria};
 use Illuminate\Http\Request;
 
-class CampaignMedidaController extends Controller
+
+class CampaignCarteleriaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,9 +34,28 @@ class CampaignMedidaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+
+        if ($request->ajax()) {
+            $campaign=$request->campaign_id;
+            $cartelerias = $request->cartelerias;
+            CampaignCarteleria::where('campaign_id','=',$campaign)->delete();
+            $data=array();
+            foreach($cartelerias as $carteleria){
+                if(!empty($carteleria)){
+                    $c=Carteleria::find($carteleria);
+                    $data[]=[
+                        'campaign_id'=>$campaign,
+                        'carteleria_id'=>$carteleria,
+                        'carteleria'=>$c->carteleria
+                    ];
+                }
+            }
+            
+            CampaignCarteleria::insert($data);
+          
+            return response()->json(["mensaje" => $request->all()]);
+        }
     }
 
     /**
@@ -81,4 +102,6 @@ class CampaignMedidaController extends Controller
     {
         //
     }
+
+
 }

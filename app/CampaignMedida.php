@@ -12,5 +12,4 @@ class CampaignMedida extends Model
     {
         return $this->belongsTo(Campaign::class);
     }
-
 }

@@ -25,6 +25,7 @@ use App\{
     CampaignCountry,
 };
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Datatables;
 use Illuminate\Support\Str;
 
@@ -189,6 +190,41 @@ class CampaignController extends Controller
     {
         //
     }
+
+
+    public function asociar(Request $request)
+    {
+        if ($request->ajax()) {
+            $campaign=$request->campaign_id;
+            $asociadas = $request->datoslist;
+            $campo=$request->campo;
+            $tabla=$request->tabla;
+
+            DB::table($tabla)->where('campaign_id', '=', $campaign)->delete();
+
+            $data=array();
+            $contador=!is_null($request->datoslist);
+
+            if(!is_null($request->datoslist)){
+                foreach($asociadas as $asociada){
+                    if(!empty($asociada)){
+                        $c=json_decode($asociada);
+                        $data[]=[
+                            'campaign_id'=>$campaign,
+                            $campo.'_id'=>$c->id,
+                            $campo=>$c->$campo
+                        ];
+                    }
+                }
+                DB::table($tabla)->insert($data);
+            }
+            return response()->json([
+                "mensaje" => $request->all(),
+                "cont"=>$contador,
+                ]);
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.

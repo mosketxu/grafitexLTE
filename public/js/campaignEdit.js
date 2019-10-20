@@ -90,7 +90,7 @@ $('#countries').on('hidden.bs.collapse', function() {
 // =================
 
 // Asociar 
-function asociar(campaignId,ruta,tok,datosduallist,filtro) {
+function asociar(campaignId,ruta,tok,datosduallist,filtro,campo,tabla) {
    var token = $(tok).val();
    var route = ruta;
    // var datosDuallist=$(datosduallist).val();
@@ -101,7 +101,7 @@ function asociar(campaignId,ruta,tok,datosduallist,filtro) {
       headers: { "X-CSRF-TOKEN": token },
       type: "POST",
       dataType: "json",
-      data: { campaign_id: campaignId, datoslist:datosDuallist},
+      data: { campaign_id: campaignId, datoslist:datosDuallist,campo:campo,tabla:tabla},
       success: function(data) {
          if(data.cont==true){
             toastr.info('Datos actualizados con éxito','Filtro ' + filtro,{

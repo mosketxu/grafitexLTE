@@ -36,7 +36,6 @@ class CarteleriasTableSeeder extends Seeder
         ['carteleria'=>'Lona'],
         ['carteleria'=>'Medium gogo cling'],
         ['carteleria'=>'MKS'],
-        ['carteleria'=>'MKS'],
         ['carteleria'=>'MKS Ray Ban'],
         ['carteleria'=>'no necesaria info'],
         ['carteleria'=>'Pantalla'],

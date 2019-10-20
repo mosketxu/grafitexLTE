@@ -38,12 +38,12 @@ class CampaignCarteleriaController extends Controller
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $cartelerias = $request->cartelerias;
+            $cartelerias = $request->datoslist;
             CampaignCarteleria::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            $contador=!is_null($request->cartelerias);
+            $contador=!is_null($request->datoslist);
 
-            if(!is_null($request->cartelerias)){
+            if(!is_null($request->datoslist)){
                 foreach($cartelerias as $carteleria){
                     if(!empty($carteleria)){
                         $c=Carteleria::find($carteleria);

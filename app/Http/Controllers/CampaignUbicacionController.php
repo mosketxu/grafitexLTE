@@ -39,12 +39,12 @@ class CampaignUbicacionController extends Controller
 
         if ($request->ajax()) {
             $campaign = $request->campaign_id;
-            $ubicaciones = $request->ubicaciones;
+            $ubicaciones = $request->datoslist;
             CampaignUbicacion::where('campaign_id', '=', $campaign)->delete();
             $data = array();
-            $contador = !is_null($request->ubicaciones);
+            $contador = !is_null($request->datoslist);
 
-            if (!is_null($request->ubicaciones)) {
+            if (!is_null($request->datoslist)) {
                 foreach ($ubicaciones as $ubicacion) {
                     if (!empty($ubicacion)) {
                         $c = Ubicacion::find($ubicacion);

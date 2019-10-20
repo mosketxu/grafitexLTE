@@ -95,9 +95,10 @@
                                     </select>
                                 </div>
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarStore({{ $campaignEdit->id}})">Asociar Stores</button>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignstore','#tokenStore','storesduallistbox[]','Stores','store','Store','CampaignStore')">Asociar Stores</button>
                             </form>
                         </div>
+
                     </div>
 
                     <!-- Filtro Medida -->
@@ -128,9 +129,11 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarMedida({{ $campaignEdit->id}})">Asociar Medidas</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarMedida({{ $campaignEdit->id}})">Asociar Medidas</button>
-                            </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignmedida','#tokenMedida','medidasduallistbox[]','Medidas')">Asociar Medidas</button>
+                                </form>
                         </div>
                     </div>
 
@@ -162,9 +165,11 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarCarteleria({{ $campaignEdit->id}})">Asociar Cartelerias</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarCarteleria({{ $campaignEdit->id}})">Asociar Cartelerias</button>
-                            </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaigncarteleria','#tokenCarteleria','carteleriasduallistbox[]','Cartelerias')">Asociar Cartelerias</button>
+                                </form>
                         </div>
                     </div>
                     <!-- Filtro Mobiliario -->
@@ -195,9 +200,11 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarMobiliario({{ $campaignEdit->id}})">Asociar Mobiliarios</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarMobiliario({{ $campaignEdit->id}})">Asociar Mobiliarios</button>
-                            </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignmobiliario','#tokenMobiliario','mobiliariosduallistbox[]','Mobiliarios')">Asociar Mobiliario</button>
+                                </form>
                         </div>
                     </div>
                     <!-- Filtro Ubicacion -->
@@ -228,9 +235,11 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarUbicacion({{ $campaignEdit->id}})">Asociar Ubicaciones</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarUbicacion({{ $campaignEdit->id}})">Asociar Ubicaciones</button>
-                            </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignubicacion','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones')">Asociar Ubicaciones</button>
+                                </form>
                         </div>
                     </div>
                     <!-- Filtro Segmento -->
@@ -260,9 +269,12 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarSegmento({{ $campaignEdit->id}})">Asociar Segmentos</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarSegmento({{ $campaignEdit->id}})">Asociar Segmentos</button>
-                            </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignsegmento','#tokenSegmento','segmentosduallistbox[]','Segmentos')">Asociar Segmentos</button>
+
+                                </form>
                         </div>
                     </div>
                     <!-- Filtro Store Concept -->
@@ -293,9 +305,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                     onclick="asociarStoreconcept({{ $campaignEdit->id}})">Asociar Store
-                                    Concepts</button>
+                                    Concepts</button> --}}
+                                <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignstoreconcept','#tokenStoreconcept','storeconceptsduallistbox[]','Store Concepts')">Asociar Store Concepts</button>
                             </form>
                         </div>
                     </div>
@@ -325,8 +339,10 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarArea({{ $campaignEdit->id}})">Asociar Areas</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarArea({{ $campaignEdit->id}})">Asociar Areas</button>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignarea','#tokenArea','areasduallistbox[]','Areas')">Asociar Areas</button>
                             </form>
                         </div>
                     </div>
@@ -358,9 +374,11 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                    onclick="asociarCountry({{ $campaignEdit->id}})">Asociar Countries</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarCountry({{ $campaignEdit->id}})">Asociar Countries</button>
-                            </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaigncountry','#tokenCountry','countriesduallistbox[]','Countries')">Asociar Countries</button>
+                                </form>
                         </div>
                     </div>
                 </div>

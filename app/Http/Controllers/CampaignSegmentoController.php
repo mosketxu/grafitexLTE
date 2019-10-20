@@ -38,12 +38,12 @@ class CampaignSegmentoController extends Controller
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $segmentos = $request->segmentos;
+            $segmentos = $request->datoslist;
             CampaignSegmento::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            $contador=!is_null($request->segmentos);
+            $contador=!is_null($request->datoslist);
 
-            if(!is_null($request->segmentos)){            
+            if(!is_null($request->datoslist)){            
                 foreach($segmentos as $segmento){
                     if(!empty($segmento)){
                         $c=Segmento::find($segmento);

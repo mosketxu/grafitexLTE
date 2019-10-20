@@ -38,12 +38,12 @@ class CampaignMedidaController extends Controller
     {
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $medidas = $request->medidas;
+            $medidas = $request->datoslist;
             CampaignMedida::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            $contador=!is_null($request->medidas);
+            $contador=!is_null($request->datoslist);
 
-            if(!is_null($request->medidas)){
+            if(!is_null($request->datoslist)){
                 foreach($medidas as $medida){
                     if(!empty($medida)){
                         $c=Medida::find($medida);

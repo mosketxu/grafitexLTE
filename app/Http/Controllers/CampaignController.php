@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, 
-        Store,CampaignStore, 
-        Element, 
-        Medida,CampaignMedida, 
-        Carteleria, CampaignCarteleria,
-        Mobiliario,CampaignMobiliario, 
-        Ubicacion,CampaignUbicacion,
-        Segmento,CampaignSegmento,
-        Storeconcept,CampaignStoreconcept,
-        Area,CampaignArea,
-        Country,CampaignCountry,
-    };
+use App\{
+    Campaign,
+    Store,
+    CampaignStore,
+    Element,
+    Medida,
+    CampaignMedida,
+    Carteleria,
+    CampaignCarteleria,
+    Mobiliario,
+    CampaignMobiliario,
+    Ubicacion,
+    CampaignUbicacion,
+    Segmento,
+    CampaignSegmento,
+    Storeconcept,
+    CampaignStoreconcept,
+    Area,
+    CampaignArea,
+    Country,
+    CampaignCountry,
+};
 use Illuminate\Http\Request;
 use Datatables;
 use Illuminate\Support\Str;
@@ -27,8 +37,8 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $stores=Store::all();
-        return view('campaign.index',compact('stores'));
+        $stores = Store::all();
+        return view('campaign.index', compact('stores'));
     }
 
     /**
@@ -50,15 +60,15 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         // $request['slug'] = Str::slug($request->campaign_name);
-        
+
         $campaign = Campaign::create($request->all());
 
         $cont = 0;
-        
-        if($campaignstores = $request->campaign_storeId){
+
+        if ($campaignstores = $request->campaign_storeId) {
             while ($campaignstores && $cont  < count($campaignstores)) {
                 $campaignstore = new CampaignStore();
-                $campaignstore->campaign_id=$campaign->id;
+                $campaignstore->campaign_id = $campaign->id;
                 $campaignstore->store_id = $campaignstores[$cont];
                 $campaignstore->save();
                 $cont = $cont + 1;
@@ -91,72 +101,81 @@ class CampaignController extends Controller
 
         $storesDisponibles = Store::whereNotIn('id', function ($query) use ($id) {
             $query->select('store_id')->from('campaign_stores')->where('campaign_id', '=', $id);
-            })->get();
-        $storesAsociadas =CampaignStore::where('campaign_id','=',$id)->get();
+        })->get();
+        $storesAsociadas = CampaignStore::where('campaign_id', '=', $id)->get();
         // dd($storesAsociadas->first());
 
-        $medidasDisponibles=Medida::whereNotIn('id',function($query) use($id){
+        $medidasDisponibles = Medida::whereNotIn('id', function ($query) use ($id) {
             $query->select('medida_id')->from('campaign_medidas')->where('campaign_id', '=', $id);
-            })->get();
-        $medidasAsociadas =CampaignMedida::where('campaign_id','=',$id)->get();
+        })->get();
+        $medidasAsociadas = CampaignMedida::where('campaign_id', '=', $id)->get();
 
-        $carteleriasDisponibles=Carteleria::whereNotIn('id',function($query) use($id){
+        $carteleriasDisponibles = Carteleria::whereNotIn('id', function ($query) use ($id) {
             $query->select('carteleria_id')->from('campaign_cartelerias')->where('campaign_id', '=', $id);
-            })->get();
-        $carteleriasAsociadas =CampaignCarteleria::where('campaign_id','=',$id)->get();
+        })->get();
+        $carteleriasAsociadas = CampaignCarteleria::where('campaign_id', '=', $id)->get();
 
-        $mobiliariosDisponibles=Mobiliario::whereNotIn('id',function($query) use($id){
+        $mobiliariosDisponibles = Mobiliario::whereNotIn('id', function ($query) use ($id) {
             $query->select('mobiliario_id')->from('campaign_mobiliarios')->where('campaign_id', '=', $id);
-            })->get();
-        $mobiliariosAsociadas =CampaignMobiliario::where('campaign_id','=',$id)->get();
+        })->get();
+        $mobiliariosAsociadas = CampaignMobiliario::where('campaign_id', '=', $id)->get();
 
-        $ubicacionesDisponibles=Ubicacion::whereNotIn('id',function($query) use($id){
+        $ubicacionesDisponibles = Ubicacion::whereNotIn('id', function ($query) use ($id) {
             $query->select('ubicacion_id')->from('campaign_ubicacions')->where('campaign_id', '=', $id);
-            })->get();
-        $ubicacionesAsociadas =CampaignUbicacion::where('campaign_id','=',$id)->get();
+        })->get();
+        $ubicacionesAsociadas = CampaignUbicacion::where('campaign_id', '=', $id)->get();
 
-        $segmentosDisponibles=Segmento::whereNotIn('id',function($query) use($id){
+        $segmentosDisponibles = Segmento::whereNotIn('id', function ($query) use ($id) {
             $query->select('segmento_id')->from('campaign_segmentos')->where('campaign_id', '=', $id);
-            })->get();
-        $segmentosAsociadas =CampaignSegmento::where('campaign_id','=',$id)->get();
+        })->get();
+        $segmentosAsociadas = CampaignSegmento::where('campaign_id', '=', $id)->get();
 
-        $storeconceptsDisponibles=Storeconcept::whereNotIn('id',function($query) use($id){
+        $storeconceptsDisponibles = Storeconcept::whereNotIn('id', function ($query) use ($id) {
             $query->select('storeconcept_id')->from('campaign_storeconcepts')->where('campaign_id', '=', $id);
-            })->get();
-        $storeconceptsAsociadas =CampaignStoreconcept::where('campaign_id','=',$id)->get();
+        })->get();
+        $storeconceptsAsociadas = CampaignStoreconcept::where('campaign_id', '=', $id)->get();
 
-        $areasDisponibles=Area::whereNotIn('id',function($query) use($id){
+        $areasDisponibles = Area::whereNotIn('id', function ($query) use ($id) {
             $query->select('area_id')->from('campaign_areas')->where('campaign_id', '=', $id);
-            })->get();
-        $areasAsociadas =CampaignArea::where('campaign_id','=',$id)->get();
+        })->get();
+        $areasAsociadas = CampaignArea::where('campaign_id', '=', $id)->get();
 
-        $countriesDisponibles=Country::select('id','country')
-            ->whereNotIn('id',function($query) use($id){
-            $query->select('country_id')->from('campaign_countries')->where('campaign_id', '=', $id);
+        $countriesDisponibles = Country::select('id', 'country')
+            ->whereNotIn('id', function ($query) use ($id) {
+                $query->select('country_id')->from('campaign_countries')->where('campaign_id', '=', $id);
             })->get();
-        $countriesAsociadas =CampaignCountry::join('countries','countries.id','=','country_id')
-        ->select('countries.id as id','countries.country as country','campaign_countries.id as campaigncountryid')
-        ->where('campaign_id','=',$id)
-        ->get();
+        $countriesAsociadas = CampaignCountry::join('countries', 'countries.id', '=', 'country_id')
+            ->select('countries.id as id', 'countries.country as country', 'campaign_countries.id as campaigncountryid')
+            ->where('campaign_id', '=', $id)
+            ->get();
 
         // Element::whereIn('id', function ($query) use ($id) {
         //     $query->select('medida_id')->from('campaign_medidads')->where('campaign_id', '=', $id);
         // })->get();
-            
+
         return view('campaign.edit', compact(
-            'campaignEdit', 
-            'storesDisponibles', 'storesAsociadas',
-            'medidasDisponibles','medidasAsociadas',
-            'carteleriasDisponibles','carteleriasAsociadas',
-            'mobiliariosDisponibles','mobiliariosAsociadas',
-            'ubicacionesDisponibles','ubicacionesAsociadas',
-            'segmentosDisponibles','segmentosAsociadas',
-            'storeconceptsDisponibles','storeconceptsAsociadas',
-            'areasDisponibles','areasAsociadas',
-            'countriesDisponibles','countriesAsociadas'
+            'campaignEdit',
+            'storesDisponibles',
+            'storesAsociadas',
+            'medidasDisponibles',
+            'medidasAsociadas',
+            'carteleriasDisponibles',
+            'carteleriasAsociadas',
+            'mobiliariosDisponibles',
+            'mobiliariosAsociadas',
+            'ubicacionesDisponibles',
+            'ubicacionesAsociadas',
+            'segmentosDisponibles',
+            'segmentosAsociadas',
+            'storeconceptsDisponibles',
+            'storeconceptsAsociadas',
+            'areasDisponibles',
+            'areasAsociadas',
+            'countriesDisponibles',
+            'countriesAsociadas'
         ));
         // return view('campaign.edit', compact('campaignEdit'));
-    
+
     }
 
     /**

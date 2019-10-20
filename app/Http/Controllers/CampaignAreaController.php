@@ -38,12 +38,12 @@ class CampaignAreaController extends Controller
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $areas = $request->areas;
+            $areas = $request->datoslist;
             CampaignArea::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            $contador=!is_null($request->areas);
+            $contador=!is_null($request->datoslist);
 
-            if(!is_null($request->areas)){
+            if(!is_null($request->datoslist)){
                 foreach($areas as $area){
                     if(!empty($area)){
                         $c=Area::find($area);

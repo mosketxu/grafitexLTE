@@ -39,12 +39,12 @@ class CampaignCountryController extends Controller
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $countries = $request->countries;
+            $countries = $request->datoslist;
             CampaignCountry::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            $contador=!is_null($request->countries);
+            $contador=!is_null($request->datoslist);
 
-            if(!is_null($request->countries)){
+            if(!is_null($request->datoslist)){
                 foreach($countries as $country){
                     if(!empty($country)){
                         $c=Country::find($country);

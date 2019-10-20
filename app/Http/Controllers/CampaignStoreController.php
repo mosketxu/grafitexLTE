@@ -84,15 +84,14 @@ class CampaignStoreController extends Controller
 
     public function store(Request $request)
     {
-
         if ($request->ajax()) {
             $campaign = $request->campaign_id;
-            $stores = $request->stores;
+            $stores = $request->datoslist;
             CampaignStore::where('campaign_id', '=', $campaign)->delete();
             $data = array();
-            $contador = !is_null($request->stores);
+            $contador = !is_null($request->datoslist);
 
-            if (!is_null($request->stores)) {
+            if (!is_null($request->datoslist)) {
                 foreach ($stores as $store) {
                     if (!empty($store)) {
                         $c = Store::find($store);

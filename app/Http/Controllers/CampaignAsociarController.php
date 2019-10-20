@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\{CampaignStoreconcept,StoreConcept};
+use App\{CampaignStore,Store};
 use Illuminate\Http\Request;
 
-
-class CampaignStoreconceptController extends Controller
+class CampaignAsociarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,34 +33,39 @@ class CampaignStoreconceptController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-
+    public function store(Request $request)
+    {
         if ($request->ajax()) {
-            $campaign=$request->campaign_id;
-            $storeconcepts = $request->datoslist;
-            CampaignStoreconcept::where('campaign_id','=',$campaign)->delete();
-            $data=array();
-            $contador=!is_null($request->datoslist);
+            $campaign = $request->campaign_id;
+            // $campaignclase = $request->campaignclase;
+            $datos = $request->datoslist;
+            $clase=$request->clase;
 
-            if(!is_null($request->datoslist)){
-            foreach($storeconcepts as $storeconcept){
-                if(!empty($storeconcept)){
-                    $c=StoreConcept::find($storeconcept);
-                    $data[]=[
-                        'campaign_id'=>$campaign,
-                        'storeconcept_id'=>$storeconcept,
-                        'storeconcept'=>$c->storeconcept
-                    ];
+            CampaignStore::where('campaign_id', '=', $campaign)->delete();
+
+            $data = array();
+            $contador = !is_null($request->datoslist);
+
+            if (!is_null($request->datoslist)) {
+                foreach ($datos as $dato) {
+                    if (!empty($dato)) {
+                        $c = Store::find($dato);
+                        $data[] = [
+                            'campaign_id' => $campaign,
+                            'store_id' => $dato,
+                            'store' => $c->store
+                        ];
+                    }
                 }
+                CampaignStore::insert($data);
             }
-            
-            CampaignStoreconcept::insert($data);
-        }  
+
             return response()->json([
                 "mensaje" => $request->all(),
-                "cont"=>$contador,
-                ]);
+                "cont" => $contador,
+            ]);
         }
+
     }
 
     /**
@@ -108,6 +112,4 @@ class CampaignStoreconceptController extends Controller
     {
         //
     }
-
-
 }

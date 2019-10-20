@@ -38,12 +38,12 @@ class CampaignMobiliarioController extends Controller
 
         if ($request->ajax()) {
             $campaign=$request->campaign_id;
-            $mobiliarios = $request->mobiliarios;
+            $mobiliarios = $request->datoslist;
             CampaignMobiliario::where('campaign_id','=',$campaign)->delete();
             $data=array();
-            $contador=!is_null($request->mobiliarios);
+            $contador=!is_null($request->datoslist);
 
-            if(!is_null($request->mobiliarios)){            
+            if(!is_null($request->datoslist)){            
                 foreach($mobiliarios as $mobiliario){
                     if(!empty($mobiliario)){
                         $c=Mobiliario::find($mobiliario);

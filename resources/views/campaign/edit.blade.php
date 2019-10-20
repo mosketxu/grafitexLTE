@@ -78,33 +78,31 @@
                         </div>
                         <div id="stores" class="card-body collapse">
                             <form id="storesform" action="#" method="post">
-                                <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}"
-                                    id="tokenStore">
+                                <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}" id="tokenStore">
                                 <div class="form-group">
                                     @csrf
                                     <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
-                                    <select class="duallistbox" multiple="multiple" name="storesduallistbox[]"
-                                        size="5">
+                                    <select class="duallistbox" multiple="multiple" name="storesduallistbox[]" size="5">
                                         @foreach ($storesDisponibles as $store )
                                         <option value="{{$store->id}}">{{$store->id}} {{$store->store}}
                                         </option>
                                         @endforeach
                                         @foreach ($storesAsociadas as $store )
-                                        <option value="{{$store->store_id}}" selected="selected">{{$store->store_id}} {{$store->store}} </option>
+                                        <option value="{{$store->store_id}}" selected="selected">{{$store->store_id}}
+                                            {{$store->store}} </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaignstore','#tokenStore','storesduallistbox[]','Stores','store','Store','CampaignStore')">Asociar Stores</button>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignstore','#tokenStore','storesduallistbox[]','Stores')">Asociar
+                                    Stores</button>
                             </form>
                         </div>
-
                     </div>
 
                     <!-- Filtro Medida -->
                     <div class="card ">
-                        <div class="card-header text-white bg-info p-0" data-toggle="collapse"
-                            data-target="#medidas">
+                        <div class="card-header text-white bg-secondary p-0" data-toggle="collapse" data-target="#medidas">
                             <h3 class="card-title pl-3">Medida</h3>
                             <div class="card-tools pr-3">
                                 <button type="button" class="btn btn-tool"><i id="btnmedidas"
@@ -113,8 +111,7 @@
                         </div>
                         <div id="medidas" class="card-body collapse">
                             <form id="medidaform" action="#" method="post">
-                                <input type="hidden" name="_tokenMedida" value="{{ csrf_token()}}"
-                                    id="tokenMedida">
+                                <input type="hidden" name="_tokenMedida" value="{{ csrf_token()}}" id="tokenMedida">
                                 <div class="form-group">
                                     @csrf
                                     <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
@@ -129,11 +126,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarMedida({{ $campaignEdit->id}})">Asociar Medidas</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
                                     onclick="asociar({{ $campaignEdit->id}},'/campaignmedida','#tokenMedida','medidasduallistbox[]','Medidas')">Asociar Medidas</button>
-                                </form>
+                            </form>
                         </div>
                     </div>
 
@@ -166,10 +161,12 @@
                                     </select>
                                 </div>
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarCarteleria({{ $campaignEdit->id}})">Asociar Cartelerias</button> --}}
+                                    onclick="asociarCarteleria({{ $campaignEdit->id}})">Asociar Cartelerias</button>
+                                --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaigncarteleria','#tokenCarteleria','carteleriasduallistbox[]','Cartelerias')">Asociar Cartelerias</button>
-                                </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaigncarteleria','#tokenCarteleria','carteleriasduallistbox[]','Cartelerias')">Asociar
+                                    Cartelerias</button>
+                            </form>
                         </div>
                     </div>
                     <!-- Filtro Mobiliario -->
@@ -201,10 +198,12 @@
                                     </select>
                                 </div>
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarMobiliario({{ $campaignEdit->id}})">Asociar Mobiliarios</button> --}}
+                                    onclick="asociarMobiliario({{ $campaignEdit->id}})">Asociar Mobiliarios</button>
+                                --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaignmobiliario','#tokenMobiliario','mobiliariosduallistbox[]','Mobiliarios')">Asociar Mobiliario</button>
-                                </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignmobiliario','#tokenMobiliario','mobiliariosduallistbox[]','Mobiliarios')">Asociar
+                                    Mobiliario</button>
+                            </form>
                         </div>
                     </div>
                     <!-- Filtro Ubicacion -->
@@ -236,10 +235,12 @@
                                     </select>
                                 </div>
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociarUbicacion({{ $campaignEdit->id}})">Asociar Ubicaciones</button> --}}
+                                    onclick="asociarUbicacion({{ $campaignEdit->id}})">Asociar Ubicaciones</button>
+                                --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaignubicacion','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones')">Asociar Ubicaciones</button>
-                                </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignubicacion','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones')">Asociar
+                                    Ubicaciones</button>
+                            </form>
                         </div>
                     </div>
                     <!-- Filtro Segmento -->
@@ -272,9 +273,10 @@
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                     onclick="asociarSegmento({{ $campaignEdit->id}})">Asociar Segmentos</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaignsegmento','#tokenSegmento','segmentosduallistbox[]','Segmentos')">Asociar Segmentos</button>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignsegmento','#tokenSegmento','segmentosduallistbox[]','Segmentos')">Asociar
+                                    Segmentos</button>
 
-                                </form>
+                            </form>
                         </div>
                     </div>
                     <!-- Filtro Store Concept -->
@@ -307,9 +309,10 @@
                                 </div>
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                     onclick="asociarStoreconcept({{ $campaignEdit->id}})">Asociar Store
-                                    Concepts</button> --}}
+                                Concepts</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaignstoreconcept','#tokenStoreconcept','storeconceptsduallistbox[]','Store Concepts')">Asociar Store Concepts</button>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignstoreconcept','#tokenStoreconcept','storeconceptsduallistbox[]','Store Concepts')">Asociar
+                                    Store Concepts</button>
                             </form>
                         </div>
                     </div>
@@ -342,7 +345,8 @@
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                     onclick="asociarArea({{ $campaignEdit->id}})">Asociar Areas</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaignarea','#tokenArea','areasduallistbox[]','Areas')">Asociar Areas</button>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaignarea','#tokenArea','areasduallistbox[]','Areas')">Asociar
+                                    Areas</button>
                             </form>
                         </div>
                     </div>
@@ -377,8 +381,9 @@
                                 {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                     onclick="asociarCountry({{ $campaignEdit->id}})">Asociar Countries</button> --}}
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaigncountry','#tokenCountry','countriesduallistbox[]','Countries')">Asociar Countries</button>
-                                </form>
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaigncountry','#tokenCountry','countriesduallistbox[]','Countries')">Asociar
+                                    Countries</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -29,17 +29,24 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
     Route::resource('element', 'ElementController');//->middleware('admin');
 
-    Route::resource('campaignasociar', 'CampaignAsociarController');//->middleware('admin');
+    Route::post('/campaignstore', 'CampaignAsociarController@stores');
+    Route::post('/campaignmedida', 'CampaignAsociarController@medidas');
+    Route::post('/campaigncarteleria', 'CampaignAsociarController@cartelerias');
+    Route::post('/campaignmobiliario', 'CampaignAsociarController@mobiliarios');
+    Route::post('/campaignubicacion', 'CampaignAsociarController@ubicaciones');
+    Route::post('/campaignsegmento', 'CampaignAsociarController@segmentos');
+    Route::post('/campaignstoreconcept', 'CampaignAsociarController@storeconcepts');
+    Route::post('/campaignarea', 'CampaignAsociarController@areas');
+    Route::post('/campaigncountry', 'CampaignAsociarController@countries');
 
-    Route::resource('campaignstore', 'CampaignStoreController');//->middleware('admin');
-    Route::resource('campaignmedida', 'CampaignMedidaController');//->middleware('admin');
-    Route::resource('campaigncarteleria', 'CampaignCarteleriaController');//->middleware('admin');
-    Route::resource('campaignmobiliario', 'CampaignMobiliarioController');//->middleware('admin');
-    Route::resource('campaignubicacion', 'CampaignUbicacionController');//->middleware('admin');
-    Route::resource('campaignsegmento', 'CampaignSegmentoController');//->middleware('admin');
-    Route::resource('campaignstoreconcept', 'CampaignStoreconceptController');//->middleware('admin');
-    Route::resource('campaignarea', 'CampaignAreaController');//->middleware('admin');
-    Route::resource('campaigncountry', 'CampaignCountryController');//->middleware('admin');
+    // Route::resource('campaignstore', 'CampaignStoreController');//->middleware('admin');
+    // Route::resource('campaignmedida', 'CampaignMedidaController');//->middleware('admin');
+    // Route::resource('campaignmobiliario', 'CampaignMobiliarioController');//->middleware('admin');
+    // Route::resource('campaignubicacion', 'CampaignUbicacionController');//->middleware('admin');
+    // Route::resource('campaignsegmento', 'CampaignSegmentoController');//->middleware('admin');
+    // Route::resource('campaignstoreconcept', 'CampaignStoreconceptController');//->middleware('admin');
+    // Route::resource('campaignarea', 'CampaignAreaController');//->middleware('admin');
+    // Route::resource('campaigncountry', 'CampaignCountryController');//->middleware('admin');
 
     
 

@@ -63,7 +63,7 @@ class CampaignStoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeOld(Request $request)
+    public function store(Request $request)
     {
         $camStoId = DB::table('campaign_stores')->insertGetId([
             'campaign_id' => $request->campaignId,
@@ -80,37 +80,6 @@ class CampaignStoreController extends Controller
             'store' => $store,
 
         ]);
-    }
-
-    public function store(Request $request)
-    {
-        if ($request->ajax()) {
-            $campaign = $request->campaign_id;
-            $stores = $request->datoslist;
-            CampaignStore::where('campaign_id', '=', $campaign)->delete();
-            $data = array();
-            $contador = !is_null($request->datoslist);
-
-            if (!is_null($request->datoslist)) {
-                foreach ($stores as $store) {
-                    if (!empty($store)) {
-                        $c = Store::find($store);
-                        $data[] = [
-                            'campaign_id' => $campaign,
-                            'store_id' => $store,
-                            'store' => $c->store
-                        ];
-                    }
-                }
-
-                CampaignStore::insert($data);
-            }
-
-            return response()->json([
-                "mensaje" => $request->all(),
-                "cont" => $contador,
-            ]);
-        }
     }
 
     /**

@@ -17,7 +17,6 @@ class CreateCampaignAreasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns');
-            $table->bigInteger('area_id');            
             $table->string('area');
             $table->timestamps();
         });

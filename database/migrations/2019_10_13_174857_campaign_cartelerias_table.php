@@ -17,7 +17,6 @@ class CampaignCarteleriasTable extends Migration
         $table->bigIncrements('id');
         $table->unsignedBigInteger('campaign_id');
         $table->foreign('campaign_id')->references('id')->on('campaigns');
-        $table->bigInteger('carteleria_id');            
         $table->string('carteleria');
         $table->timestamps();
        });

@@ -84,17 +84,17 @@
                                     <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
                                     <select class="duallistbox" multiple="multiple" name="storesduallistbox[]" size="5">
                                         @foreach ($storesDisponibles as $store )
-                                        <option value="{{$store}}">{{$store->id}} {{$store->store}}
+                                        <option value="{{$store}}">{{$store->store}} {{$store->name}}
                                         </option>
                                         @endforeach
                                         @foreach ($storesAsociadas as $store )
-                                        <option value="{{$store}}" selected="selected">{{$store->store_id}}
-                                            {{$store->store}} </option>
+                                        <option value="{{$store}}" selected="selected">{{$store->store}}
+                                            {{$store->name}} </option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaignEdit->id}},'/campaign/asociar','#tokenStore','storesduallistbox[]','Stores','store','campaign_stores')">Asociar
+                                    onclick="asociar({{ $campaignEdit->id}},'/campaign/asociarstore','#tokenStore','storesduallistbox[]','Stores','store','campaign_stores')">Asociar
                                     Stores</button>
                             </form>
                         </div>

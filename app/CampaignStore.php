@@ -12,4 +12,9 @@ class CampaignStore extends Model
     {
         return $this->belongsTo(Campaign::class);
     }
+
+    public function store(Type $var = null)
+    {
+        return $this->belongsTo(Store::class);
+    }
 }

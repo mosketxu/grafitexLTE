@@ -17,10 +17,10 @@ class Store extends Model
     //     return $this->hasOne(Address::class);
     // }
 
-    // public function campaigndetails()
-    // {
-    //     return $this->hasMany(CampaignDetail::class);
-    // }
+    public function campaignstores()
+    {
+        return $this->hasMany(CampaignStore::class);
+    }
 
     public function storeElement(){
         return $this->hasMany(StoreElement::class);

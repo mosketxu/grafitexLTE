@@ -4,7 +4,7 @@
 @endsection
 
 @section('title','Grafitex-Resumen Campaña')
-@section('titlePag','Campañas')
+@section('titlePag','Elementos generados')
 
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaignResumen') }}
@@ -19,8 +19,10 @@
                 <div class="row">
                     <div class="col-auto ">
                         <span class="h3 m-0 text-dark">@yield('titlePag')</span>
+                        <span class="hidden" id="campaign_id">{{$campaign->id}}</span>
                     </div>
                     <div class="col-auto mr-auto">
+                        aqui
                         <a href="" role="button" data-toggle="modal" data-target="#campaignCreateModal">
                             <i class="fas fa-plus-circle fa-lg text-primary mt-2"></i>
                         </a>
@@ -57,6 +59,9 @@
                                         <th>Medida</th>
                                         <th>Material</th>
                                         <th>Unit x Prop</th>
+                                        <th>Imagen</th>
+                                        <th>Observaciones</th>
+                                        <th>Precio</th>
                                         <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
                                     </tr>
                                 </thead>
@@ -78,7 +83,7 @@
         $('#tcampaignResumen').DataTable({
             'processing': true,
             'serverSide': true,
-            'ajax': "{{ route('api.campaigns.resumen','1') }}",
+            'ajax': "{{ route('api.campaigns.resumen',$campaign->id) }}",
             'columns': [
                 { 'data': 'id' },
                 { 'data': 'store' },
@@ -89,11 +94,14 @@
                 { 'data': 'storeconcept' },
                 { 'data': 'ubicacion' },
                 { 'data': 'mobiliario' },
-                { 'data': 'propelemento' },
+                { 'data': 'propxelemento' },
                 { 'data': 'carteleria' },
                 { 'data': 'medida' },
                 { 'data': 'material' },
                 { 'data': 'unitxprop' },
+                { 'data': 'imagen' },
+                { 'data': 'observaciones' },
+                { 'data': 'precio' },
                 { 'data': 'btn' },
             ],
         });

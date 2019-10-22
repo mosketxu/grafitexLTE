@@ -25,7 +25,10 @@ class Campaign extends Model
          });
     }
 
-    public function campaignStore(){
+    public function campaignStores(){
         return $this->hasMany(CampaignStore::class);
+    }
+    public function campaignResumenes(){
+        return $this->hasMany(CampaignResumen::class);
     }
 }

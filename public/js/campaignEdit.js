@@ -71,16 +71,16 @@ $('#countries').on('hidden.bs.collapse', function() {
     var duallist = $('.duallistbox').bootstrapDualListbox({
         nonSelectedListLabel: 'No Seleccionadas',
         selectedListLabel: 'Seleccionadas',
-        preserveSelectionOnMove: 'moved',
-        moveOnSelect: false,
+      //   preserveSelectionOnMove: 'moved',
+      //   moveOnSelect: false,
         filterPlaceHolder:'Filtros...',
     });
     //Duallistbox Sin filtro
     var duallist = $('.duallistboxSinFiltro').bootstrapDualListbox({
         nonSelectedListLabel: 'No Seleccionadas',
         selectedListLabel: 'Seleccionadas',
-        preserveSelectionOnMove: 'moved',
-        moveOnSelect: false,
+      //   preserveSelectionOnMove: 'moved',
+      //   moveOnSelect: false,
         filterPlaceHolder:'Filtros...',
         showFilterInputs:false,
     });

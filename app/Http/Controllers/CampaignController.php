@@ -24,6 +24,7 @@ use App\{
     CampaignArea,
     Country,
     CampaignCountry,
+    CampaignResumen,
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -235,36 +236,38 @@ class CampaignController extends Controller
     public function generarcampaign($id)
     {
         $campaign = Campaign::find($id);
-
-        $resumen = Maestro::whereIn('country', function ($query) use ($id) {
-                $query->select('country')->from('campaign_countries')->where('campaign_id', '=', $id);
-            })
-            ->whereIn('area', function ($query) use ($id) {
-                    $query->select('area')->from('campaign_areas')->where('campaign_id', '=', $id);
-                })
-            ->whereIn('segmento', function ($query) use ($id) {
-                $query->select('segmento')->from('campaign_segmentos')->where('campaign_id', '=', $id);
-            })
-            ->whereIn('storeconcept', function ($query) use ($id) {
-                $query->select('storeconcept')->from('campaign_storeconcepts')->where('campaign_id', '=', $id);
-            })
-            ->whereIn('ubicacion', function ($query) use ($id) {
-                $query->select('ubicacion')->from('campaign_ubicacions')->where('campaign_id', '=', $id);
-            })
-            ->whereIn('mobiliario', function ($query) use ($id) {
-                $query->select('mobiliario')->from('campaign_mobiliarios')->where('campaign_id', '=', $id);
-            })
-            ->whereIn('carteleria', function ($query) use ($id) {
-                $query->select('carteleria')->from('campaign_cartelerias')->where('campaign_id', '=', $id);
-            })
-            ->whereIn('medida', function ($query) use ($id) {
-                $query->select('medida')->from('campaign_medidas')->where('campaign_id', '=', $id);
-            })
-            ->get();
         
-        // dd($resumen);
-        return view('campaign.resumen', compact('campaign','resumen'));
-    
+        $resumen=Maestro::Campaign($id)->get();
+        
+        foreach($resumen as $res){
+            $campRes=new CampaignResumen;
+            $campRes->store = $res->store;
+            $campRes->country = $res->country;
+            $campRes->name = $res->name;
+            $campRes->area = $res->area;
+            $campRes->segmento = $res->segmento;
+            $campRes->storeconcept = $res->storeconcept;
+            $campRes->ubicacion = $res->ubicacion;
+            $campRes->mobiliario = $res->mobiliario;
+            $campRes->propxelemento = $res->propxelemento;
+            $campRes->carteleria = $res->carteleria;
+            $campRes->medida = $res->medida;
+            $campRes->material = $res->material;
+            $campRes->unitxprop = $res->unitxprop;
+            $campRes->observaciones = $res->observaciones;
+            $campRes->tanda = $res->tanda;
+            $campRes->campaign_id = $id;
+            $campRes->save();
+        }
+
+
+        return redirect()->route('campaign.resumen', [$campaign]);
+    }
+
+    public function resumen($campaignId)
+    {
+        $campaign = Campaign::find($campaignId);
+        return view('campaign.resumen', compact('campaign'))->with('notice', 'Generación realizada satisfactoriamente.');    
     }
 
     /**

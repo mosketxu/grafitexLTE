@@ -146,33 +146,12 @@ class CampaignController extends Controller
         })->groupBy('medida')->get();
         $medidasAsociadas = CampaignMedida::where('campaign_id', '=', $id)->get();
 
-        // Element::whereIn('id', function ($query) use ($id) {
-        //     $query->select('medida_id')->from('campaign_medidads')->where('campaign_id', '=', $id);
-        // })->get();
-
         return view('campaign.edit', compact(
             'campaignEdit',
-            'storesDisponibles',
-            'storesAsociadas',
-            'medidasDisponibles',
-            'medidasAsociadas',
-            'carteleriasDisponibles',
-            'carteleriasAsociadas',
-            'mobiliariosDisponibles',
-            'mobiliariosAsociadas',
-            'ubicacionesDisponibles',
-            'ubicacionesAsociadas',
-            'segmentosDisponibles',
-            'segmentosAsociadas',
-            'storeconceptsDisponibles',
-            'storeconceptsAsociadas',
-            'areasDisponibles',
-            'areasAsociadas',
-            'countriesDisponibles',
-            'countriesAsociadas'
+            'storesDisponibles','storesAsociadas','medidasDisponibles','medidasAsociadas','carteleriasDisponibles','carteleriasAsociadas',
+            'mobiliariosDisponibles','mobiliariosAsociadas','ubicacionesDisponibles','ubicacionesAsociadas','segmentosDisponibles',
+            'segmentosAsociadas','storeconceptsDisponibles','storeconceptsAsociadas','areasDisponibles','areasAsociadas','countriesDisponibles','countriesAsociadas'
         ));
-        // return view('campaign.edit', compact('campaignEdit'));
-
     }
 
     /**
@@ -255,38 +234,37 @@ class CampaignController extends Controller
 
     public function generarcampaign($id)
     {
-        $elementos = DB::table('elements')
-        ->whereIn('element_ubicacion', function ($query) use ($id) {
-            $query->select('ubicacion')->from('campaign_ubicacions')->where('campaign_id', '=', $id);
-        })
-        ->whereIn('element_mobiliario', function ($query) use ($id) {
-            $query->select('mobiliario')->from('campaign_mobiliarios')->where('campaign_id', '=', $id);
-        })
-        ->whereIn('element_carteleria', function ($query) use ($id) {
-            $query->select('carteleria')->from('campaign_cartelerias')->where('campaign_id', '=', $id);
+        $campaign = Campaign::find($id);
+
+        $resumen = Maestro::whereIn('country', function ($query) use ($id) {
+                $query->select('country')->from('campaign_countries')->where('campaign_id', '=', $id);
             })
-        ->whereIn('element_medida', function ($query) use ($id) {
-            $query->select('medida')->from('campaign_medidas')->where('campaign_id', '=', $id);
+            ->whereIn('area', function ($query) use ($id) {
+                    $query->select('area')->from('campaign_areas')->where('campaign_id', '=', $id);
+                })
+            ->whereIn('segmento', function ($query) use ($id) {
+                $query->select('segmento')->from('campaign_segmentos')->where('campaign_id', '=', $id);
             })
-        ->get();
-
-        $stores=DB::table('stores')
-        ->whereIn('country', function ($query) use ($id) {
-            $query->select('country')->from('campaign_countries')->where('campaign_id', '=', $id);
-        })
-        ->whereIn('area', function ($query) use ($id) {
-            $query->select('area')->from('campaign_areas')->where('campaign_id', '=', $id);
-        })
-        ->whereIn('segmento', function ($query) use ($id) {
-            $query->select('segmento')->from('campaign_segmentos')->where('campaign_id', '=', $id);
-        })
-        ->whereIn('concept', function ($query) use ($id) {
-            $query->select('storeconcept')->from('campaign_storeconcepts')->where('campaign_id', '=', $id);
-        })
-        ->get();
-        dd($stores);
-
-
+            ->whereIn('storeconcept', function ($query) use ($id) {
+                $query->select('storeconcept')->from('campaign_storeconcepts')->where('campaign_id', '=', $id);
+            })
+            ->whereIn('ubicacion', function ($query) use ($id) {
+                $query->select('ubicacion')->from('campaign_ubicacions')->where('campaign_id', '=', $id);
+            })
+            ->whereIn('mobiliario', function ($query) use ($id) {
+                $query->select('mobiliario')->from('campaign_mobiliarios')->where('campaign_id', '=', $id);
+            })
+            ->whereIn('carteleria', function ($query) use ($id) {
+                $query->select('carteleria')->from('campaign_cartelerias')->where('campaign_id', '=', $id);
+            })
+            ->whereIn('medida', function ($query) use ($id) {
+                $query->select('medida')->from('campaign_medidas')->where('campaign_id', '=', $id);
+            })
+            ->get();
+        
+        // dd($resumen);
+        return view('campaign.resumen', compact('campaign','resumen'));
+    
     }
 
     /**

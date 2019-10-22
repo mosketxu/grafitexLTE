@@ -29,6 +29,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
         Route::post('campaign/asociar', 'CampaignController@asociar');
         Route::post('campaign/asociarstore', 'CampaignController@asociarstore');
-    Route::get('campaign/{id}/generarcampaign', 'CampaignController@generarcampaign');
+    Route::get('campaign/{id}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
     Route::resource('element', 'ElementController');//->middleware('admin');
 });

@@ -18,6 +18,10 @@ Breadcrumbs::for('campaign', function ($trail) {
   $trail->push('Edit', route('campaign.index'));
  });
 
+ Breadcrumbs::for('campaignResumen', function ($trail) {
+  $trail->parent('campaignEdit');
+  $trail->push('Resumen', route('campaign.index'));
+ });
  
 // Home
 // Breadcrumbs::for('home', function ($trail) {

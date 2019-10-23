@@ -237,8 +237,62 @@ class CampaignController extends Controller
     {
         $campaign = Campaign::find($id);
         
-        $resumen=Maestro::Campaign($id)->get();
-        
+        // TODO verificar si ya se ha generado la campaña. Si es así borrar todo y regenerar
+        if(CampaignResumen::where('campaign_id','=',$id)->count()>0){
+            CampaignResumen::where('campaign_id','=',$id)->delete();
+            // dd('llego');
+        }
+
+        // Si no se ha seleccionado ningun segmento entiendo que los quiero todos
+        if(CampaignSegmento::where('campaign_id','=',$id)->count()==0){
+            $datos=Segmento::get();
+            foreach($datos as $dato){
+                $campDatos=new CampaignSegmento();
+                $campDatos->segmento = $dato->segmento;
+                $campDatos->campaign_id = $id;
+                $campDatos->save();
+            }
+        }
+        // Si no se ha seleccionado ninguna Ubicacion entiendo que las quiero todas
+        if(CampaignUbicacion::where('campaign_id','=',$id)->count()==0){
+            $datos=Ubicacion::get();
+            foreach($datos as $dato){
+                $campDatos=new CampaignUbicacion();
+                $campDatos->ubicacion = $dato->ubicacion;
+                $campDatos->campaign_id = $id;
+                $campDatos->save();
+            }
+        }
+        // Si no se ha seleccionado ninguna Medida entiendo que las quiero todas
+        if(CampaignMedida::where('campaign_id','=',$id)->count()==0){
+            $datos=Medida::get();
+            foreach($datos as $dato){
+                $campDatos=new CampaignMedida();
+                $campDatos->medida = $dato->medida;
+                $campDatos->campaign_id = $id;
+                $campDatos->save();
+            }
+        }
+        // Si no se ha seleccionado ninguna Mobiliario entiendo que los quiero todas
+        if(CampaignMobiliario::where('campaign_id','=',$id)->count()==0){
+            $datos=Mobiliario::get();
+            foreach($datos as $dato){
+                $campDatos=new CampaignMobiliario();
+                $campDatos->mobiliario = $dato->mobiliario;
+                $campDatos->campaign_id = $id;
+                $campDatos->save();
+            }
+        }
+
+        //elijo una query en funcion de si hay Stores o no
+        if(CampaignStore::where('campaign_id',$id)->count()>0){
+            $resumen=Maestro::CampaignStore($id)->get();
+        }
+        else{
+            $resumen=Maestro::Campaign($id)->get();
+        }
+
+        // relleno la tabla resultado TODO mejorar esto en lugar de hacer muchos insert hacer uno con todo a la vez
         foreach($resumen as $res){
             $campRes=new CampaignResumen;
             $campRes->store = $res->store;

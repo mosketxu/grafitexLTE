@@ -66,7 +66,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                <div class="card-body">
+                    <div class="card">
                         <div class="table-responsive">
                             <table id="tcampaignResumen" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                 <thead>
@@ -95,9 +96,29 @@
                             </table>
                         </div>
                     </div>
-            </div>
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table id="tcampaignContador" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                                <thead>
+                                    <tr>
+                                        <th>Segmento</th>
+                                        <th>Ubicación</th>
+                                        <th>Medida</th>
+                                        <th>Mobiliario</th>
+                                        <th>Area</th>
+                                        <th>Material</th>
+                                        <th>Totales</th>
+                                        <th>Unidades</th>
+                                        <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-            {{-- @include('campaign._campaignCreateModal') --}}
+                </div>
+            </div>
         </section>
     </div>
 @endsection
@@ -129,6 +150,24 @@
                 { 'data': 'btn' },
             ],
         });
+
+        $('#tcampaignContador').DataTable({
+            'processing': true,
+            'serverSide': true,
+            'ajax': "{{ route('api.campaigns.contador',$campaign->id) }}",
+            'columns': [
+                { 'data': 'segmento' },
+                { 'data': 'ubicacion' },
+                { 'data': 'medida' },
+                { 'data': 'mobiliario' },
+                { 'data': 'area' },
+                { 'data': 'material' },
+                { 'data': 'totales' },
+                { 'data': 'unidades' },
+                { 'data': 'btn' },
+            ],
+        });
+
         $('.select2').select2({
             theme: 'bootstrap4'
         });

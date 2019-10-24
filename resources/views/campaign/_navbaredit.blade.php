@@ -6,22 +6,13 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a  href="{{route('home') }}" class="nav-link" title="home">Home</a>
+      <a  href="{{route('campaign.index') }}" class="nav-link" title="home">Campañas</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      @yield('menu1')
+      <a  href="{{route('campaign.filtrar',$campaign->id) }}" title="Filtros" class="nav-link">Filtros</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        @yield('menu2')
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        @yield('menu3')
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        @yield('menu4')
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        @yield('menu5')
+        <a  href="{{route('campaign.resumen',$campaign->id) }}" title="Resumen" class="nav-link">Resumen</a>
     </li>
   </ul>
 

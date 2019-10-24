@@ -5,6 +5,10 @@
 
 @section('title','Grafitex-Campañas')
 @section('titlePag','Campañas')
+@section('navbar')
+    @include('_partials._navbar')
+@endsection
+
 
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaign') }}

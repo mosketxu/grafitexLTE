@@ -23,7 +23,7 @@
     <body class="hold-transition sidebar-mini layout-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            @include('_partials._navbar')
+            @yield('navbar')
             <!-- Main Sidebar Container -->            
             @include('_partials._sidebar')
             <!-- Content Wrapper. Contains page content -->

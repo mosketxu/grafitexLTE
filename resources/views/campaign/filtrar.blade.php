@@ -4,7 +4,11 @@
 @endsection
 
 @section('title','Grafitex-Campañas Edit')
-@section('titlePag','Edición campaña')
+@section('titlePag','Filtros campaña')
+@section('navbar')
+    @include('campaign._navbaredit')
+@endsection
+
 
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaignEdit') }}
@@ -21,7 +25,10 @@
                     <span class="h3 m-0 text-dark">@yield('titlePag')</span>
                 </div>
                 <div class="col-auto mr-auto">
-                    <a  href="{{route('campaign.generar',$campaignEdit->id) }}" role="button" title="Generar"><i class="fas fa-plus-circle fa-lg text-primary mt-2"></i></a>
+                    <a  type="button" href="#" title="Generar" class="nav-link btn-outline-primary" data-toggle="modal" data-target="#campaignFiltrarModal">
+                        <i class="fas fa-plus-circle fa-lg text-primary"></i>
+                        <span class="badge badge-primary">Generar</span>
+                    </a>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -44,20 +51,20 @@
                                     <label for="campaign_name">Campaña</label>
                                     <input type="text" class="form-control form-control-sm" id="campaign_name"
                                         name="campaign_name"
-                                        value="{{ old('campaign_name',$campaignEdit->campaign_name) }}" disabled />
+                                        value="{{ old('campaign_name',$campaign->campaign_name) }}" disabled />
                                 </div>
                                 <div class="form-group col">
                                     <label for="campaign_initdate">Fecha Inicio</label>
                                     <input type="date" class="form-control form-control-sm" id="campaign_initdate"
                                         name="campaign_initdate"
-                                        value="{{ old('campaign_initdate',$campaignEdit->campaign_initdate) }}"
+                                        value="{{ old('campaign_initdate',$campaign->campaign_initdate) }}"
                                         disabled />
                                 </div>
                                 <div class="form-group col">
                                     <label for="campaign_enddate">Fecha Finalización</label>
                                     <input type="date" class="form-control form-control-sm" id="campaign_enddate"
                                         name="campaign_enddate"
-                                        value="{{ old('campaign_enddate',$campaignEdit->campaign_enddate) }}"
+                                        value="{{ old('campaign_enddate',$campaign->campaign_enddate) }}"
                                         disabled />
                                 </div>
                             </div>
@@ -85,7 +92,7 @@
                                             <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}" id="tokenStore">
                                             <div class="form-group">
                                                 @csrf
-                                                <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                                <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
                                                 <select class="duallistbox" multiple="multiple" name="storesduallistbox[]" size="5">
                                                     @foreach ($storesDisponibles as $store )
                                                     <option value="{{$store}}">{{$store->store}} {{$store->name}}
@@ -98,7 +105,7 @@
                                                 </select>
                                             </div>
                                             <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                                onclick="asociar({{ $campaignEdit->id}},'/campaign/asociarstore','#tokenStore','storesduallistbox[]','Stores','store','campaign_stores')">Asociar
+                                                onclick="asociar({{ $campaign->id}},'/campaign/asociarstore','#tokenStore','storesduallistbox[]','Stores','store','campaign_stores')">Asociar
                                             Stores</button>
                                         </form>
                                     </div>
@@ -118,7 +125,7 @@
                                             <input type="hidden" name="_tokenSegmento" value="{{ csrf_token()}}" id="tokenSegmento">
                                             <div class="form-group">
                                                 @csrf
-                                                <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                                <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
                                                 <select class="duallistboxSinFiltro" multiple="multiple"
                                                     name="segmentosduallistbox[]" size="5">
                                                     @foreach ($segmentosDisponibles as $segmento )
@@ -131,7 +138,7 @@
                                                 </select>
                                             </div>
                                             <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                                onclick="asociar({{ $campaignEdit->id}},'/campaign/asociar','#tokenSegmento','segmentosduallistbox[]','Segmentos','segmento','campaign_segmentos')">Asociar
+                                                onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenSegmento','segmentosduallistbox[]','Segmentos','segmento','campaign_segmentos')">Asociar
                                                 Segmentos</button>
 
                                         </form>
@@ -153,7 +160,7 @@
                                                 id="tokenUbicacion">
                                             <div class="form-group">
                                                 @csrf
-                                                <input type="hidden" class="" name="campaign_id" value="{{$campaignEdit->id}} " />
+                                                <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
                                                 <select class="duallistboxSinFiltro" multiple="multiple"
                                                     name="ubicacionesduallistbox[]" size="5">
                                                     @foreach ($ubicacionesDisponibles as $ubicacion )
@@ -166,7 +173,7 @@
                                                 </select>
                                             </div>
                                             <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                                onclick="asociar({{ $campaignEdit->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
+                                                onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
                                                 Ubicaciones</button>
                                         </form>
                                     </div>
@@ -194,7 +201,7 @@
                                             <div class="form-group">
                                                 @csrf
                                                 <input type="hidden" class="" name="campaign_id"
-                                                    value="{{$campaignEdit->id}} " />
+                                                    value="{{$campaign->id}} " />
                                                 <select class="duallistbox" multiple="multiple" name="medidasduallistbox[]"
                                                     size="5">
                                                     @foreach ($medidasDisponibles as $medida )
@@ -207,7 +214,7 @@
                                                 </select>
                                             </div>
                                             <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                                onclick="asociar({{ $campaignEdit->id}},'/campaign/asociar','#tokenMedida','medidasduallistbox[]','Medidas','medida','campaign_medidas')">Asociar
+                                                onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenMedida','medidasduallistbox[]','Medidas','medida','campaign_medidas')">Asociar
                                                 Medidas</button>
                                         </form>
                                     </div>
@@ -229,7 +236,7 @@
                                             <div class="form-group">
                                                 @csrf
                                                 <input type="hidden" class="" name="campaign_id"
-                                                    value="{{$campaignEdit->id}} " />
+                                                    value="{{$campaign->id}} " />
                                                 <select class="duallistbox" multiple="multiple" name="mobiliariosduallistbox[]"
                                                     size="5">
                                                     @foreach ($mobiliariosDisponibles as $mobiliario )
@@ -242,13 +249,40 @@
                                                 </select>
                                             </div>
                                             <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                                onclick="asociar({{ $campaignEdit->id}},'/campaign/asociar','#tokenMobiliario','mobiliariosduallistbox[]','Mobiliarios','mobiliario','campaign_mobiliarios')">Asociar
+                                                onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenMobiliario','mobiliariosduallistbox[]','Mobiliarios','mobiliario','campaign_mobiliarios')">Asociar
                                                 Mobiliario</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="campaignFiltrarModal" tabindex="-1" role="dialog" aria-labelledby="campaignFiltrarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="campaignFiltrarModalLabel">Generar Campaña</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="">
+                            @csrf
+                            <div class="row">
+                                <p>Se va a proceder a generar los elementos de la campaña.</p>
+                                <p>En caso de haberse generado previamente, se eliminarán los existentes y se volverán a generar.</p>
+                                <p>Pulse <span class="badge badge-primary">Generar</span> para continuar o <span class="badge badge-secondary">Cerrar</span> para cancelar. </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <a  type="button" href="{{route('campaign.generar',$campaign->id) }}" title="Generar" class="btn btn-primary" name="Generar">Generar</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

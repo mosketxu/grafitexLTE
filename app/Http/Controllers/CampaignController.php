@@ -91,7 +91,6 @@ class CampaignController extends Controller
     {
         //
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -100,7 +99,19 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        $campaignEdit = Campaign::find($id);
+        //
+    }
+
+
+    /**
+     * Show the form for filtering the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function filtrar($id)
+    {
+        $campaign = Campaign::find($id);
 
         $storesDisponibles = Maestro::select('store','name')->whereNotIn('store', function ($query) use ($id) {
             $query->select('store_id')->from('campaign_stores')->where('campaign_id', '=', $id);
@@ -147,8 +158,8 @@ class CampaignController extends Controller
         })->groupBy('medida')->get();
         $medidasAsociadas = CampaignMedida::where('campaign_id', '=', $id)->get();
 
-        return view('campaign.edit', compact(
-            'campaignEdit',
+        return view('campaign.filtrar', compact(
+            'campaign',
             'storesDisponibles','storesAsociadas','medidasDisponibles','medidasAsociadas','carteleriasDisponibles','carteleriasAsociadas',
             'mobiliariosDisponibles','mobiliariosAsociadas','ubicacionesDisponibles','ubicacionesAsociadas','segmentosDisponibles',
             'segmentosAsociadas','storeconceptsDisponibles','storeconceptsAsociadas','areasDisponibles','areasAsociadas','countriesDisponibles','countriesAsociadas'
@@ -240,7 +251,6 @@ class CampaignController extends Controller
         // TODO verificar si ya se ha generado la campaña. Si es así borrar todo y regenerar
         if(CampaignResumen::where('campaign_id','=',$id)->count()>0){
             CampaignResumen::where('campaign_id','=',$id)->delete();
-            // dd('llego');
         }
 
         // Si no se ha seleccionado ningun segmento entiendo que los quiero todos
@@ -314,13 +324,18 @@ class CampaignController extends Controller
             $campRes->save();
         }
 
-
         return redirect()->route('campaign.resumen', [$campaign]);
     }
 
     public function resumen($campaignId)
     {
         $campaign = Campaign::find($campaignId);
+        // consulta de contadores
+
+        // $contadores = DB::table('campaign_resumenes')
+        //          ->select('segmento', DB::raw('count(*) as totalS'))
+        //          ->groupBy('segmento')
+        //          ->get();
         return view('campaign.resumen', compact('campaign'))->with('notice', 'Generación realizada satisfactoriamente.');    
     }
 

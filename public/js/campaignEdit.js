@@ -71,6 +71,7 @@ $('#countries').on('hidden.bs.collapse', function() {
     var duallist = $('.duallistbox').bootstrapDualListbox({
         nonSelectedListLabel: 'No Seleccionadas',
         selectedListLabel: 'Seleccionadas',
+        selectorMinimalHeight:300,
       //   preserveSelectionOnMove: 'moved',
       //   moveOnSelect: false,
         filterPlaceHolder:'Filtros...',

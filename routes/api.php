@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/api/campaigns', 'APIController@getCampaigns')->name('api.campaigns.index');
 Route::get('/api/{id}/campaignresumen', 'APIController@getCampaignResumen')->name('api.campaigns.resumen');
 Route::get('/api/{id}/campaigncontador', 'APIController@getCampaignContador')->name('api.campaigns.contador');
+Route::get('/api/{id}/campaignsegmento', 'APIController@getCampaignSegmento')->name('api.campaigns.segmento');

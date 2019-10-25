@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Campaign;
 use App\{CampaignResumen,CampaignContador};
+use Illuminate\Support\Facades\DB;
 
 class APIController extends Controller
 {
@@ -30,19 +31,22 @@ class APIController extends Controller
         ->make(true);
     }
 
-
     public function getCampaignContador($id)
     {
-        // $query = CampaignResumen::where('campaign_id',$id)
-        //     ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as total'))
-        //     ->groupBy('segmento','ubicacion','medida','mobiliario','area','material');
+        $query = CampaignResumen::where('campaign_id',$id)
+            ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('segmento','ubicacion','medida','mobiliario','area','material');
+        return datatables($query)
+        ->make(true);
+    }
 
-        $query = CampaignContador::where('campaign_id',$id)
-            ->select('segmento','ubicacion','medida','mobiliario','area','material','totales','unidades');
+    public function getCampaignSegmento($id)
+    {
+        $query = CampaignResumen::where('campaign_id',$id)
+        ->select('segmento',DB::raw('count(*) as segmentos'))
+        ->groupBy('segmento');
         
         return datatables($query)
-        ->addColumn('btn','campaign._actionsResumen')
-        ->rawColumns(['btn'])
         ->make(true);
     }
 

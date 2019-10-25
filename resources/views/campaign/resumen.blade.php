@@ -68,53 +68,93 @@
                     </div>
                 <div class="card-body">
                     <div class="card">
-                        <div class="table-responsive">
-                            <table id="tcampaignResumen" class="table table-hover table-sm small" cellspacing="0" width=100%>
-                                <thead>
-                                    <tr>
-                                        <th>Store</th>
-                                        <th>Country</th>
-                                        <th>Name</th>
-                                        <th>Area</th>
-                                        <th>Segmento</th>
-                                        <th>Store Concept</th>
-                                        <th>Ubicación</th>
-                                        <th>Mobiliario</th>
-                                        <th>Prop x Elemento</th>
-                                        <th>Carteleria</th>
-                                        <th>Medida</th>
-                                        <th>Material</th>
-                                        <th>Unit x Prop</th>
-                                        <th>Imagen</th>
-                                        <th>Observaciones</th>
-                                        <th>Precio</th>
-                                        <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="">
-                                </tbody>
-                            </table>
+                        <div class="card-header text-white bg-primary p-0" data-toggle="collapse" data-target="#elementos">
+                            <h3 class="card-title pl-3">Elementos</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnelementos"
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body collapse" id="elementos">
+                            <div class="table-responsive">
+                                <table id="tcampaignResumen" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                                    <thead>
+                                        <tr>
+                                            <th>Store</th>
+                                            <th>Country</th>
+                                            <th>Name</th>
+                                            <th>Area</th>
+                                            <th>Segmento</th>
+                                            <th>Store Concept</th>
+                                            <th>Ubicación</th>
+                                            <th>Mobiliario</th>
+                                            <th>Prop x Elemento</th>
+                                            <th>Carteleria</th>
+                                            <th>Medida</th>
+                                            <th>Material</th>
+                                            <th>Unit x Prop</th>
+                                            <th>Imagen</th>
+                                            <th>Observaciones</th>
+                                            <th>Precio</th>
+                                            <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
-                        <div class="table-responsive">
-                            <table id="tcampaignContador" class="table table-hover table-sm small" cellspacing="0" width=100%>
-                                <thead>
-                                    <tr>
-                                        <th>Segmento</th>
-                                        <th>Ubicación</th>
-                                        <th>Medida</th>
-                                        <th>Mobiliario</th>
-                                        <th>Area</th>
-                                        <th>Material</th>
-                                        <th>Totales</th>
-                                        <th>Unidades</th>
-                                        <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="">
-                                </tbody>
-                            </table>
+                        <div class="card-header text-white bg-info p-0" data-toggle="collapse" data-target="#conteos">
+                            <h3 class="card-title pl-3">Conteos</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnconteos"
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body collapse" id="conteos">
+                            <div class="table-responsive">
+                                <table id="tcampaignContador" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                                    <thead>
+                                        <tr>
+                                            <th>Segmento</th>
+                                            <th>Ubicación</th>
+                                            <th>Medida</th>
+                                            <th>Mobiliario</th>
+                                            <th>Area</th>
+                                            <th>Material</th>
+                                            <th>Totales</th>
+                                            <th>Unidades</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header text-white bg-info p-0" data-toggle="collapse" data-target="#segmentos">
+                            <h3 class="card-title pl-3">Segmentos</h3>
+                            <div class="card-tools pr-3">
+                                <button type="button" class="btn btn-tool"><i id="btnsegmentos"
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body collapse" id="segmentos">
+                            <div class="table-responsive">
+                                <table id="tcampaignSegmento" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                                    <thead>
+                                        <tr>
+                                            <th>Segmento</th>
+                                            <th>Segmentos</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -124,11 +164,10 @@
 @endsection
 
 @push('scriptchosen')
+<script src="{{ asset('js/campaignResumen.js')}}"></script>
 <script>
     $(document).ready( function () {
         $('#tcampaignResumen').DataTable({
-            'processing': true,
-            'serverSide': true,
             'ajax': "{{ route('api.campaigns.resumen',$campaign->id) }}",
             'columns': [
                 { 'data': 'store' },
@@ -152,8 +191,6 @@
         });
 
         $('#tcampaignContador').DataTable({
-            'processing': true,
-            'serverSide': true,
             'ajax': "{{ route('api.campaigns.contador',$campaign->id) }}",
             'columns': [
                 { 'data': 'segmento' },
@@ -164,8 +201,21 @@
                 { 'data': 'material' },
                 { 'data': 'totales' },
                 { 'data': 'unidades' },
-                { 'data': 'btn' },
             ],
+            'dom': 'Bfrtip',
+            'buttons': [ 'copy', 'csv', 'excel' ],
+        });
+
+        $('#tcampaignSegmento').DataTable({
+            'ajax': "{{ route('api.campaigns.segmento',$campaign->id) }}",
+            'columns': [
+                { 'data': 'segmento' },
+                { 'data': 'segmentos' },
+            ],
+            'info':false,
+            'ordering': false,
+            'paging':false,
+            'searching':false,
         });
 
         $('.select2').select2({

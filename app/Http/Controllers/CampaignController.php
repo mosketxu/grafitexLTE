@@ -246,112 +246,38 @@ class CampaignController extends Controller
         
         // TODO verificar si ya se ha generado la campaña. Si es así borrar todo y regenerar
         if(CampaignResumen::where('campaign_id','=',$id)->count()>0){
-            CampaignResumen::where('campaign_id','=',$id)->delete();
-        }
-
+            CampaignResumen::where('campaign_id','=',$id)->delete();}
         if(CampaignContador::where('campaign_id','=',$id)->count()>0){
-            CampaignContador::where('campaign_id','=',$id)->delete();
-        }
-
+            CampaignContador::where('campaign_id','=',$id)->delete();}
         // Si no se ha seleccionado ningun segmento entiendo que los quiero todos
         if(CampaignSegmento::where('campaign_id','=',$id)->count()==0){
-            $datos=Segmento::get();
-            foreach($datos as $dato){
-                $campDatos=new CampaignSegmento();
-                $campDatos->segmento = $dato->segmento;
-                $campDatos->campaign_id = $id;
-                $campDatos->save();
-            }
-        }
+            CampaignSegmento::insert(Segmento::get()->toArray);}
         // Si no se ha seleccionado ninguna Ubicacion entiendo que las quiero todas
         if(CampaignUbicacion::where('campaign_id','=',$id)->count()==0){
-            $datos=Ubicacion::get();
-            foreach($datos as $dato){
-                $campDatos=new CampaignUbicacion();
-                $campDatos->ubicacion = $dato->ubicacion;
-                $campDatos->campaign_id = $id;
-                $campDatos->save();
-            }
-        }
+            CampaignUbicacion::insert(Ubicacion::get()->toArray());}
         // Si no se ha seleccionado ninguna Medida entiendo que las quiero todas
         if(CampaignMedida::where('campaign_id','=',$id)->count()==0){
-            $datos=Medida::get();
-            foreach($datos as $dato){
-                $campDatos=new CampaignMedida();
-                $campDatos->medida = $dato->medida;
-                $campDatos->campaign_id = $id;
-                $campDatos->save();
-            }
-        }
+            CampaignMedida::insert(Medida::get()->toArray());}
         // Si no se ha seleccionado ninguna Mobiliario entiendo que los quiero todas
         if(CampaignMobiliario::where('campaign_id','=',$id)->count()==0){
-            $datos=Mobiliario::get();
-            foreach($datos as $dato){
-                $campDatos=new CampaignMobiliario();
-                $campDatos->mobiliario = $dato->mobiliario;
-                $campDatos->campaign_id = $id;
-                $campDatos->save();
-            }
-        }
+            CampaignMobiliario::insert(Mobiliario::get()->toArray());}
 
         //elijo una query en funcion de si hay Stores o no
         if(CampaignStore::where('campaign_id',$id)->count()>0){
-            $generar=Maestro::CampaignStore($id)->get();
-        }
+            $generar=Maestro::CampaignStore($id)->get();}
         else{
             $generar=Maestro::Campaign($id)->get();
         }
+        
+        foreach (array_chunk($generar->toArray(),1000) as $t){
+            CampaignResumen::insert($t);}       
 
-        // relleno la tabla resultado TODO mejorar esto en lugar de hacer muchos insert hacer uno con todo a la vez
-        foreach($generar as $gen){
-            $campGen=new CampaignResumen;
-            $campGen->store = $gen->store;
-            $campGen->country = $gen->country;
-            $campGen->name = $gen->name;
-            $campGen->area = $gen->area;
-            $campGen->segmento = $gen->segmento;
-            $campGen->storeconcept = $gen->storeconcept;
-            $campGen->ubicacion = $gen->ubicacion;
-            $campGen->mobiliario = $gen->mobiliario;
-            $campGen->propxelemento = $gen->propxelemento;
-            $campGen->carteleria = $gen->carteleria;
-            $campGen->medida = $gen->medida;
-            $campGen->material = $gen->material;
-            $campGen->unitxprop = $gen->unitxprop;
-            $campGen->observaciones = $gen->observaciones;
-            $campGen->tanda = $gen->tanda;
-            $campGen->campaign_id = $id;
-            $campGen->save();
-        }
-
-        $generar = CampaignResumen::where('campaign_id',$campaign->id)
-        ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as total'),DB::raw('SUM(unitxprop) as tot'))
-        ->groupBy('segmento','ubicacion','medida','mobiliario','area','material')
-        ->get();
-
-        foreach($generar as $gen){
-            $campGen=new CampaignContador();
-            $campGen->segmento = $gen->segmento;
-            $campGen->ubicacion = $gen->ubicacion;
-            $campGen->medida = $gen->medida;
-            $campGen->mobiliario = $gen->mobiliario;
-            $campGen->area = $gen->area;
-            $campGen->material = $gen->material;
-            $campGen->totales = $gen->total;
-            $campGen->unidades = $gen->tot;
-            $campGen->campaign_id = $id;
-            $campGen->save();
-        }
         return redirect()->route('campaign.resumen', [$campaign]);
     }
 
     public function resumen($campaignId)
     {
         $campaign = Campaign::find($campaignId);
-        // consulta de contadores
-
-        // $contadores=CampaignContador::where('campaign_id',$campaign->id);
-        // dd($contadores);         
         return view('campaign.resumen', compact('campaign'))->with('notice', 'Generación realizada satisfactoriamente.');    
     }
 

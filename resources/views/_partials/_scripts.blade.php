@@ -17,16 +17,16 @@
         <!-- Bootstrap4 Duallistbox -->
         <script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
         
-        <!-- InputMask -->
-        {{-- <script src="../../plugins/inputmask/jquery.inputmask.bundle.js"></script> --}}
-        {{-- <script src="../../plugins/moment/moment.min.js"></script> --}}
-        
-        <!-- DataTables -->
-        <script src="{{ asset('plugins/datatables/jquery.dataTables.js')}}"></script>
-        <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css"> --}}
-        {{-- <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.css')}}"> --}}
-
+        <script type="text/javascript" src="{{ asset('plugins/datatables/datatables.min.js')}}"></script>
+    
+        <script>
+            $.extend( true,$.fn.dataTable.defaults,{
+                'processing': true,
+                'serverSide': true,
+                "orderMulti": true,
+                'language': {'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json'}
+            });
+        </script>
     
         <!-- Toastr -->
         <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>

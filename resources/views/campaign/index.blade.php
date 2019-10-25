@@ -73,8 +73,6 @@
 <script>
     $(document).ready( function () {
         $('#tCampaigns').DataTable({
-            'processing': true,
-            'serverSide': true,
             'ajax': "{{ route('api.campaigns.index') }}",
             'columns': [
                 { 'data': 'id' },
@@ -83,7 +81,6 @@
                 { 'data': 'campaign_enddate' },
                 { 'data': 'created_at' },
                 { 'data': 'updated_at' },
-                // { 'data': 'campaign_state' },
                 { 'data': 'btn' },
             ],
         });

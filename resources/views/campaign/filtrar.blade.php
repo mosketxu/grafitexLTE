@@ -297,7 +297,7 @@
 
     });
 </script>
-<script src="{{ asset('js/campaignEdit.js')}}"></script>
+<script src="{{ asset('js/campaignFiltros.js')}}"></script>
 
 
 @endpush

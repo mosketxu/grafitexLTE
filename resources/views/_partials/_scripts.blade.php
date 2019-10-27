@@ -12,11 +12,13 @@
         <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         
         <!-- Select2 -->
-        <script src="../../plugins/select2/js/select2.full.min.js"></script>
+        <script src="{{ asset('plugins/select2/js/select2.full.min.js')}}"></script>
         
         <!-- Bootstrap4 Duallistbox -->
-        <script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+        <script src="{{ asset('plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
         
+        <!-- datatables todo  -->
+        {{-- incluido pero no estilo bootstrap pq no queda del todo bien --}}
         <script type="text/javascript" src="{{ asset('plugins/datatables/datatables.min.js')}}"></script>
     
         <script>

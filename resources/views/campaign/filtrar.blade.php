@@ -79,16 +79,15 @@
                             </div>
                             <div class="card-body">
                                 <!-- Filtro Stores -->
-                                <div class="card ">
-                                    <div class="card-header text-white bg-primary p-0" data-toggle="collapse" data-target="#stores">
+                                <div class="card collapsed-card">
+                                    <div class="card-header text-white bg-primary p-0" data-card-widget="collapse" style="cursor: pointer">
                                         <h3 class="card-title pl-3">Stores</h3>
                                         <div class="card-tools pr-3">
-                                            <button type="button" class="btn btn-tool"><i id="btnstores"
-                                                    class="fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-tool"><i  class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <div id="stores" class="card-body collapse">
-                                        <form id="storesform" action="#" method="post">
+                                    <div class="card-body">
+                                        <form action="#" method="post">
                                             <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}" id="tokenStore">
                                             <div class="form-group">
                                                 @csrf
@@ -111,17 +110,15 @@
                                     </div>
                                 </div>
                                 <!-- Filtro Segmento -->
-                                <div class="card">
-                                    <div class="card-header text-white bg-success p-0" data-toggle="collapse"
-                                        data-target="#segmentos">
+                                <div class="card collapsed-card">
+                                    <div class="card-header text-white bg-success p-0" data-card-widget="collapse" style="cursor: pointer">
                                         <h3 class="card-title pl-3">Segmentos</h3>
                                         <div class="card-tools pr-3">
-                                            <button type="button" class="btn btn-tool"><i id="btnsegmentos"
-                                                    class="fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <div id="segmentos" class="card-body collapse">
-                                        <form id="segmentoform" action="#" method="post">
+                                    <div class="card-body">
+                                        <form action="#" method="post">
                                             <input type="hidden" name="_tokenSegmento" value="{{ csrf_token()}}" id="tokenSegmento">
                                             <div class="form-group">
                                                 @csrf
@@ -145,17 +142,15 @@
                                     </div>
                                 </div>
                                 <!-- Filtro Ubicacion -->
-                                <div class="card">
-                                    <div class="card-header text-black bg-warning p-0" data-toggle="collapse"
-                                        data-target="#ubicaciones">
+                                <div class="card collapsed-card">
+                                    <div class="card-header text-black bg-warning p-0" data-card-widget="collapse" style="cursor: pointer">
                                         <h3 class="card-title pl-3">Ubicación</h3>
                                         <div class="card-tools pr-3">
-                                            <button type="button" class="btn btn-tool"><i id="btnubicaciones"
-                                                    class="fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <div id="ubicaciones" class="card-body collapse">
-                                        <form id="ubicacionform" action="#" method="post">
+                                    <div class="card-body collapse">
+                                        <form action="#" method="post">
                                             <input type="hidden" name="_tokenUbicacion" value="{{ csrf_token()}}"
                                                 id="tokenUbicacion">
                                             <div class="form-group">
@@ -186,17 +181,15 @@
                             </div>
                             <div class="card-body">
                                 <!-- Filtro Medida -->
-                                <div class="card ">
-                                    <div class="card-header text-white bg-secondary p-0" data-toggle="collapse"
-                                        data-target="#medidas">
+                                <div class="card collapsed-card">
+                                    <div class="card-header text-white bg-secondary p-0" data-card-widget="collapse" style="cursor: pointer">
                                         <h3 class="card-title pl-3">Medida</h3>
                                         <div class="card-tools pr-3">
-                                            <button type="button" class="btn btn-tool"><i id="btnmedidas"
-                                                    class="fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <div id="medidas" class="card-body collapse">
-                                        <form id="medidaform" action="#" method="post">
+                                    <div class="card-body collapse">
+                                        <form action="#" method="post">
                                             <input type="hidden" name="_tokenMedida" value="{{ csrf_token()}}" id="tokenMedida">
                                             <div class="form-group">
                                                 @csrf
@@ -220,16 +213,14 @@
                                     </div>
                                 </div>
                                 <!-- Filtro Mobiliario -->
-                                <div class="card">
-                                    <div class="card-header text-white bg-indigo p-0" data-toggle="collapse"
-                                        data-target="#mobiliarios">
+                                <div class="card collapsed-card">
+                                    <div class="card-header text-white bg-indigo p-0" data-card-widget="collapse" style="cursor: pointer">
                                         <h3 class="card-title pl-3">Mobiliario</h3>
                                         <div class="card-tools pr-3">
-                                            <button type="button" class="btn btn-tool"><i id="btnmobiliarios"
-                                                    class="fas fa-plus"></i></button>
+                                            <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <div id="mobiliarios" class="card-body collapse">
+                                    <div class="card-body collapse">
                                         <form id="mobiliarioform" action="#" method="post">
                                             <input type="hidden" name="_tokenMobiliario" value="{{ csrf_token()}}"
                                                 id="tokenMobiliario">

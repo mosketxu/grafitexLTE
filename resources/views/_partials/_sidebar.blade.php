@@ -41,7 +41,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('campaign.resumen')}}" class="nav-link active">
+                            <a href="{{route('campaign.elemento')}}" class="nav-link active">
                                 <i class="fab fa-delicious nav-icon"></i><p>Filtros</p>
                             </a>
                         </li>

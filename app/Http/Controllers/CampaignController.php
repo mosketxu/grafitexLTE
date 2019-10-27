@@ -19,13 +19,11 @@ use App\{
     CampaignStoreconcept,
     CampaignArea,
     CampaignCountry,
-    CampaignResumen,
-    CampaignContador,
+    CampaignElemento
 };
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Datatables;
-use Illuminate\Support\Str;
 
 class CampaignController extends Controller
 {
@@ -245,10 +243,8 @@ class CampaignController extends Controller
         $campaign = Campaign::find($id);
         
         // TODO verificar si ya se ha generado la campaña. Si es así borrar todo y regenerar
-        if(CampaignResumen::where('campaign_id','=',$id)->count()>0){
-            CampaignResumen::where('campaign_id','=',$id)->delete();}
-        if(CampaignContador::where('campaign_id','=',$id)->count()>0){
-            CampaignContador::where('campaign_id','=',$id)->delete();}
+        if(CampaignElemento::where('campaign_id','=',$id)->count()>0){
+            CampaignElemento::where('campaign_id','=',$id)->delete();}
         // Si no se ha seleccionado ningun segmento entiendo que los quiero todos
         if(CampaignSegmento::where('campaign_id','=',$id)->count()==0){
             CampaignSegmento::insert(Segmento::get()->toArray);}
@@ -270,16 +266,52 @@ class CampaignController extends Controller
         }
         
         foreach (array_chunk($generar->toArray(),1000) as $t){
-            CampaignResumen::insert($t);}       
+            CampaignElemento::insert($t);}       
 
-        return redirect()->route('campaign.resumen', [$campaign]);
+        return redirect()->route('campaign.elementos', [$campaign]);
     }
 
-    public function resumen($campaignId)
+    public function elementos($campaignId)
     {
         $campaign = Campaign::find($campaignId);
-        return view('campaign.resumen', compact('campaign'))->with('notice', 'Generación realizada satisfactoriamente.');    
+
+        $elementos= CampaignElemento::where('campaign_id',$campaignId)
+        ->select('mobiliario','propxelemento','carteleria','medida','material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+        ->groupBy('mobiliario','propxelemento','carteleria','medida','material')
+        ->get();
+
+        return view('campaign.elementos', compact('campaign','elementos'))->with('notice', 'Generación realizada satisfactoriamente.');    
     }
+
+    public function conteo($campaignId)
+    {
+        $campaign = Campaign::find($campaignId);
+        $total=CampaignElemento::where('campaign_id',$campaignId)->count();
+        $totalstores=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)->count('store');
+        
+        $conteostoresAreaCountry=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)
+        ->select('country','area',DB::raw('count(*) as totales'))
+        ->groupBy('country','area')
+        ->get();
+
+        
+        $conteoCountryAreaSegmentoConcept= CampaignElemento::where('campaign_id',$campaignId)
+        ->select('country','area','segmento','storeconcept', DB::raw('count(*) as totales'))
+        ->groupBy('country','area','segmento','storeconcept')
+        ->get();
+        
+        $conteoMateriales=CampaignElemento::where('campaign_id',$campaignId)
+        ->select('material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+        ->groupBy('material')
+        ->get();
+ 
+        // return view('campaign.conteo', compact('campaign','conteoStores','conteostoresAreaCountry','conteoCountryAreaSegmentoConcept','conteoMateriales','total'))
+        //     ->with('notice', 'Generación realizada satisfactoriamente.');    
+        
+        return view('campaign.conteos', compact('campaign','conteostoresAreaCountry','total','totalstores'))
+            ->with('notice', 'Generación realizada satisfactoriamente.');    
+    }
+
 
     /**
      * Remove the specified resource from storage.

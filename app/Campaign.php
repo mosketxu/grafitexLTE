@@ -28,7 +28,7 @@ class Campaign extends Model
     public function campaignStores(){
         return $this->hasMany(CampaignStore::class);
     }
-    public function campaignResumenes(){
-        return $this->hasMany(CampaignResumen::class);
+    public function campaignElementos(){
+        return $this->hasMany(CampaignElemento::class);
     }
 }

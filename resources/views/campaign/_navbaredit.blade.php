@@ -12,7 +12,10 @@
       <a  href="{{route('campaign.filtrar',$campaign->id) }}" title="Filtros" class="nav-link">Filtros</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a  href="{{route('campaign.resumen',$campaign->id) }}" title="Resumen" class="nav-link">Resumen</a>
+        <a  href="{{route('campaign.elementos',$campaign->id) }}" title="Elementos" class="nav-link">Elementos</a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a  href="{{route('campaign.conteo',$campaign->id) }}" title="Estadísticas" class="nav-link">Estadísticas</a>
     </li>
   </ul>
 

@@ -14,10 +14,3 @@ $('#conteos').on('shown.bs.collapse', function() {
 $('#conteos').on('hidden.bs.collapse', function() {
    $("#btnconteos").removeClass("fas fa-minus").addClass("fas fa-plus");
 });
-//boton collapse  segmentos
-$('#segmentos').on('shown.bs.collapse', function() {
-   $("#btnsegmentos").removeClass("fas fa-plus").addClass("fas fa-minus");
-});
-$('#segmentos').on('hidden.bs.collapse', function() {
-   $("#btnconteos").removeClass("fas fa-minus").addClass("fas fa-plus");
-});

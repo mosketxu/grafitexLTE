@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampaignResumenesTable extends Migration
+class CreateCampaignElementosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCampaignResumenesTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_resumenes', function (Blueprint $table) {
+        Schema::create('campaign_elementos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns');
@@ -46,6 +46,6 @@ class CreateCampaignResumenesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campaign_resumenes');
+        Schema::dropIfExists('campaign_elementos');
     }
 }

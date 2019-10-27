@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CampaignResumen extends Model
+class CampaignElemento extends Model
 {
-    protected $table = 'campaign_resumenes';
+    // protected $table = 'campaign_resumenes';
     protected $fillable=['campaign_id',
         'store','country','name','area','segmento',
         'storeconcept','ubicacion','mobiliario','propxlemento',

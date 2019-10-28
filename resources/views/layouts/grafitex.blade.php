@@ -20,7 +20,7 @@
 
     </head>
 
-    <body class="hold-transition sidebar-mini layout-fixed">
+    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse">
         <div class="wrapper">
             <!-- Navbar -->
             @yield('navbar')

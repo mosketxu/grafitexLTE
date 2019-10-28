@@ -287,6 +287,9 @@
     $(document).ready( function () {
 
     });
+
+    $('#navfiltros').toggleClass('activo');
+
 </script>
 <script src="{{ asset('js/campaignFiltros.js')}}"></script>
 

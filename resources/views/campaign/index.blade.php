@@ -83,10 +83,16 @@
                 { 'data': 'updated_at' },
                 { 'data': 'btn' },
             ],
+            'keys': false,
+            'stateSave': false,
+            'blurable': false,
         });
         $('.select2').select2({
             theme: 'bootstrap4'
         });
+
+        $('#menucampaign').addClass('active');
+        $('#navcampaigns').toggleClass('activo');
     });
 </script>
 

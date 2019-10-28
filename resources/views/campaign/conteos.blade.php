@@ -325,19 +325,14 @@
                 { 'data': 'segmento' },{ 'data': 'ubicacion' }, { 'data': 'medida' }, { 'data': 'mobiliario' },
                 { 'data': 'area' }, { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' },
             ],
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
         });
         $('#tcampaignStores').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignstore",
             'columns': [
                 { 'data': 'country' },{ 'data': 'area' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -350,11 +345,8 @@
             'columns': [
                 { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -367,11 +359,9 @@
             'columns': [
                 { 'data': 'segmento' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
+            'scrollY': 150,
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -384,11 +374,8 @@
             'columns': [
                 { 'data': 'storeconcept' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -401,11 +388,8 @@
             'columns': [
                 { 'data': 'mobiliario' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -418,11 +402,8 @@
             'columns': [
                 { 'data': 'propxelemento' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -435,11 +416,8 @@
             'columns': [
                 { 'data': 'carteleria' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -452,11 +430,8 @@
             'columns': [
                 { 'data': 'medida' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
             ],
-            'paging':false,
             'info':false,
             'searching':false,
-            'dom': 'B<"clear">lfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
@@ -464,8 +439,8 @@
                 }
             }]
         });
-
-
     });
+    $('#menucampaign').addClass('active');
+    $('#navestadisticas').toggleClass('activo');
 </script>
 @endpush

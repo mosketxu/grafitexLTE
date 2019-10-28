@@ -70,9 +70,9 @@
                             <table id="tcampaignElementos" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                 <thead>
                                     <tr>
-                                        <th>Store</th>
-                                        <th>Country</th>
+                                        <th data-priority="1">Store</th>
                                         <th>Name</th>
+                                        <th>Country</th>
                                         <th>Area</th>
                                         <th>Segmento</th>
                                         <th>Store Concept</th>
@@ -86,7 +86,7 @@
                                         <th>Imagen</th>
                                         <th>Observaciones</th>
                                         <th>Precio</th>
-                                        <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
+                                        <th width="100px" class="text-center" data-priority="2"><span class="ml-1">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody class="">
@@ -107,16 +107,18 @@
         $('#tcampaignElementos').DataTable({
             'ajax': "{{ route('api.campaigns.elementos',$campaign->id) }}",
             'columns': [
-                { 'data': 'store' },{ 'data': 'country' }, { 'data': 'name' }, { 'data': 'area' },
+                { 'data': 'store' }, { 'data': 'name' },{ 'data': 'country' }, { 'data': 'area' },
                 { 'data': 'segmento' }, { 'data': 'storeconcept' }, { 'data': 'ubicacion' },
                 { 'data': 'mobiliario' }, { 'data': 'propxelemento' }, { 'data': 'carteleria' },
                 { 'data': 'medida' }, { 'data': 'material' }, { 'data': 'unitxprop' },
                 { 'data': 'imagen' }, { 'data': 'observaciones' }, { 'data': 'precio' }, { 'data': 'btn' },
             ],
-            dom: 'lBfrtip',
-            buttons: true
+            'scrollY':300,
+        });
     });
-    });
+    $('#menucampaign').addClass('active');
+    $('#navelementos').toggleClass('activo');
+
 </script>
 
 @endpush

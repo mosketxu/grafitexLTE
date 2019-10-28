@@ -6,16 +6,16 @@
       <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a  href="{{route('campaign.index') }}" class="nav-link" title="home">Campañas</a>
+      <a  href="{{route('campaign.index') }}" class="nav-link" title="Campañas"><span id="navcampaigns"  class="px-1">Campañas</span></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block" >
+      <a  href="{{route('campaign.filtrar',$campaign->id) }}"class="nav-link" title="Filtros"><span id="navfiltros" class="px-1">Filtros</span></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a  href="{{route('campaign.filtrar',$campaign->id) }}" title="Filtros" class="nav-link">Filtros</a>
+        <a  href="{{route('campaign.elementos',$campaign->id) }}"  class="nav-link" title="Elementos"><span id="navelementos"  class="px-1">Elementos</span></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a  href="{{route('campaign.elementos',$campaign->id) }}" title="Elementos" class="nav-link">Elementos</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a  href="{{route('campaign.conteo',$campaign->id) }}" title="Estadísticas" class="nav-link">Estadísticas</a>
+        <a  href="{{route('campaign.conteo',$campaign->id) }}" class="nav-link" title="Estadísticas"><span id="navestadisticas" class="px-1">Estadísticas</span></a>
     </li>
   </ul>
 

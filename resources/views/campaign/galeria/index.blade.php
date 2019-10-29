@@ -3,13 +3,13 @@
 @section('styles')
 @endsection
 
-@section('title','Grafitex-Elementos Campaña')
-@section('titlePag','Elementos Campaña')
+@section('title','Grafitex-Galeria Campaña')
+@section('titlePag','Galeria de la Campaña')
 @section('navbar')
     @include('campaign._navbaredit')
 @endsection
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignElementos') }}
+{{ Breadcrumbs::render('campaignGaleria') }}
 @endsection
 
 @section('content')
@@ -70,26 +70,34 @@
                             <table id="tcampaignElementos" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                 <thead>
                                     <tr>
-                                        <th data-priority="1">Store</th>
-                                        <th>Name</th>
-                                        <th>Country</th>
-                                        <th>Area</th>
-                                        <th>Segmento</th>
-                                        <th>Store Concept</th>
-                                        <th>Ubicación</th>
-                                        <th>Mobiliario</th>
-                                        <th>Prop x Elemento</th>
-                                        <th>Carteleria</th>
-                                        <th>Medida</th>
-                                        <th>Material</th>
-                                        <th>Unit x Prop</th>
+                                        <th>#</th>
+                                        <th>Elemento</th>
                                         <th>Imagen</th>
+                                        <th>Img</th>
                                         <th>Observaciones</th>
-                                        <th>Precio</th>
-                                        <th width="100px" class="text-center" data-priority="2"><span class="ml-1">Acción</th>
+                                        <th width="100px" class="text-center"><span class="ml-1">Acción</th>
                                     </tr>
                                 </thead>
-                                <tbody class="">
+                                <tbody>
+                                   @foreach ($campaigngaleria as $imagen)
+                                   <tr>
+                                       <td>{{$imagen->id}}</td>
+                                       <td>{{$imagen->elemento}}</td>
+                                       <td>{{$imagen->imagen}}</td>
+                                       <td>
+                                            <a href="{{route('campaign.galeria.edit',[$imagen->campaign_id,$imagen->id])}}"><img src="{{asset('storage/galeria/'.$imagen->imagen)}}" id="{{$imagen->id}}imagen" title="imagen elemento" width="100px"/></a>
+                                       </td>
+                                       <td>{{$imagen->observaciones}}</td>
+                                       <td>
+                                       </td>
+                                       <td width="100px">
+                                          <div class="text-center">
+                                             <a href="" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
+                                             <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                          </div>
+                                       </td>
+                                   </tr>
+                                   @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -101,24 +109,16 @@
 @endsection
 
 @push('scriptchosen')
-<script src="{{ asset('js/campaignElementos.js')}}"></script>
-<script src="{{ asset('js/datatablesdefault.js')}}"></script>
+{{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
+
 <script>
-    $(document).ready( function () {
-        $('#tcampaignElementos').DataTable({
-            'ajax': "{{ route('api.campaigns.elementos',$campaign->id) }}",
-            'columns': [
-                { 'data': 'store' }, { 'data': 'name' },{ 'data': 'country' }, { 'data': 'area' },
-                { 'data': 'segmento' }, { 'data': 'storeconcept' }, { 'data': 'ubicacion' },
-                { 'data': 'mobiliario' }, { 'data': 'propxelemento' }, { 'data': 'carteleria' },
-                { 'data': 'medida' }, { 'data': 'material' }, { 'data': 'unitxprop' },
-                { 'data': 'imagen' }, { 'data': 'observaciones' }, { 'data': 'precio' }, { 'data': 'btn' },
-            ],
-            'scrollY':300,
-        });
-    });
+   $(document).ready(function() {
+
+   });
+
     $('#menucampaign').addClass('active');
-    $('#navelementos').toggleClass('activo');
+    $('#navgaleria').toggleClass('activo');
 
 </script>
+
 @endpush

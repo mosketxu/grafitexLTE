@@ -17,6 +17,9 @@
     <li class="nav-item d-none d-sm-inline-block">
         <a  href="{{route('campaign.conteo',$campaign->id) }}" class="nav-link" title="Estadísticas"><span id="navestadisticas" class="px-1">Estadísticas</span></a>
     </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a  href="{{route('campaign.galeria.index',$campaign->id) }}" class="nav-link" title="Galeria"><span id="navgaleria" class="px-1">Galeria</span></a>
+    </li>
   </ul>
 
   <!-- SEARCH FORM -->
@@ -32,7 +35,7 @@
   </form>
 
   <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
+  {{-- <ul class="navbar-nav ml-auto">
     <!-- Messages Dropdown Menu -->
     <li class="nav-item dropdown">
       <a class="nav-link" data-toggle="dropdown" href="#">
@@ -123,6 +126,6 @@
         <i class="fas fa-th-large"></i>
       </a>
     </li>
-  </ul>
+  </ul> --}}
 </nav>
 <!-- /.navbar -->

@@ -70,6 +70,8 @@
 @endsection
 
 @push('scriptchosen')
+
+<script src="{{ asset('js/datatablesdefault.js')}}"></script>
 <script>
     $(document).ready( function () {
         $('#tCampaigns').DataTable({
@@ -83,9 +85,17 @@
                 { 'data': 'updated_at' },
                 { 'data': 'btn' },
             ],
+            'processing': true,
+            'serverSide': true,
+            'orderMulti': true,
             'keys': false,
             'stateSave': false,
             'blurable': false,
+            'responsive': true,
+            'colReorder': true,
+            'dom': 'lBfrtip',
+            'buttons':  [ 'copy', 'csv', 'excel','print' ],
+            'language': {'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json'}
         });
         $('.select2').select2({
             theme: 'bootstrap4'
@@ -97,3 +107,4 @@
 </script>
 
 @endpush
+

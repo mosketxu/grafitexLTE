@@ -27,11 +27,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('store', 'StoreController');//->middleware('admin');
     Route::resource('address', 'AddressController');//->middleware('admin');
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
-        Route::post('campaign/asociar', 'CampaignController@asociar');
-        Route::post('campaign/asociarstore', 'CampaignController@asociarstore');
-        Route::get('campaign/{id}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
-        Route::get('campaign/{id?}/filtro', 'CampaignController@filtrar')->name('campaign.filtrar');
-        Route::get('campaign/{id?}/elementos', 'CampaignController@elementos')->name('campaign.elementos');
-        Route::get('campaign/{id?}/conteo', 'CampaignController@conteo')->name('campaign.conteo');
+        Route::group(['prefix' => 'campaign'], function () {
+            Route::post('/asociar', 'CampaignController@asociar');
+            Route::post('/asociarstore', 'CampaignController@asociarstore');
+            Route::get('/{id?}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
+            Route::get('/{id?}/filtro', 'CampaignController@filtrar')->name('campaign.filtrar');
+            Route::get('/{id?}/elementos', 'CampaignController@elementos')->name('campaign.elementos');
+            Route::get('/{id?}/conteo', 'CampaignController@conteo')->name('campaign.conteo');
+            // galeria
+            Route::get('/{campaignId?}/galeria', 'CampaignGaleriaController@index')->name('campaign.galeria.index');
+            Route::get('/{campaignId?}/{imagenId?}/galeria', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
+            Route::post('/galeria/update', 'CampaignGaleriaController@update')->name('campaign.galeria.update');
+            // Route::get('/{campaign}/galeriaimagenes', 'CampaignGaleriaController@index')->name('campaign.galeriaimagenes');
+            // Route::post('/galeriaimagenesupdate', 'CampaignGaleriaController@galeriaimagenesupdate')->name('campaign.galeriaimagenesupdate');
+
+        });
     Route::resource('element', 'ElementController');//->middleware('admin');
 });
+
+
+

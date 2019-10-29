@@ -317,6 +317,7 @@
 @endsection
 
 @push('scriptchosen')
+<script src="{{ asset('js/datatablesdefault.js')}}"></script>
 <script>
     $(document).ready( function () {
         $('#tcampaignDetalles').DataTable({
@@ -325,6 +326,7 @@
                 { 'data': 'segmento' },{ 'data': 'ubicacion' }, { 'data': 'medida' }, { 'data': 'mobiliario' },
                 { 'data': 'area' }, { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' },
             ],
+            'scrollY':300,
         });
         $('#tcampaignStores').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignstore",
@@ -338,7 +340,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignMateriales').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignmaterial",
@@ -352,7 +355,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignSegmentos').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignsegmento",
@@ -361,13 +365,13 @@
             ],
             'info':false,
             'searching':false,
-            'scrollY': 150,
             'columnDefs':[{
                 targets: -1,
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignStoreConcepts').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignstoreconcept",
@@ -381,7 +385,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignMobiliarios').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignmobiliario",
@@ -395,7 +400,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignPropxelementos').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignpropxelemento",
@@ -409,7 +415,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignCartelerias').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaigncarteleria",
@@ -423,7 +430,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
         $('#tcampaignMedida').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignmedida",
@@ -437,7 +445,8 @@
                 render:function(data, type, row){
                     return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
                 }
-            }]
+            }],
+            'scrollY':300,
         });
     });
     $('#menucampaign').addClass('active');

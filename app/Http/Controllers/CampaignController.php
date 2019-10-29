@@ -19,7 +19,8 @@ use App\{
     CampaignStoreconcept,
     CampaignArea,
     CampaignCountry,
-    CampaignElemento
+    CampaignElemento,
+    CampaignGaleria
 };
 
 use Illuminate\Http\Request;
@@ -245,6 +246,8 @@ class CampaignController extends Controller
         // TODO verificar si ya se ha generado la campaña. Si es así borrar todo y regenerar
         if(CampaignElemento::where('campaign_id','=',$id)->count()>0){
             CampaignElemento::where('campaign_id','=',$id)->delete();}
+        if(CampaignGaleria::where('campaign_id','=',$id)->count()>0){
+            CampaignGaleria::where('campaign_id','=',$id)->delete();}
         // Si no se ha seleccionado ningun segmento entiendo que los quiero todos
         if(CampaignSegmento::where('campaign_id','=',$id)->count()==0){
             CampaignSegmento::insert(Segmento::get()->toArray);}
@@ -254,11 +257,11 @@ class CampaignController extends Controller
         // Si no se ha seleccionado ninguna Medida entiendo que las quiero todas
         if(CampaignMedida::where('campaign_id','=',$id)->count()==0){
             CampaignMedida::insert(Medida::get()->toArray());}
-        // Si no se ha seleccionado ninguna Mobiliario entiendo que los quiero todas
+        // Si no se ha seleccionado ningun Mobiliario entiendo que los quiero todas
         if(CampaignMobiliario::where('campaign_id','=',$id)->count()==0){
             CampaignMobiliario::insert(Mobiliario::get()->toArray());}
-
-        //elijo una query en funcion de si hay Stores o no
+            
+        //elijo una query en funcion de si hay Stores o no y Relleno la tabla elementos
         if(CampaignStore::where('campaign_id',$id)->count()>0){
             $generar=Maestro::CampaignStore($id)->get();}
         else{
@@ -266,8 +269,17 @@ class CampaignController extends Controller
         }
         
         foreach (array_chunk($generar->toArray(),1000) as $t){
-            CampaignElemento::insert($t);}       
+            CampaignElemento::insert($t);}
 
+        //relleno la tabla imagenes
+        $imagenes=CampaignElemento::where('campaign_id',$id)
+        ->distinct('campaign_id','mobiliario','carteleria','medida')
+        ->select('campaign_id',DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,'-',carteleria,'-',medida),' ',''),'.',''),'(',''),')',''),'+','') as elemento"))
+        ->get();
+
+        foreach (array_chunk($imagenes->toArray(),1000) as $t){
+            CampaignGaleria::insert($t);}
+        
         return redirect()->route('campaign.elementos', [$campaign]);
     }
 

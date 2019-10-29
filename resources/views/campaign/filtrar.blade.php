@@ -288,6 +288,7 @@
 
     });
 
+    $('#menucampaign').addClass('active');
     $('#navfiltros').toggleClass('activo');
 
 </script>

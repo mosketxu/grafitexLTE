@@ -27,6 +27,16 @@ Breadcrumbs::for('campaign', function ($trail) {
   $trail->parent('campaignEdit');
   $trail->push('Elementos', route('campaign.index'));
  });
+
+ Breadcrumbs::for('campaignGaleria', function ($trail) {
+  $trail->parent('campaignEdit');
+  $trail->push('Galeria', route('campaign.index'));
+ });
+ 
+ Breadcrumbs::for('campaignGaleriaImagenes', function ($trail) {
+  $trail->parent('campaignEdit');
+  $trail->push('Galeria Imagenes', route('campaign.index'));
+ });
  
 // Home
 // Breadcrumbs::for('home', function ($trail) {

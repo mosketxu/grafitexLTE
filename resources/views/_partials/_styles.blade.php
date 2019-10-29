@@ -29,6 +29,10 @@
 <!-- Tempusdominus Bbootstrap 4 -->
 {{-- <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}"> --}}
 
+{{-- Dropzone --}}
+<link rel="stylesheet" href="{{ asset('css/dropzone.min.css')}}">
+
+
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
 <!-- This style -->

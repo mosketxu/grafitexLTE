@@ -268,19 +268,42 @@ class CampaignController extends Controller
             $generar=Maestro::Campaign($id)->get();
         }
         
+        $campaignelemento=new CampaignElemento;
+
         foreach (array_chunk($generar->toArray(),1000) as $t){
-            CampaignElemento::insert($t);}
+            $dataSet = [];
+            foreach ($generar as $gen) {
+                $dataSet[] = [
+                    'campaign_id'  => $id,
+                    'store'  => $gen->store,
+                    'name'  => $gen->name,
+                    'country'  => $gen->country,
+                    'area'  => $gen->area,
+                    'segmento'  => $gen->segmento,
+                    'storeconcept'  => $gen->storeconcept,
+                    'ubicacion'  => $gen->ubicacion,
+                    'mobiliario'  => $gen->mobiliario,
+                    'propxelemento'  => $gen->propxelemento,
+                    'carteleria'  => $gen->carteleria,
+                    'medida'  => $gen->medida,
+                    'material'  => $gen->material,
+                    'unitxprop'  => $gen->unitxprop,
+                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen->mobiliario.'-'.$gen->carteleria.'-'.$gen->medida))))).'-'.$id.'.jpg',
+                ];
+            }
+            DB::table('campaign_elementos')->insert($dataSet);
+        }
 
         //relleno la tabla imagenes
         $imagenes=CampaignElemento::where('campaign_id',$id)
         ->distinct('campaign_id','mobiliario','carteleria','medida')
-        ->select('campaign_id',DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,'-',carteleria,'-',medida),' ',''),'.',''),'(',''),')',''),'+','') as elemento"))
+        ->select('campaign_id',DB::raw("CONCAT(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,carteleria,medida),' ',''),'.',''),'(',''),')',''),'+',''),'-',$id) as elemento"))
         ->get();
 
         foreach (array_chunk($imagenes->toArray(),1000) as $t){
             CampaignGaleria::insert($t);}
         
-        return redirect()->route('campaign.elementos', [$campaign]);
+        return redirect()->route('campaign.elementos', $campaign);
     }
 
     public function elementos($campaignId)

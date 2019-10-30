@@ -114,6 +114,13 @@
                 { 'data': 'medida' }, { 'data': 'material' }, { 'data': 'unitxprop' },
                 { 'data': 'imagen' }, { 'data': 'observaciones' }, { 'data': 'precio' }, { 'data': 'btn' },
             ],
+            'columnDefs':[{
+                targets: -1,
+                render:function(data, type, row){
+                    return '<img src="/storage/galeria/'+ row['imagen'] +'">';
+                }
+            }],
+
             'scrollY':300,
         });
     });

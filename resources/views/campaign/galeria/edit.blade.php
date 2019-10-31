@@ -64,30 +64,31 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- <form role="form" method="post" action="{{ route('campaign.galeria.update') }}" --}}
+                    {{-- <form id="" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data" id="uploadimage"> --}}
                     <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage">
-                        <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}" id="tokenStore">
                         @csrf
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="idcampaigngaleria">Campaña</label>
-                                <input type="text" class="form-control" id="idcampaigngaleria" name="idcampaigngaleria"
-                                    value="{{$campaigngaleria->id}}">
-                                <input type="text" class="form-control" id="campaign_id" name="campaign_id"
-                                    value="{{$campaigngaleria->campaign_id}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="elemento">Elemento</label>
-                                <input type="text" class="form-control" id="elemento" name="elemento"
-                                    value="{{$campaigngaleria->elemento}}">
-                                <label for="imagen">Imagen</label>
-                                <input type="text" class="form-control" id="imagen" name="imagen"
-                                    value="{{$campaigngaleria->imagen}}">
-                            </div>
-                            <div class="form-group">
-                                <div class>
-                                    <embed src="{{asset('storage/galeria/'.$campaigngaleria->imagen)}}" id="original" class="img-fluid" />
-                                    {{-- <img src="" id="original" class="img-fluid" /> --}}
+                            <input type="text" class="d-none" id="campaigngaleria" name="campaigngaleria" value="{{$campaigngaleria}}">
+                            <div class="row"> 
+                                <div class="col-6 img-thumbnail"  style="max-height: 350px;">
+                                    <div class="form-group">
+                                        <label  class="control-label" for="elemento">Elemento</label>
+                                        <input type="text" class="form-control" id="elemento" name="elemento"
+                                            value="{{$campaigngaleria->elemento}}" disabled="disabled>">
+                                        <label for="imagen">Imagen</label>
+                                        <input type="text" class="form-control" id="imagen" name="imagen"
+                                            value="{{$campaigngaleria->imagen}}"  disabled="disabled>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="imagen">Observaciones</label>
+                                        <input type="text" class="form-control" id="observaciones" name="observaciones"
+                                            value="{{$campaigngaleria->observaciones}}" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="col-6 my-auto">
+                                    <div class="form-group">
+                                        <embed src="{{asset('storage/galeria/'.$campaigngaleria->imagen)}}" id="original" class="img-fluid img-thumbnail"  style="height: 350px \9;" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">

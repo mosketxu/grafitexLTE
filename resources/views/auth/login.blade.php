@@ -9,16 +9,14 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            <img src="{{ asset('storage/logo.jpg')}}" id="GrafitexLogo" class="ml-4 mt-3" width="150" alt="Grafitex">
+                        <div class="col-md-6 my-auto pl-5">
+                            <img src="{{ asset('storage/logo.jpg')}}" id="GrafitexLogo" class="img-fluid" width="80%" alt="Grafitex">
                         </div>
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 align-self-center clearfix">
                             <form role="form" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="email" class="col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                                    <label for="email" class="col-form-label">{{ __('E-Mail Address') }}</label>
                                     <div class="">
                                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                                         @error('email')
@@ -29,7 +27,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="col-form-label text-md-right">{{ __('Password') }}</label>
+                                    <label for="password" class="col-form-label">{{ __('Password') }}</label>
                                     <div class="">
                                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                         @error('password')

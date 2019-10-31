@@ -84,6 +84,9 @@ class CampaignGaleriaController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         
+        $campGal=json_decode($request->campaigngaleria);
+
+
         //Por si me interesa estos datos de la imagen
         $extension=$request->file('photo')->getClientOriginalExtension();
         $tipo=$request->file('photo')->getClientMimeType();
@@ -91,7 +94,7 @@ class CampaignGaleriaController extends Controller
         $tamayo=$request->file('photo')->getClientSize();
         
         // Genero el nombre que le pondré a la imagen
-        $file_name=$request->elemento.'-'.$request->campaign_id.'.'.$extension;
+        $file_name=$campGal->elemento.'-'.$campGal->campaign_id.'.'.$extension;
 
         // verifico si existe la imagen y la borro si existe. Busco el nombre que debería tener.
         $mi_imagen = public_path().'/storage/galeria/'.$file_name;
@@ -114,7 +117,7 @@ class CampaignGaleriaController extends Controller
             ->resize(144,144)
             ->save('storage/galeria/thumbnails/thumb-'.$file_name);
 
-        $campaigngaleria=CampaignGaleria::find($request->idcampaigngaleria);
+        $campaigngaleria=CampaignGaleria::find($campGal->id);
         $campaigngaleria->imagen = $file_name;
         $campaigngaleria->save();
 

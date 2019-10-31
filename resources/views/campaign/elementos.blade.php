@@ -77,6 +77,7 @@
                                         <th>Segmento</th>
                                         <th>Store Concept</th>
                                         <th>Ubicación</th>
+                                        <th></th>
                                         <th>Mobiliario</th>
                                         <th>Prop x Elemento</th>
                                         <th>Carteleria</th>
@@ -101,7 +102,7 @@
 @endsection
 
 @push('scriptchosen')
-<script src="{{ asset('js/campaignElementos.js')}}"></script>
+{{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
 <script src="{{ asset('js/datatablesdefault.js')}}"></script>
 <script>
     $(document).ready( function () {
@@ -112,15 +113,14 @@
                 { 'data': 'segmento' }, { 'data': 'storeconcept' }, { 'data': 'ubicacion' },
                 { 'data': 'mobiliario' }, { 'data': 'propxelemento' }, { 'data': 'carteleria' },
                 { 'data': 'medida' }, { 'data': 'material' }, { 'data': 'unitxprop' },
-                { 'data': 'imagen' }, { 'data': 'observaciones' }, { 'data': 'precio' }, { 'data': 'btn' },
+                { 'data': 'imagen' }, { 'data': 'imagen' }, { 'data': 'observaciones' }, { 'data': 'precio' }, { 'data': 'btn' },
             ],
             'columnDefs':[{
-                targets: -1,
+                targets: 7,
                 render:function(data, type, row){
-                    return '<img src="/storage/galeria/'+ row['imagen'] +'">';
+                    return '<div class="img-thumbnail"><img src="/storage/galeria/'+ row['imagen'] +'" width="50px"></div>';
                 }
             }],
-
             'scrollY':300,
         });
     });

@@ -64,16 +64,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data" id="uploadimage">
+                    {{-- <form role="form" method="post" action="{{ route('campaign.galeria.update') }}" --}}
+                    <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage">
+                        <input type="hidden" name="_tokenStore" value="{{ csrf_token()}}" id="tokenStore">
                         @csrf
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="idcampaigngaleria">Id</label>
+                                <label for="idcampaigngaleria">Campaña</label>
                                 <input type="text" class="form-control" id="idcampaigngaleria" name="idcampaigngaleria"
                                     value="{{$campaigngaleria->id}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="campaign_id">Campaign_id</label>
                                 <input type="text" class="form-control" id="campaign_id" name="campaign_id"
                                     value="{{$campaigngaleria->campaign_id}}">
                             </div>
@@ -81,16 +80,14 @@
                                 <label for="elemento">Elemento</label>
                                 <input type="text" class="form-control" id="elemento" name="elemento"
                                     value="{{$campaigngaleria->elemento}}">
-                            </div>
-                            <div class="form-group">
                                 <label for="imagen">Imagen</label>
                                 <input type="text" class="form-control" id="imagen" name="imagen"
                                     value="{{$campaigngaleria->imagen}}">
                             </div>
                             <div class="form-group">
                                 <div class>
-                                    <img src="{{asset('storage/galeria/'.$campaigngaleria->imagen)}}"
-                                        class="img-fluid" />
+                                    <embed src="{{asset('storage/galeria/'.$campaigngaleria->imagen)}}" id="original" class="img-fluid" />
+                                    {{-- <img src="" id="original" class="img-fluid" /> --}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -106,7 +103,7 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 </section>
 </div>
 @endsection
@@ -115,13 +112,40 @@
 {{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function (e) {
+        var token= $('#token').val();
+        let timestamp = Math.floor( Date.now() );
+        $('#imageUploadForm').on('submit',(function(e) {
+            $('#original').attr('src', '');
+            $.ajaxSetup({
+                headers: { "X-CSRF-TOKEN": $('#token').val() },
+            });
+  
+            e.preventDefault();
+  
+            var formData = new FormData(this);
+            $.ajax({
+                type:'POST',
+                url: "{{ route('campaign.galeria.update') }}",
+                data:formData,
+                cache:false,
+                contentType: false,
+                processData: false,
+                success:function(data){
+                    $('#uploadForm + img').remove();
+                    $('#original').attr('src', '/storage/galeria/'+ data.imagen+'?ver=' + timestamp);
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+        }));
+    });
+</script> 
 
-   });
-
+<script>
     $('#menucampaign').addClass('active');
     $('#navgaleria').toggleClass('activo');
-
 </script>
 
 @endpush

@@ -83,20 +83,48 @@ class CampaignGaleriaController extends Controller
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        // dd($request);
+        
+        //Por si me interesa estos datos de la imagen
         $extension=$request->file('photo')->getClientOriginalExtension();
+        $tipo=$request->file('photo')->getClientMimeType();
+        $nombre=$request->file('photo')->getClientOriginalName();
+        $tamayo=$request->file('photo')->getClientSize();
+        
+        // Genero el nombre que le pondré a la imagen
         $file_name=$request->elemento.'-'.$request->campaign_id.'.'.$extension;
+
+        // verifico si existe la imagen y la borro si existe. Busco el nombre que debería tener.
+        $mi_imagen = public_path().'/storage/galeria/'.$file_name;
+        $mi_imagenthumb = public_path().'/storage/galeria/thumbails/thumb-'.$file_name;
+        if (@getimagesize($mi_imagen)) {
+            unlink($mi_imagen);
+        }
+        if (@getimagesize($mi_imagenthumb)) {
+            unlink($mi_imagenthumb);
+        }
+
+        // verifico que realmente llega un fichero
+        if($files=$request->file('photo')){
+            // for save the original image
+            $imageUpload=Image::make($files);
+            $originalPath='storage/galeria/';
+            $imageUpload->save($originalPath.$file_name);
+        }
         Image::make($request->file('photo'))
             ->resize(144,144)
-            ->save('storage/galeria/'.$file_name);
+            ->save('storage/galeria/thumbnails/thumb-'.$file_name);
 
         $campaigngaleria=CampaignGaleria::find($request->idcampaigngaleria);
         $campaigngaleria->imagen = $file_name;
         $campaigngaleria->save();
 
-        return back()
-            ->with('success', 'You have successfully upload image.');
+        // $image = CampaignGaleria::latest()->first(['photo_name']);
+        return Response()->json($campaigngaleria);
+
+        // return back()
+        //     ->with('success', 'You have successfully upload image.');
     }
+   
 
     /**
      * Remove the specified resource from storage.

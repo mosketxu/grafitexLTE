@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/{campaignId?}/galeria', 'CampaignGaleriaController@index')->name('campaign.galeria.index');
             Route::get('/{campaignId?}/{imagenId?}/galeria', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
             Route::post('/galeria/update', 'CampaignGaleriaController@update')->name('campaign.galeria.update');
+            Route::post('/galeria/updateindex', 'CampaignGaleriaController@updateindex')->name('campaign.galeria.updateindex');
             // Route::get('/{campaign}/galeriaimagenes', 'CampaignGaleriaController@index')->name('campaign.galeriaimagenes');
             // Route::post('/galeriaimagenesupdate', 'CampaignGaleriaController@galeriaimagenesupdate')->name('campaign.galeriaimagenesupdate');
 

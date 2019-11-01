@@ -73,7 +73,7 @@
                                         <th>#</th>
                                         <th>Elemento</th>
                                         <th>Imagen</th>
-                                        <th>Img</th>
+                                        <th width="100px">Img</th>
                                         <th>Observaciones</th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
                                     </tr>
@@ -81,21 +81,30 @@
                                 <tbody>
                                    @foreach ($campaigngaleria as $imagen)
                                    <tr>
-                                       <td>{{$imagen->id}}</td>
-                                       <td>{{$imagen->elemento}}</td>
-                                       <td>{{$imagen->imagen}}</td>
-                                       <td>
-                                            <a href="{{route('campaign.galeria.edit',[$imagen->campaign_id,$imagen->id])}}"><img src="{{asset('storage/galeria/'.$imagen->imagen)}}" id="{{$imagen->id}}imagen" title="imagen elemento" width="100px"/></a>
+                                    <form id="form{{$imagen->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$imagen->id}}">
+                                    {{-- <form id="" role="form" method="post" action="{{ route('campaign.galeria.updateindex') }}" enctype="multipart/form-data" id="uploadimage{{$imagen->id}}"> --}}
+                                        @csrf
+                                        <input type="text" class="d-none" id="imagenId" name="imagenId" value="{{$imagen->id}}">
+                                        <td>{{$imagen->id}}</td>
+                                        <td>{{$imagen->elemento}}</td>
+                                        <td>{{$imagen->imagen}}</td>
+                                        <td>
+                                            <div class="">
+                                                <input type="file" id="inputFile{{$imagen->id}}" name="photo" style="display:none">
+                                                <img src="{{asset('storage/galeria/'.$imagen->imagen)}}" id="original{{$imagen->id}}" class="img-fluid img-thumbnail" 
+                                                    style="width: 100%;cursor:pointer"
+                                                    onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
+                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$imagen->id}}','{{$imagen->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
+                                            </div>
+                                        </td>
+                                        <td>{{$imagen->observaciones}}</td>
+                                        <td width="100px">
+                                            <div class="text-center">
+                                                <a href="" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
+                                                <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                            </div>
                                        </td>
-                                       <td>{{$imagen->observaciones}}</td>
-                                       <td>
-                                       </td>
-                                       <td width="100px">
-                                          <div class="text-center">
-                                             <a href="" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
-                                             <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
-                                          </div>
-                                       </td>
+                                    </form>
                                    </tr>
                                    @endforeach
                                 </tbody>
@@ -112,9 +121,50 @@
 {{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
 
 <script>
-   $(document).ready(function() {
+    $(document).ready(function() {
+   
+    });
+   function subirImagenIndex(formulario,imagenId){
+        var token= $('#token').val();
+        let timestamp = Math.floor( Date.now() );
+        $.ajaxSetup({
+            headers: { "X-CSRF-TOKEN": $('#token').val() },
+        });
+        
+        var formElement = document.getElementById(formulario);
+        var formData = new FormData(formElement);
+        formData.append("imagenId", imagenId);
+        
+        $.ajax({
+            type:'POST',
+            url: "{{ route('campaign.galeria.updateindex') }}",
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                $('#'+formulario +' img').remove();
+                $('#original'+imagenId).attr('src', '/storage/galeria/'+ data.imagen+'?ver=' + timestamp);
+                toastr.info('Imagen actualizada con éxito','Imagen',{
+                    "progressBar":true,
+                    "positionClass":"toast-top-center"
+                });
+            },
+            error: function(data){
+                console.log(data);
+                toastr.error("No se ha actualizado la imagen.<br>"+ data.responseJSON.message,'Error actualización',{
+               "closeButton": true,
+               "progressBar":true,
+               "positionClass":"toast-top-center",
+               "options.escapeHtml" : true,
+               "showDuration": "300",
+               "hideDuration": "1000",
+               "timeOut": 0,
+            });
 
-   });
+            }
+        });
+    }
 
     $('#menucampaign').addClass('active');
     $('#navgaleria').toggleClass('activo');

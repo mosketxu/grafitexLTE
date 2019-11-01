@@ -5,7 +5,13 @@
    border-radius: 0.25rem;
 }
 
-.form-groupC {
-   display: flex;
-   align-items: center;
+.image-upload > input
+{
+    display: none;
+}
+
+.image-upload img
+{
+    width: 80px;
+    cursor: pointer;
 }

@@ -36,7 +36,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/{id?}/conteo', 'CampaignController@conteo')->name('campaign.conteo');
             // galeria
             Route::get('/{campaignId?}/galeria', 'CampaignGaleriaController@index')->name('campaign.galeria.index');
-            Route::get('/{campaignId?}/{imagenId?}/galeria', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
+            Route::get('/{campaigngaleria}/galeria', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
+            Route::get('/{campaign}/{campaigngaleria}/galeria/edit', 'CampaignGaleriaController@editgaleria')->name('campaign.galeria.editgaleria');
             Route::post('/galeria/update', 'CampaignGaleriaController@update')->name('campaign.galeria.update');
             Route::post('/galeria/updateindex', 'CampaignGaleriaController@updateindex')->name('campaign.galeria.updateindex');
             // Route::get('/{campaign}/galeriaimagenes', 'CampaignGaleriaController@index')->name('campaign.galeriaimagenes');

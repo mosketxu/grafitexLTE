@@ -64,36 +64,39 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- <form id="" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data" id="uploadimage"> --}}
-                    <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage">
+                    <form id="formgaleria" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data" id="uploadimage">
+                    {{-- <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage"> --}}
                         @csrf
                         <div class="card-body">
                             <input type="text" class="d-none" id="campaigngaleria" name="campaigngaleria" value="{{$campaigngaleria}}">
-                            <div class="row"> 
+                            <div class="row" > 
                                 <div class="col-6 img-thumbnail"  style="max-height: 350px;">
                                     <div class="form-group">
                                         <label  class="control-label" for="elemento">Elemento</label>
                                         <input type="text" class="form-control" id="elemento" name="elemento"
-                                            value="{{$campaigngaleria->elemento}}" disabled="disabled>">
-                                        <label for="imagen">Imagen</label>
-                                        <input type="text" class="form-control" id="imagen" name="imagen"
-                                            value="{{$campaigngaleria->imagen}}"  disabled="disabled>">
+                                            value="{{$campaigngaleria->elemento}}">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label" for="imagen">Observaciones</label>
                                         <input type="text" class="form-control" id="observaciones" name="observaciones"
-                                            value="{{$campaigngaleria->observaciones}}" disabled="disabled">
+                                            value="{{$campaigngaleria->observaciones}}">
                                     </div>
                                 </div>
-                                <div class="col-6 my-auto">
-                                    <div class="form-group">
-                                        <embed src="{{asset('storage/galeria/'.$campaigngaleria->imagen)}}" id="original" class="img-fluid img-thumbnail"  style="height: 350px \9;" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="">
-                                    <input type="file" class="form-control" id="inputFile" name="photo">
+                                <div class="col-6" style="max-height: 350px;">
+                                    <input type="file" id="inputFile{{$campaigngaleria->id}}" name="photo" style="display:none">
+                                    @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen ))
+                                        <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen)}}" alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
+                                            id="original" class="img-fluid img-thumbnail" 
+                                            style="height: 350px;cursor:pointer"
+                                            onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
+                                    @else
+                                        <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
+                                            id="original" class="img-fluid img-thumbnail" 
+                                            style="height: 350px;cursor:pointer"
+                                            onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
+                                    @endif                                        
+                                    <a href="#" name="Upload" onclick="subirImagen('formgaleria','{{$campaigngaleria->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
+                                    {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
                                 </div>
                             </div>
                         </div>
@@ -142,6 +145,48 @@
             });
         }));
     });
+
+    function subirImagen(formulario,imagenId){
+        var token= $('#token').val();
+        let timestamp = Math.floor( Date.now() );
+        $.ajaxSetup({
+            headers: { "X-CSRF-TOKEN": $('#token').val() },
+        });
+        
+        var formElement = document.getElementById(formulario);
+        var formData = new FormData(formElement);
+        formData.append("imagenId", imagenId);
+        
+        $.ajax({
+            type:'POST',
+            url: "{{ route('campaign.galeria.updateindex') }}",
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                // $('#'+formulario +' img').remove();
+                $('#original').attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
+                toastr.info('Imagen actualizada con éxito','Imagen',{
+                    "progressBar":true,
+                    "positionClass":"toast-top-center"
+                });
+            },
+            error: function(data){
+                console.log(data);
+                toastr.error("No se ha actualizado la imagen.<br>"+ data.responseJSON.message,'Error actualización',{
+                    "closeButton": true,
+                    "progressBar":true,
+                    "positionClass":"toast-top-center",
+                    "options.escapeHtml" : true,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": 0,
+                });
+            }
+        }); 
+    }
+
 </script> 
 
 <script>

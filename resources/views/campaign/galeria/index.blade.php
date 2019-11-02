@@ -72,9 +72,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Elemento</th>
-                                        <th>Imagen</th>
-                                        <th width="100px">Img</th>
                                         <th>Observaciones</th>
+                                        <th width="100px">Img</th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
                                     </tr>
                                 </thead>
@@ -87,21 +86,29 @@
                                         <input type="text" class="d-none" id="imagenId" name="imagenId" value="{{$imagen->id}}">
                                         <td>{{$imagen->id}}</td>
                                         <td>{{$imagen->elemento}}</td>
-                                        <td>{{$imagen->imagen}}</td>
+                                        <td>{{$imagen->observaciones}}</td>
                                         <td>
                                             <div class="">
                                                 <input type="file" id="inputFile{{$imagen->id}}" name="photo" style="display:none">
-                                                <img src="{{asset('storage/galeria/'.$imagen->imagen)}}" id="original{{$imagen->id}}" class="img-fluid img-thumbnail" 
-                                                    style="width: 100%;cursor:pointer"
-                                                    onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
+                                                @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$imagen->imagen ))
+                                                    <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$imagen->imagen)}}" alt={{$imagen->imagen}} title={{$imagen->imagen}}
+                                                        id="original{{$imagen->id}}" class="img-fluid img-thumbnail" 
+                                                        style="width: 100%;cursor:pointer"
+                                                        onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
+                                                @else
+                                                    <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$imagen->imagen}} title={{$imagen->imagen}}
+                                                        id="original{{$imagen->id}}" class="img-fluid img-thumbnail" 
+                                                        style="width: 100%;cursor:pointer"
+                                                        onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
+                                                @endif                                        
+                                                {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
+                                                </div>
+                                            </td>
+                                            <td width="100px">
+                                                <div class="text-center">
                                                 <a href="#" name="Upload" onclick="subirImagenIndex('form{{$imagen->id}}','{{$imagen->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
-                                            </div>
-                                        </td>
-                                        <td>{{$imagen->observaciones}}</td>
-                                        <td width="100px">
-                                            <div class="text-center">
-                                                <a href="" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
-                                                <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                                <a href="{{ route('campaign.galeria.editgaleria',[$campaign->id,$imagen->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
+                                                {{-- <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a> --}}
                                             </div>
                                        </td>
                                     </form>
@@ -109,6 +116,7 @@
                                    @endforeach
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -144,7 +152,7 @@
             processData: false,
             success:function(data){
                 $('#'+formulario +' img').remove();
-                $('#original'+imagenId).attr('src', '/storage/galeria/'+ data.imagen+'?ver=' + timestamp);
+                $('#original'+imagenId).attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
                 toastr.info('Imagen actualizada con éxito','Imagen',{
                     "progressBar":true,
                     "positionClass":"toast-top-center"
@@ -153,17 +161,16 @@
             error: function(data){
                 console.log(data);
                 toastr.error("No se ha actualizado la imagen.<br>"+ data.responseJSON.message,'Error actualización',{
-               "closeButton": true,
-               "progressBar":true,
-               "positionClass":"toast-top-center",
-               "options.escapeHtml" : true,
-               "showDuration": "300",
-               "hideDuration": "1000",
-               "timeOut": 0,
-            });
-
+                    "closeButton": true,
+                    "progressBar":true,
+                    "positionClass":"toast-top-center",
+                    "options.escapeHtml" : true,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": 0,
+                });
             }
-        });
+        }); 
     }
 
     $('#menucampaign').addClass('active');

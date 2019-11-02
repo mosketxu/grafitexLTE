@@ -288,7 +288,7 @@ class CampaignController extends Controller
                     'medida'  => $gen->medida,
                     'material'  => $gen->material,
                     'unitxprop'  => $gen->unitxprop,
-                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen->mobiliario.'-'.$gen->carteleria.'-'.$gen->medida))))).'-'.$id.'.jpg',
+                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen->mobiliario.'-'.$gen->carteleria.'-'.$gen->medida))))).'.jpg',
                 ];
             }
             DB::table('campaign_elementos')->insert($dataSet);
@@ -297,7 +297,7 @@ class CampaignController extends Controller
         //relleno la tabla imagenes
         $imagenes=CampaignElemento::where('campaign_id',$id)
         ->distinct('campaign_id','mobiliario','carteleria','medida')
-        ->select('campaign_id',DB::raw("CONCAT(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,carteleria,medida),' ',''),'.',''),'(',''),')',''),'+',''),'-',$id) as elemento"))
+        ->select('campaign_id',DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,carteleria,medida),' ',''),'.',''),'(',''),')',''),'+','') as elemento"))
         ->get();
 
         foreach (array_chunk($imagenes->toArray(),1000) as $t){

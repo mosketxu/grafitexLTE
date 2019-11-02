@@ -71,6 +71,14 @@ class CampaignGaleriaController extends Controller
         return view('campaign.galeria.edit',compact('campaign','campaigngaleria'));
     }
 
+    public function editgaleria($campaignId,$imagenId)
+    {
+        $campaign=Campaign::find($campaignId);
+        $campaigngaleria=CampaignGaleria::where('id',$imagenId)->first();
+
+        return view('campaign.galeria.edit',compact('campaign','campaigngaleria'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -78,7 +86,58 @@ class CampaignGaleriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(Request $request)
+    {
+        // solo actulizo los campos, la imagen no lo hago desde aquí;
+        $campGal=json_decode($request->campaigngaleria);
+        $campaigngal=CampaignGaleria::find($campGal->id);
+        $campaigngal->observaciones=$request->observaciones;
+        $campaigngal->save();
+
+       
+        $campaign=Campaign::find($campaigngal->campaign_id);
+        $campaigngaleria=CampaignGaleria::where('campaign_id',$campaigngal->campaign_id)->get();
+
+        return view('campaign.galeria.index',compact('campaign','campaigngaleria'));
+
+
+        // //Por si me interesa estos datos de la imagen
+        // $extension=$request->file('photo')->getClientOriginalExtension();
+        // // Genero el nombre que le pondré a la imagen
+        // $file_name=$campGal->elemento.'-'.$campGal->campaign_id.'.'.$extension;
+        // // verifico si existe la imagen y la borro si existe. Busco el nombre que debería tener.
+        // $mi_imagen = public_path().'/storage/galeria/'.$file_name;
+        // $mi_imagenthumb = public_path().'/storage/galeria/thumbails/thumb-'.$file_name;
+        // if (@getimagesize($mi_imagen)) {
+        //     unlink($mi_imagen);
+        // }
+        // if (@getimagesize($mi_imagenthumb)) {
+        //     unlink($mi_imagenthumb);
+        // }
+        // // verifico que realmente llega un fichero
+        // if($files=$request->file('photo')){
+        //     // for save the original image
+        //     $imageUpload=Image::make($files);
+        //     $originalPath='storage/galeria/';
+        //     $imageUpload->save($originalPath.$file_name);
+        // }
+        // Image::make($request->file('photo'))
+        //     ->resize(144,144)
+        //     ->save('storage/galeria/thumbnails/thumb-'.$file_name);
+        // $campaigngaleria=CampaignGaleria::find($campGal->id);
+        // $campaigngaleria->imagen = $file_name;
+        // $campaigngaleria->save();
+
+        return Response()->json($campaigngaleria);
+
+        // return back()
+        //     ->with('success', 'You have successfully upload image.');
+    }
+
+
+
+     public function updateimagen(Request $request)
     {
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -130,13 +189,12 @@ class CampaignGaleriaController extends Controller
    
     public function updateindex(Request $request)
     {
-        // dd($request);
         $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'photo' => 'required|image|mimes:pdf,jpeg,png,jpg,gif,svg|max:2048',
             ]);
-        
-            $campGal=CampaignGaleria::find($request->imagenId);
-            // json_decode($request->campaigngaleria);
+            
+        $campGal=CampaignGaleria::find($request->imagenId);
+        // json_decode($request->campaigngaleria);
         
         //Por si me interesa estos datos de la imagen
         $extension=$request->file('photo')->getClientOriginalExtension();
@@ -145,28 +203,38 @@ class CampaignGaleriaController extends Controller
         $tamayo=$request->file('photo')->getClientSize();
         
         // Genero el nombre que le pondré a la imagen
-        $file_name=$campGal->elemento.'-'.$campGal->campaign_id.'.'.$extension;
-
+        $file_name=$campGal->elemento.'.jpg'; 
+        
+        // Si no existe la carpeta la creo
+        $ruta = public_path().'/storage/galeria/'.$campGal->campaign_id;
+        if (!file_exists($ruta)) {
+            mkdir($ruta, 0777, true);
+            mkdir($ruta.'/thumbnails', 0777, true);
+        }
+        
         // verifico si existe la imagen y la borro si existe. Busco el nombre que debería tener.
-        $mi_imagen = public_path().'/storage/galeria/'.$file_name;
-        $mi_imagenthumb = public_path().'/storage/galeria/thumbails/thumb-'.$file_name;
+        $mi_imagen = $ruta.'/'.$file_name;
+        $mi_imagenthumb = $ruta.'/thumbails/'.$file_name;
+
         if (@getimagesize($mi_imagen)) {
             unlink($mi_imagen);
         }
         if (@getimagesize($mi_imagenthumb)) {
             unlink($mi_imagenthumb);
         }
-
+        
         // verifico que realmente llega un fichero
         if($files=$request->file('photo')){
             // for save the original image
-            $imageUpload=Image::make($files);
-            $originalPath='storage/galeria/';
+            $imageUpload=Image::make($files)->encode('jpg');
+            $originalPath='storage/galeria/'.$campGal->campaign_id.'/';
             $imageUpload->save($originalPath.$file_name);
         }
+
         Image::make($request->file('photo'))
             ->resize(144,144)
-            ->save('storage/galeria/thumbnails/thumb-'.$file_name);
+            ->encode('jpg')
+            ->save('storage/galeria/'.$campGal->campaign_id.'/thumbnails/thumb-'.$file_name);
 
         $campaigngaleria=CampaignGaleria::find($campGal->id);
         $campaigngaleria->imagen = $file_name;

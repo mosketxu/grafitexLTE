@@ -66,25 +66,41 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="tcampaignElementos" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                        {{-- links  y cuadro busqueda --}}
+                        <div class="row">
+                            <div class="col-10">
+                                {{-- {{ $elementos->links() }} --}}
+                            </div>
+                            <div class="col-2 float-right mb-2">
+                                <form method="GET" action="{{route('campaign.elementos',$campaign) }}">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-search fa-sm text-primary"></i></span>
+                                        </div>
+                                        <input id="busca" name="busca"  type="text" class="form-control" name="search" value='{{$busqueda}}' placeholder="Search for..."/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="height: 500px">
+                            <table id="tcampaignElementos" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
                                 <thead>
                                     <tr>
                                         <th class="d-none">#</th>
-                                        <th>Store</th>
-                                        <th>Name</th>
-                                        <th>Country</th>
-                                        <th>Area</th>
-                                        <th>Segmento</th>
-                                        <th>Store Concept</th>
-                                        <th>Ubicación</th>
-                                        <th>Mobiliario</th>
-                                        <th>Prop x Elemento</th>
-                                        <th>Carteleria</th>
-                                        <th>Medida</th>
-                                        <th>Material</th>
-                                        <th>Unit x Prop</th>
-                                        <th>Observaciones</th>
+                                        <th id="tStore">Store</th>
+                                        <th id="tName">Name</th>
+                                        <th id="tCountry">Country</th>
+                                        <th id="tArea">Area</th>
+                                        <th id="tSegmento">Segmento</th>
+                                        <th id="tStore">Store Concept</th>
+                                        <th id="tUbicación">Ubicación</th>
+                                        <th id="tMobiliario">Mobiliario</th>
+                                        <th id="tProp">Prop x Elemento</th>
+                                        <th id="tCarteleria">Carteleria</th>
+                                        <th id="tMedida">Medida</th>
+                                        <th id="tMaterial">Material</th>
+                                        <th id="tUnit">Unit x Prop</th>
+                                        <th id="tObservaciones">Observaciones</th>
                                         <th width="100px">Imagen </th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
                                     </tr>
@@ -138,10 +154,8 @@
                                     </form>
                                    </tr>
                                    @endforeach
-                                   {{ $elementos->links() }}
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>
@@ -152,6 +166,7 @@
 
 @push('scriptchosen')
 
+<script src="{{ asset('js/sortTable.js')}}"></script>
 <script>
     $(document).ready(function() {
    
@@ -203,3 +218,18 @@
 </script>
 
 @endpush
+
+{{-- <th id="tStore">Store</th>
+<th id="tName">Name</th>
+<th id="tCountry">Country</th>
+<th id="tArea">Area</th>
+<th id="tSegmento">Segmento</th>
+<th id="tStore">Store Concept</th>
+<th id="tUbicación">Ubicación</th>
+<th id="tMobiliario">Mobiliario</th>
+<th id="tProp">Prop x Elemento</th>
+<th id="tCarteleria">Carteleria</th>
+<th id="tMedida">Medida</th>
+<th id="tMaterial">Material</th>
+<th id="tUnit">Unit x Prop</th>
+<th id="tObservaciones">Observaciones</th> --}}

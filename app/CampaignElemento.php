@@ -14,6 +14,24 @@ class CampaignElemento extends Model
         'imagen','observaciones','precio','tanda'
     ];
 
+    public function scopeSearch($query, $busca)
+  {
+    return $query->where('store', 'LIKE', "%$busca%")
+    ->orWhere('name', 'LIKE', "%$busca%")
+    ->orWhere('country', 'LIKE', "%$busca%")
+    ->orWhere('area', 'LIKE', "%$busca%")
+    ->orWhere('segmento', 'LIKE', "%$busca%")
+    ->orWhere('storeconcept', 'LIKE', "%$busca%")
+    ->orWhere('ubicacion', 'LIKE', "%$busca%")
+    ->orWhere('mobiliario', 'LIKE', "%$busca%")
+    ->orWhere('propxelemento', 'LIKE', "%$busca%")
+    ->orWhere('carteleria', 'LIKE', "%$busca%")
+    ->orWhere('medida', 'LIKE', "%$busca%")
+    ->orWhere('material', 'LIKE', "%$busca%")
+    ->orWhere('observaciones', 'LIKE', "%$busca%")
+    ;
+  }
+
     public $timestamps = true;
     
     public function campaign()

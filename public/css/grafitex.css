@@ -15,3 +15,8 @@
     width: 80px;
     cursor: pointer;
 }
+
+/* Para el plugin de ordenacion */
+/* table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+    content: " \25B4\25BE" 
+} */

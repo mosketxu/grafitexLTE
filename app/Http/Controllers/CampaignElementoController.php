@@ -13,18 +13,26 @@ class CampaignElementoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($campaignId)
+    public function index($campaignId, Request $request)
     {
+        if ($request->busca) {
+            $busqueda = $request->busca;
+        } else {
+            $busqueda = '';
+        } 
+
         $campaign = Campaign::find($campaignId);
 
-        $elementos= CampaignElemento::where('campaign_id',$campaignId)
+        $elementos= CampaignElemento::search($request->busca)
+        ->where('campaign_id',$campaignId)
         ->select('id','store','name','country','area','segmento','storeconcept',
             'ubicacion','mobiliario','propxelemento','carteleria','medida',
             'material','unitxprop','imagen','observaciones')
         ->orderBy('store')
-        ->paginate('5');
+        ->get();
+        // ->paginate('5');
 
-        return view('campaign.elementos.index', compact('campaign','elementos'));    
+        return view('campaign.elementos.index', compact('campaign','elementos','busqueda'));    
     }
 
     /**

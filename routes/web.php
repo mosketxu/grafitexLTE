@@ -32,17 +32,23 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/asociarstore', 'CampaignController@asociarstore');
             Route::get('/{id?}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
             Route::get('/{id?}/filtro', 'CampaignController@filtrar')->name('campaign.filtrar');
-            Route::get('/{id?}/elementos', 'CampaignController@elementos')->name('campaign.elementos');
             Route::get('/{id?}/conteo', 'CampaignController@conteo')->name('campaign.conteo');
+            //Elementos
+            Route::group(['prefix' => 'elementos'], function () {
+                Route::get('/{id}', 'CampaignElementoController@index')->name('campaign.elementos');
+                // Route::get('/{campaignlemento}', 'CampaignElementoController@edit')->name('campaign.elementos.edit');
+                Route::get('/{campaign}/{campaigngaleria}/edit', 'CampaignElementoController@editelemento')->name('campaign.elemento.editelemento');
+                Route::post('/update', 'CampaignElementoController@update')->name('campaign.elemento.update');
+                Route::post('/updateimagenindex', 'CampaignElementoController@updateimagenindex')->name('campaign.elementos.updateimagenindex');
+            });
             // galeria
-            Route::get('/{campaignId?}/galeria', 'CampaignGaleriaController@index')->name('campaign.galeria.index');
-            Route::get('/{campaigngaleria}/galeria', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
-            Route::get('/{campaign}/{campaigngaleria}/galeria/edit', 'CampaignGaleriaController@editgaleria')->name('campaign.galeria.editgaleria');
-            Route::post('/galeria/update', 'CampaignGaleriaController@update')->name('campaign.galeria.update');
-            Route::post('/galeria/updateindex', 'CampaignGaleriaController@updateindex')->name('campaign.galeria.updateindex');
-            // Route::get('/{campaign}/galeriaimagenes', 'CampaignGaleriaController@index')->name('campaign.galeriaimagenes');
-            // Route::post('/galeriaimagenesupdate', 'CampaignGaleriaController@galeriaimagenesupdate')->name('campaign.galeriaimagenesupdate');
-
+            Route::group(['prefix' => 'galeria'], function () {
+                Route::get('/{campaignId}', 'CampaignGaleriaController@index')->name('campaign.galeria.index');
+                Route::get('/{campaigngaleria}', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
+                Route::get('/{campaign}/{campaigngaleria}/edit', 'CampaignGaleriaController@editgaleria')->name('campaign.galeria.editgaleria');
+                Route::post('/update', 'CampaignGaleriaController@update')->name('campaign.galeria.update');
+                Route::post('/updateimagenindex', 'CampaignGaleriaController@updateimagenindex')->name('campaign.galeria.updateimagenindex');
+            });
         });
     Route::resource('element', 'ElementController');//->middleware('admin');
 });

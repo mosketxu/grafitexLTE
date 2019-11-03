@@ -3,13 +3,13 @@
 @section('styles')
 @endsection
 
-@section('title','Grafitex-Galeria Campaña')
-@section('titlePag','Galeria de la Campaña')
+@section('title','Grafitex-Elementos Campaña')
+@section('titlePag','Elementos de la Campaña')
 @section('navbar')
     @include('campaign._navbaredit')
 @endsection
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignGaleria') }}
+{{ Breadcrumbs::render('campaignElementos') }}
 @endsection
 
 @section('content')
@@ -70,50 +70,75 @@
                             <table id="tcampaignElementos" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Elemento</th>
+                                        <th class="d-none">#</th>
+                                        <th>Store</th>
+                                        <th>Name</th>
+                                        <th>Country</th>
+                                        <th>Area</th>
+                                        <th>Segmento</th>
+                                        <th>Store Concept</th>
+                                        <th>Ubicación</th>
+                                        <th>Mobiliario</th>
+                                        <th>Prop x Elemento</th>
+                                        <th>Carteleria</th>
+                                        <th>Medida</th>
+                                        <th>Material</th>
+                                        <th>Unit x Prop</th>
                                         <th>Observaciones</th>
-                                        <th width="100px">Img</th>
+                                        <th width="100px">Imagen </th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   @foreach ($campaigngaleria as $imagen)
+                                   @foreach ($elementos as $elemento)
                                    <tr>
-                                    <form id="form{{$imagen->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$imagen->id}}">
-                                    {{-- <form id="" role="form" method="post" action="{{ route('campaign.galeria.updateindex') }}" enctype="multipart/form-data" id="uploadimage{{$imagen->id}}"> --}}
+                                    <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}">
+                                    {{-- <form id="" role="form" method="post" action="{{ route('campaign.elementos.updateimagenindex') }}" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}"> --}}
                                         @csrf
-                                        <input type="text" class="d-none" id="imagenId" name="imagenId" value="{{$imagen->id}}">
-                                        <td>{{$imagen->id}}</td>
-                                        <td>{{$imagen->elemento}}</td>
-                                        <td>{{$imagen->observaciones}}</td>
+                                        <input type="text" class="d-none" id="elementoId" name="elementoId" value="{{$elemento->id}}">
+                                        <td class="d-none">{{$elemento->id}}</td>
+                                        <td>{{$elemento->store}}</td>
+                                        <td>{{$elemento->name}}</td>
+                                        <td>{{$elemento->country}}</td>
+                                        <td>{{$elemento->area}}</td>
+                                        <td>{{$elemento->segmento}}</td>
+                                        <td>{{$elemento->storeconcept}}</td>
+                                        <td>{{$elemento->ubicacion}}</td>
+                                        <td>{{$elemento->mobiliario}}</td>
+                                        <td>{{$elemento->propxelemento}}</td>
+                                        <td>{{$elemento->carteleria}}</td>
+                                        <td>{{$elemento->medida}}</td>
+                                        <td>{{$elemento->material}}</td>
+                                        <td>{{$elemento->unitxprop}}</td>
+                                        <td>{{$elemento->observaciones}}</td>
                                         <td>
                                             <div class="">
-                                                <input type="file" id="inputFile{{$imagen->id}}" name="photo" style="display:none">
-                                                @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$imagen->imagen ))
-                                                    <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$imagen->imagen)}}" alt={{$imagen->imagen}} title={{$imagen->imagen}}
-                                                        id="original{{$imagen->id}}" class="img-fluid img-thumbnail" 
-                                                        style="width: 100%;cursor:pointer"
-                                                        onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
+                                                <input type="file" id="inputFile{{$elemento->id}}" name="photo" style="display:none">
+                                                @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$elemento->imagen ))
+                                                    <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$elemento->imagen)}}" alt={{$elemento->imagen}} title={{$elemento->imagen}}
+                                                        id="original{{$elemento->id}}" class="img-fluid img-thumbnail" 
+                                                        style="width: 100px;cursor:pointer"
+                                                        onclick='document.getElementById("inputFile{{$elemento->id}}").click()'/>
                                                 @else
-                                                    <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$imagen->imagen}} title={{$imagen->imagen}}
-                                                        id="original{{$imagen->id}}" class="img-fluid img-thumbnail" 
-                                                        style="width: 100%;cursor:pointer"
-                                                        onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
+                                                    <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$elemento->imagen}} title={{$elemento->imagen}}
+                                                        id="original{{$elemento->id}}" class="img-fluid img-thumbnail" 
+                                                        style="width: 100px;cursor:pointer"
+                                                        onclick='document.getElementById("inputFile{{$elemento->id}}").click()'/>
                                                 @endif                                        
                                                 {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
                                                 </div>
                                             </td>
                                             <td width="100px">
                                                 <div class="text-center">
-                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$imagen->id}}','{{$imagen->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
-                                                <a href="{{ route('campaign.galeria.editgaleria',[$campaign->id,$imagen->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
+                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$elemento->id}}','{{$elemento->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
+                                                <a href="{{ route('campaign.elemento.editelemento',[$campaign->id,$elemento->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
                                                 {{-- <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a> --}}
                                             </div>
                                        </td>
                                     </form>
                                    </tr>
                                    @endforeach
+                                   {{ $elementos->links() }}
                                 </tbody>
                             </table>
 
@@ -126,13 +151,12 @@
 @endsection
 
 @push('scriptchosen')
-{{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
 
 <script>
     $(document).ready(function() {
    
     });
-   function subirImagenIndex(formulario,imagenId){
+   function subirImagenIndex(formulario,elementoId){
         var token= $('#token').val();
         let timestamp = Math.floor( Date.now() );
         $.ajaxSetup({
@@ -141,18 +165,18 @@
         
         var formElement = document.getElementById(formulario);
         var formData = new FormData(formElement);
-        formData.append("imagenId", imagenId);
+        formData.append("elementoId", elementoId);
         
         $.ajax({
             type:'POST',
-            url: "{{ route('campaign.galeria.updateimagenindex') }}",
+            url: "{{ route('campaign.elementos.updateimagenindex') }}",
             data:formData,
             cache:false,
             contentType: false,
             processData: false,
             success:function(data){
                 $('#'+formulario +' img').remove();
-                $('#original'+imagenId).attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
+                $('#original'+elementoId).attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
                 toastr.info('Imagen actualizada con éxito','Imagen',{
                     "progressBar":true,
                     "positionClass":"toast-top-center"
@@ -174,7 +198,7 @@
     }
 
     $('#menucampaign').addClass('active');
-    $('#navgaleria').toggleClass('activo');
+    $('#navelementos').toggleClass('activo');
 
 </script>
 

@@ -16,17 +16,17 @@ class APIController extends Controller
         ->make(true);
     }
 
-    public function getCampaignElementos($id){
-        $query = CampaignElemento::where('campaign_id',$id)
-            ->select('id','store','country','name','area','segmento','storeconcept',
-            'ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop','imagen','observaciones','precio')
-            ->orderByRaw('segmento ASC,ubicacion ASC,medida ASC,mobiliario ASC,area ASC,material ASC');
+    // public function getCampaignElementos($id){
+    //     $query = CampaignElemento::where('campaign_id',$id)
+    //         ->select('id','store','country','name','area','segmento','storeconcept',
+    //         'ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop','imagen','observaciones','precio')
+    //         ->orderByRaw('segmento ASC,ubicacion ASC,medida ASC,mobiliario ASC,area ASC,material ASC');
         
-        return datatables($query)
-        ->addColumn('btn','campaign._actionsElementos')
-        ->rawColumns(['btn'])
-        ->make(true);
-    }
+    //     return datatables($query)
+    //     ->addColumn('btn','campaign._actionsElementos')
+    //     ->rawColumns(['btn'])
+    //     ->make(true);
+    // }
 
     public function getCampaignDetalles($id){
         $query = CampaignElemento::where('campaign_id',$id)

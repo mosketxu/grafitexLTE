@@ -4,7 +4,7 @@
 @endsection
 
 @section('title','Grafitex-Galeria Editar')
-@section('titlePag','Selección de Imagenes de la Campaña')
+@section('titlePag','Edición de Imagenes de la Campaña')
 @section('navbar')
 @include('campaign._navbaredit')
 @endsection
@@ -77,7 +77,7 @@
                                             value="{{$campaigngaleria->elemento}}">
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label" for="imagen">Observaciones</label>
+                                        <label class="control-label" for="observaciones">Observaciones</label>
                                         <input type="text" class="form-control" id="observaciones" name="observaciones"
                                             value="{{$campaigngaleria->observaciones}}">
                                     </div>
@@ -137,7 +137,7 @@
                 processData: false,
                 success:function(data){
                     $('#uploadForm + img').remove();
-                    $('#original').attr('src', '/storage/galeria/'+ data.imagen+'?ver=' + timestamp);
+                    $('#original').attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
                 },
                 error: function(data){
                     console.log(data);
@@ -159,7 +159,7 @@
         
         $.ajax({
             type:'POST',
-            url: "{{ route('campaign.galeria.updateindex') }}",
+            url: "{{ route('campaign.galeria.updateimagenindex') }}",
             data:formData,
             cache:false,
             contentType: false,

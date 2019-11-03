@@ -306,18 +306,6 @@ class CampaignController extends Controller
         return redirect()->route('campaign.elementos', $campaign);
     }
 
-    public function elementos($campaignId)
-    {
-        $campaign = Campaign::find($campaignId);
-
-        $elementos= CampaignElemento::where('campaign_id',$campaignId)
-        ->select('mobiliario','propxelemento','carteleria','medida','material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
-        ->groupBy('mobiliario','propxelemento','carteleria','medida','material')
-        ->get();
-
-        return view('campaign.elementos', compact('campaign','elementos'))->with('notice', 'Generación realizada satisfactoriamente.');    
-    }
-
     public function conteo($campaignId)
     {
         $campaign = Campaign::find($campaignId);

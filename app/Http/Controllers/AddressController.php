@@ -14,10 +14,10 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $stores=Store::all()->sortBy('id');
-        $addresses=Address::orderBy('address_address')
-        ->paginate(15);
-        return view('address.index',compact('addresses','stores'));
+        // $stores=Store::all()->sortBy('id');
+        // $addresses=Address::orderBy('address_address')
+        // ->paginate(15);
+        // return view('address.index',compact('addresses','stores'));
     }
 
     /**

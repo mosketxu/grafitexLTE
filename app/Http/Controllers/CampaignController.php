@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\{
     Maestro,
     Campaign,
-    Store,
     CampaignStore,
     CampaignMedida,
     CampaignCarteleria,
@@ -33,8 +32,7 @@ class CampaignController extends Controller
      */
     public function index()
     {
-        $stores = Store::all();
-        return view('campaign.index', compact('stores'));
+        return view('campaign.index');
     }
 
     /**
@@ -92,7 +90,8 @@ class CampaignController extends Controller
      */
     public function edit($id)
     {
-        //
+        $campaign=Campaign::find($id);
+        return view('campaign.edit',compact('campaign'));
     }
 
 
@@ -166,9 +165,26 @@ class CampaignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        $request->validate([
+            'campaign_name' => 'required',
+            'campaign_initdate' => 'required',
+            'campaign_enddate' => 'required',
+            'campaign_state' => 'required',
+        ]);
+
+        // $campaign=Campaign::find($request->id);
+        Campaign::find($id)->update($request->all());
+        
+        // $campaign->campaign_name = $request->campaign_name;
+        // $campaign->campaign_initdate = $request->campaign_initdate;
+        // $campaign->campaign_enddate = $request->campaign_enddate;
+        // $campaign->campaign_state = $request->campaign_state;
+
+        // DB::table('campaigns')->insert($campaign);
+
+        return redirect()->route('campaign.index')->with('success','Registro actualizado satisfactoriamente');
     }
 
     public function asociarstore(Request $request)
@@ -323,7 +339,6 @@ class CampaignController extends Controller
             $stores=Maestro::select('store','name')
             ->groupBy('store','name')
             ->get();
-            dd($stores);
             foreach (array_chunk($stores->toArray(),1000) as $t){
                 $dataSet = [];
                 foreach ($stores as $store) {
@@ -333,7 +348,7 @@ class CampaignController extends Controller
                         'store'  => $store->name,
                     ];
                 }
-                DB::table($stores)->insert($dataSet);
+                DB::table('campaign_stores')->insert($dataSet);
             }
         }
         // Si no se ha seleccionado ningun ubicacion entiendo que los quiero todos
@@ -384,7 +399,7 @@ class CampaignController extends Controller
         ->select('campaign_id',DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,carteleria,medida),' ',''),'.',''),'(',''),')',''),'+','') as elemento"))
         ->get();
 
-        // dd($imagenes);
+
         foreach (array_chunk($imagenes->toArray(),1000) as $t){
             $dataSet = [];
             foreach ($generar as $gen) {

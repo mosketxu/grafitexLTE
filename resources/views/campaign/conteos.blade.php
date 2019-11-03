@@ -112,7 +112,6 @@
                                                         <th>Area</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -138,7 +137,6 @@
                                                         <th>Material</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -166,7 +164,6 @@
                                                         <th>Segmentos</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -192,7 +189,6 @@
                                                         <th>Store Concepts</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -218,7 +214,6 @@
                                                         <th>Mobiliario</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -246,7 +241,6 @@
                                                         <th>Prop x Elementos</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -272,7 +266,6 @@
                                                         <th>Cartelerias</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -298,7 +291,6 @@
                                                         <th>Medidas</th>
                                                         <th>Totales</th>
                                                         <th>Unidades</th>
-                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="">
@@ -326,127 +318,70 @@
                 { 'data': 'segmento' },{ 'data': 'ubicacion' }, { 'data': 'medida' }, { 'data': 'mobiliario' },
                 { 'data': 'area' }, { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' },
             ],
-            'scrollY':300,
         });
         $('#tcampaignStores').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignstore",
             'columns': [
-                { 'data': 'country' },{ 'data': 'area' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'country' },{ 'data': 'area' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignMateriales').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignmaterial",
             'columns': [
-                { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignSegmentos').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignsegmento",
             'columns': [
-                { 'data': 'segmento' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'segmento' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignStoreConcepts').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignstoreconcept",
             'columns': [
-                { 'data': 'storeconcept' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'storeconcept' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignMobiliarios').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignmobiliario",
             'columns': [
-                { 'data': 'mobiliario' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'mobiliario' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignPropxelementos').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignpropxelemento",
             'columns': [
-                { 'data': 'propxelemento' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'propxelemento' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignCartelerias').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaigncarteleria",
             'columns': [
-                { 'data': 'carteleria' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'carteleria' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
         $('#tcampaignMedida').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignmedida",
             'columns': [
-                { 'data': 'medida' }, { 'data': 'totales' }, { 'data': 'unidades' }, {'data':''}
+                { 'data': 'medida' }, { 'data': 'totales' }, { 'data': 'unidades' }
             ],
             'info':false,
             'searching':false,
-            'columnDefs':[{
-                targets: -1,
-                render:function(data, type, row){
-                    return '<div class="progress progress-xs"><div class="progress-bar progress-bar-danger" style="width:' + row['totales'] + '%"></div></div>';
-                }
-            }],
-            'scrollY':300,
         });
     });
     $('#menucampaign').addClass('active');

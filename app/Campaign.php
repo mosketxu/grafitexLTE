@@ -10,6 +10,11 @@ class Campaign extends Model
 {
     use SoftDeletes;
 
+    const CREADA = 0;
+    const INICIADA = 1;
+    const FINALIZADA = 2;
+    const CANCELADA = 3;
+
     protected $fillable=['campaign_name','campaign_initdate','campaign_enddate','campaign_state','slug'];
     protected $dates = ['deleted_at'];
 

@@ -6,7 +6,7 @@
 @section('title','Grafitex-Elementos Campaña')
 @section('titlePag','Elementos de la Campaña')
 @section('navbar')
-    @include('campaign._navbaredit')
+    @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaignElementos') }}
@@ -69,6 +69,7 @@
                         {{-- links  y cuadro busqueda --}}
                         <div class="row">
                             <div class="col-10">
+                                Hay {{$totalElementos}} elementos
                                 {{-- {{ $elementos->links() }} --}}
                             </div>
                             <div class="col-2 float-right mb-2">
@@ -82,6 +83,7 @@
                                 </form>
                             </div>
                         </div>
+                        
                         <div class="table-responsive" style="height: 500px">
                             <table id="tcampaignElementos" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
                                 <thead>

@@ -6,7 +6,7 @@
 @section('title','Grafitex-Estadísticas Campaña')
 @section('titlePag','Estadísticas Campaña')
 @section('navbar')
-    @include('campaign._navbaredit')
+    @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaignConteo') }}

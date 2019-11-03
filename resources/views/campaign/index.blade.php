@@ -54,7 +54,7 @@
                                         <th>Creada el:</th>
                                         <th>Modificada el:</th>
                                         {{-- <th>Estado</th> --}}
-                                        <th width="100px" class="text-center"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
+                                        <th class="text-right"><span class="ml-1">Est. </span> &nbsp; &nbsp; &nbsp;Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody class="">
@@ -87,14 +87,14 @@
             ],
             'processing': true,
             'serverSide': true,
+            'paging':true,
             'orderMulti': true,
             'keys': false,
             'stateSave': false,
             'blurable': false,
             'responsive': true,
             'colReorder': true,
-            'dom': 'lBfrtip',
-            'buttons':  [ 'copy', 'csv', 'excel','print' ],
+            'dom': 'lfrtip',
             'language': {'url': '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json'}
         });
         $('.select2').select2({

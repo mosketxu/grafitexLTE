@@ -32,7 +32,9 @@ class CampaignElementoController extends Controller
         ->get();
         // ->paginate('5');
 
-        return view('campaign.elementos.index', compact('campaign','elementos','busqueda'));    
+        $totalElementos=CampaignElemento::where('campaign_id',$campaignId)->count();
+
+        return view('campaign.elementos.index', compact('campaign','elementos','totalElementos','busqueda'));    
     }
 
     /**

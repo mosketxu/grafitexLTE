@@ -18,7 +18,13 @@
         <a  href="{{route('campaign.conteo',$campaign->id) }}" class="nav-link" title="Estadísticas"><span id="navestadisticas" class="px-1">Estadísticas</span></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-        <a  href="{{route('campaign.galeria.index',$campaign->id) }}" class="nav-link" title="Galeria"><span id="navgaleria" class="px-1">Galeria</span></a>
+        <a  href="{{route('campaign.galeria',$campaign->id) }}" class="nav-link" title="Galeria"><span id="navgaleria" class="px-1">Galeria</span></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a  href="{{route('campaign.presupuesto',$campaign->id) }}" class="nav-link" title="Presupuesto"><span id="navpresupuesto" class="px-1">Presupuesto</span></a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+        <a  href="{{route('campaign.albaranes',$campaign->id) }}" class="nav-link" title="Albaranes"><span id="navalbaranes" class="px-1">Albaranes</span></a>
     </li>
   </ul>
 

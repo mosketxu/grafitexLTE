@@ -99,7 +99,7 @@ class CampaignGaleriaController extends Controller
         $campaign=Campaign::find($campaigngal->campaign_id);
         $campaigngaleria=CampaignGaleria::where('campaign_id',$campaigngal->campaign_id)->get();
 
-        return view('campaign.galeria.index',compact('campaign','campaigngaleria'));
+        return view('campaign.galeria',compact('campaign','campaigngaleria'));
 
         // return Response()->json($campaigngaleria);
     }

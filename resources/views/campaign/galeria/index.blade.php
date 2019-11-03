@@ -6,7 +6,7 @@
 @section('title','Grafitex-Galeria Campaña')
 @section('titlePag','Galeria de la Campaña')
 @section('navbar')
-    @include('campaign._navbaredit')
+    @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaignGaleria') }}
@@ -71,8 +71,12 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>Carteleria</th>
+                                        <th>Mobiliario</th>
+                                        <th>Medidas</th>
                                         <th>Elemento</th>
                                         <th>Observaciones</th>
+                                        <th>Imagen</th>
                                         <th width="100px">Img</th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
                                     </tr>
@@ -85,8 +89,12 @@
                                         @csrf
                                         <input type="text" class="d-none" id="imagenId" name="imagenId" value="{{$imagen->id}}">
                                         <td>{{$imagen->id}}</td>
+                                        <td>{{$imagen->carteleria}}</td>
+                                        <td>{{$imagen->mobiliario}}</td>
+                                        <td>{{$imagen->medida}}</td>
                                         <td>{{$imagen->elemento}}</td>
                                         <td>{{$imagen->observaciones}}</td>
+                                        <td id="imagen{{$imagen->id}}">{{$imagen->imagen}}</td>
                                         <td>
                                             <div class="">
                                                 <input type="file" id="inputFile{{$imagen->id}}" name="photo" style="display:none">
@@ -153,6 +161,7 @@
             success:function(data){
                 $('#'+formulario +' img').remove();
                 $('#original'+imagenId).attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
+                $('#imagen'+imagenId).html(data.imagen);
                 toastr.info('Imagen actualizada con éxito','Imagen',{
                     "progressBar":true,
                     "positionClass":"toast-top-center"

@@ -17,6 +17,9 @@ class CreateCampaignGaleriasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns');
+            $table->string('mobiliario');
+            $table->string('carteleria')->default('pordefecto.jpg');
+            $table->string('medida')->default('pordefecto.jpg');
             $table->string('elemento')->default('pordefecto.jpg');
             $table->string('imagen')->nullable();
             $table->string('observaciones')->nullable();

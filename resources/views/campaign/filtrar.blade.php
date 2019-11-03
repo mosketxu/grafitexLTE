@@ -6,7 +6,7 @@
 @section('title','Grafitex-Campañas Edit')
 @section('titlePag','Filtros campaña')
 @section('navbar')
-    @include('campaign._navbaredit')
+    @include('campaign._navbarcampaign')
 @endsection
 
 

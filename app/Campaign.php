@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Campaign extends Model
 {
@@ -25,6 +26,19 @@ class Campaign extends Model
          });
     }
 
+    static function inserta($tabla,$datos,$campo,$campaignId)
+    {
+        foreach (array_chunk($datos->toArray(),1000) as $t){
+            $dataSet = [];
+            foreach ($datos as $dato) {
+                $dataSet[] = [
+                    'campaign_id'  => $campaignId,
+                    $campo  => $dato->$campo,
+                ];
+            }
+            DB::table($tabla)->insert($dataSet);
+        }
+    }
     public function campaignStores(){
         return $this->hasMany(CampaignStore::class);
     }

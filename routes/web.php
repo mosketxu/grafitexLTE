@@ -43,12 +43,21 @@ Route::group(['middleware' => ['auth']], function () {
             });
             // galeria
             Route::group(['prefix' => 'galeria'], function () {
-                Route::get('/{campaignId}', 'CampaignGaleriaController@index')->name('campaign.galeria.index');
+                Route::get('/{campaignId}', 'CampaignGaleriaController@index')->name('campaign.galeria');
                 Route::get('/{campaigngaleria}', 'CampaignGaleriaController@edit')->name('campaign.galeria.edit');
                 Route::get('/{campaign}/{campaigngaleria}/edit', 'CampaignGaleriaController@editgaleria')->name('campaign.galeria.editgaleria');
                 Route::post('/update', 'CampaignGaleriaController@update')->name('campaign.galeria.update');
                 Route::post('/updateimagenindex', 'CampaignGaleriaController@updateimagenindex')->name('campaign.galeria.updateimagenindex');
             });
+            // presupuesto
+            Route::group(['prefix' => 'presupuesto'], function () {
+                Route::get('/{campaignId}', 'CampaignPresupuestoController@index')->name('campaign.presupuesto');
+            });
+            // albaran
+            Route::group(['prefix' => 'albaran'], function () {
+                Route::get('/{campaignId}', 'CampaignAlbaranController@index')->name('campaign.albaranes');
+            });
+
         });
     Route::resource('element', 'ElementController');//->middleware('admin');
 });

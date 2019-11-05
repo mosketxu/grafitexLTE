@@ -15,7 +15,7 @@ class CreateStoreconceptsTable extends Migration
     {
         Schema::create('storeconcepts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('storeconcept')->unique;            
+            $table->string('storeconcept')->index()->unique();            
             $table->timestamps();
         });
     }

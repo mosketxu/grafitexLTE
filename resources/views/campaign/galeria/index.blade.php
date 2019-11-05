@@ -71,8 +71,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Carteleria</th>
                                         <th>Mobiliario</th>
+                                        <th>Carteleria</th>
                                         <th>Medidas</th>
                                         <th>Elemento</th>
                                         <th>Observaciones</th>
@@ -89,8 +89,8 @@
                                         @csrf
                                         <input type="text" class="d-none" id="imagenId" name="imagenId" value="{{$imagen->id}}">
                                         <td>{{$imagen->id}}</td>
-                                        <td>{{$imagen->carteleria}}</td>
                                         <td>{{$imagen->mobiliario}}</td>
+                                        <td>{{$imagen->carteleria}}</td>
                                         <td>{{$imagen->medida}}</td>
                                         <td>{{$imagen->elemento}}</td>
                                         <td>{{$imagen->observaciones}}</td>

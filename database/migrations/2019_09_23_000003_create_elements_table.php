@@ -15,12 +15,12 @@ class CreateElementsTable extends Migration
     {
         Schema::create('elements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('element_ubicacion');
-            $table->string('element_mobiliario');
-            $table->string('element_propiedad');
-            $table->string('element_carteleria');
-            $table->string('element_medida');
-            $table->string('element_material');
+            $table->string('element_ubicacion')->index();
+            $table->string('element_mobiliario')->index();
+            $table->string('element_propiedad')->index();
+            $table->string('element_carteleria')->index();
+            $table->string('element_medida')->index();
+            $table->string('element_material')->index();
             $table->string('element_unit_x_prop');
             $table->decimal('element_price');
             $table->softDeletes();

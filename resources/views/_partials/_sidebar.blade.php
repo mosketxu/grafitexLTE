@@ -34,28 +34,35 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="" id="menustores" class="nav-link">
-                                <i class="nav-icon far fa-circle nav-icon"></i>
+                                <i class="nav-icon fas fa-store"></i>
                                 <p>Stores</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="" id="menuelementos" class="nav-link">
-                                <i class="nav-icon far fa-circle nav-icon"></i>
+                                <i class="nav-icon far fas fa-cubes"></i>
                                 <p>Elementos</p>
                             </a>
                         </li>
                         <li class="nav-item">
                                 <a href="" id="menumateriales" class="nav-link">
-                                    <i class="nav-icon far fa-circle nav-icon"></i>
+                                    <i class="nav-icon fas fa-cube"></i>
                                     <p>Materiales</p>
                                 </a>
                             </li>
                         <li class="nav-item">
                             <a href="" id="menudirecciones" class="nav-link">
-                                <i class="nav-icon far fa-circle nav-icon"></i>
+                                <i class="nav-icon fas fa-map-marker"></i>
                                 <p>Direcciones</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="" id="menumaestro" class="nav-link">
+                                <i class="nav-icon fas fa-database"></i>
+                                <p>Maestro</p>
+                            </a>
+                        </li>
+                                
                     </ul>
                 </li>
                 <li class="nav-header">MISCELLANEOUS</li>

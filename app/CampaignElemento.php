@@ -11,7 +11,7 @@ class CampaignElemento extends Model
         'store','country','name','area','segmento',
         'storeconcept','ubicacion','mobiliario','propxlemento',
         'carteleria','medida','material','unitxprop',
-        'imagen','observaciones','precio','tanda'
+        'imagen','observaciones','precio'
     ];
 
     public function scopeSearch($query, $busca)

@@ -15,7 +15,7 @@ class CreateCarteleriasTable extends Migration
     {
         Schema::create('cartelerias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('carteleria')->unique;
+            $table->string('carteleria')->index()->unique();
             $table->timestamps();
         });
     }

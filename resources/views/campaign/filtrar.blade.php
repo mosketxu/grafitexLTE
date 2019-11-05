@@ -271,7 +271,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <a  type="button" href="{{route('campaign.generar',$campaign->id) }}" title="Generar" class="btn btn-primary" name="Generar">Generar</a>
+                                <a  type="button" href="{{route('campaign.generar',$campaign->id) }}" title="Generar" class="btn btn-primary" name="Generar">Generar</a> 
                             </div>
                         </form>
                     </div>

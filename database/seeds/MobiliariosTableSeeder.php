@@ -149,7 +149,6 @@ class MobiliariosTableSeeder extends Seeder
             ['mobiliario'=>'Window Gogo 3.0 Ray Ban 2'],
             ['mobiliario'=>'Window Gogo Córner grande 1'],
             ['mobiliario'=>'Window Gogo Córner grande 3'],
-            ['mobiliario'=>'Window Gogo Córner grande 3'],
             ['mobiliario'=>'Window Gogo Ray-Ban 2.0'],
             ['mobiliario'=>'Window Gogo RB'],
             ['mobiliario'=>'Window Gogo RB 1'],

@@ -15,7 +15,7 @@ class CreateMobiliariosTable extends Migration
     {
         Schema::create('mobiliarios', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('mobiliario')->unique;
+            $table->string('mobiliario')->index()->unique();
             $table->timestamps();
         });
     }

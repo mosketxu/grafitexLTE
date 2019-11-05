@@ -19,6 +19,8 @@ use App\{
     CampaignPresupuesto,
     CampaignAlbaran,
 };
+use App\Exports\CampaignExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -186,6 +188,10 @@ class CampaignController extends Controller
 
         return redirect()->route('campaign.index')->with('success','Registro actualizado satisfactoriamente');
     }
+    public function export() 
+{
+        return Excel::download(new CampaignExport, 'campaign.xlsx');
+}
 
     public function asociarstore(Request $request)
     {
@@ -361,7 +367,6 @@ class CampaignController extends Controller
         // if(CampaignStore::where('campaign_id',$id)->count()>0){
             // Como he rellenado stores cojo siempre esta query. Lo comentado borrar cuando esté validado
             $generar=Maestro::CampaignStore($id)->get();
-
 
         // }
         // else{

@@ -79,7 +79,7 @@
                                         {{ $conteodetallado->links() }}
                                     </div>
                                     <div class="col-2 float-right mb-2">
-                                        <form method="GET" action="{{route('campaign.elementos',$campaign) }}">
+                                        <form method="GET" action="{{route('campaign.conteo',$campaign) }}">
                                             <div class="input-group input-group-sm">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-search fa-sm text-primary"></i></span>
@@ -91,14 +91,14 @@
                                     </div>
                 
                                 <div class="table-responsive">
-                                    <table id="" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                                    <table id="" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
                                         <thead>
                                             <tr>
+                                                <th>Area</th>
                                                 <th>Segmento</th>
                                                 <th>Ubicación</th>
                                                 <th>Medida</th>
                                                 <th>Mobiliario</th>
-                                                <th>Area</th>
                                                 <th>Material</th>
                                                 <th>Totales</th>
                                                 <th>Unidades</th>
@@ -107,11 +107,11 @@
                                         <tbody class="">
                                             @foreach($conteodetallado as $detalle)
                                             <tr>
+                                                <td>{{$detalle->area}}</td>
                                                 <td>{{$detalle->segmento}}</td>
                                                 <td>{{$detalle->ubicacion}}</td>
                                                 <td>{{$detalle->medida}}</td>
                                                 <td>{{$detalle->mobiliario}}</td>
-                                                <td>{{$detalle->area}}</td>
                                                 <td>{{$detalle->material}}</td>
                                                 <td>{{$detalle->totales}}</td>
                                                 <td>{{$detalle->unidades}}</td>
@@ -338,6 +338,7 @@
 
 @push('scriptchosen')
 <script src="{{ asset('js/datatablesdefault.js')}}"></script>
+<script src="{{ asset('js/sortTable.js')}}"></script>
 <script>
     $(document).ready( function () {
         // $('#tcampaignDetalles').DataTable({

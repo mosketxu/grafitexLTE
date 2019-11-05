@@ -221,18 +221,3 @@
 </script>
 
 @endpush
-
-{{-- <th id="tStore">Store</th>
-<th id="tName">Name</th>
-<th id="tCountry">Country</th>
-<th id="tArea">Area</th>
-<th id="tSegmento">Segmento</th>
-<th id="tStore">Store Concept</th>
-<th id="tUbicación">Ubicación</th>
-<th id="tMobiliario">Mobiliario</th>
-<th id="tProp">Prop x Elemento</th>
-<th id="tCarteleria">Carteleria</th>
-<th id="tMedida">Medida</th>
-<th id="tMaterial">Material</th>
-<th id="tUnit">Unit x Prop</th>
-<th id="tObservaciones">Observaciones</th> --}}

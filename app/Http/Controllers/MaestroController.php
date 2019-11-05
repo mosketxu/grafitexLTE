@@ -29,8 +29,8 @@ class MaestroController extends Controller
         // (new MaestrosImport)->import('MaestroLimpioSin.xlsx');
         try{
             (new MaestrosImport)->import(request()->file('maestro'));   
-        }catch(\Exception $ex){
-            return back()->withError('Fichero incorrecto.');
+        }catch(\ErrorException $ex){
+            return back()->withError($ex->getMessage());
         }
 
         $notification = array(

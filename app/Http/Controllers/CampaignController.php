@@ -334,6 +334,13 @@ class CampaignController extends Controller
             $segmentos=Maestro::select('segmento')->groupBy('segmento')->get();
             Campaign::inserta('campaign_segmentos',$segmentos,'segmento',$id);
         }
+
+        // Si no se ha seleccionado ningun ubicacion entiendo que los quiero todos
+        if(CampaignUbicacion::where('campaign_id','=',$id)->count()==0){
+            $ubicacions=Maestro::select('ubicacion')->groupBy('ubicacion')->get();
+            Campaign::inserta('campaign_ubicacions',$ubicacions,'ubicacion',$id);
+        }
+
         // Si no se ha seleccionado ningun Storeconcept entiendo que los quiero todos
         // if(CampaignStoreconcept::where('campaign_id','=',$id)->count()==0){
         //     $storeconcepts=Maestro::select('storeconcep')->groupBy('storeconcep')->get();

@@ -11,9 +11,9 @@ class Maestro extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['store','country','name','area','segmento','storeconcept','ubicacion','mobiliario','propxlemento','carteleria','medida','material','unitxprop'];
+    protected $fillable=['store','country','name','area','segmento','storeconcept','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop'];
 
-    protected $guarded = [];
+    // protected $guarded = [];
 
     static function scopeCampaignStore($query, $campaign)
     {

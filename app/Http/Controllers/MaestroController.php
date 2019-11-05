@@ -3,17 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Imports\MaestrosImport;
-
-
-
+use App\Maestro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+
 
 class MaestroController extends Controller
 {
-    public function import(){
-        (new MaestrosImport)->import('MaestroLimpioSin.xlsx');
-        // (new VehiclesImport)->import(request()->file('your_file'));    
-    
-        return redirect('/')->with('success', 'File imported successfully!');
+
+
+    public function index()
+    {
+        return view('maestro.index');
+    }
+
+
+    public function import(Request $request){
+        $request->validate([
+            'maestro' => 'required|mimes:xls,xlsx',
+            ]);
+            
+            DB::table('maestros')->delete();
+            
+        // (new MaestrosImport)->import('MaestroLimpioSin.xlsx');
+        try{
+            (new MaestrosImport)->import(request()->file('maestro'));   
+        }catch(\Exception $ex){
+            return back()->withError('Fichero incorrecto.');
+        }
+
+        $notification = array(
+            'message' => '¡Maestro importado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+        
+        return redirect('/maestro')->with($notification);
     }
 }

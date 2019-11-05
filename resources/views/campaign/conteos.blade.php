@@ -74,8 +74,24 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-10 row">
+                                        {{ $conteodetallado->links() }}
+                                    </div>
+                                    <div class="col-2 float-right mb-2">
+                                        <form method="GET" action="{{route('campaign.elementos',$campaign) }}">
+                                            <div class="input-group input-group-sm">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-search fa-sm text-primary"></i></span>
+                                                </div>
+                                                <input id="busca" name="busca"  type="text" class="form-control" name="search" value='{{$busqueda}}' placeholder="Search for..."/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </div>
+                
                                 <div class="table-responsive">
-                                    <table id="tcampaignDetalles" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                                    <table id="" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                         <thead>
                                             <tr>
                                                 <th>Segmento</th>
@@ -89,6 +105,18 @@
                                             </tr>
                                         </thead>
                                         <tbody class="">
+                                            @foreach($conteodetallado as $detalle)
+                                            <tr>
+                                                <td>{{$detalle->segmento}}</td>
+                                                <td>{{$detalle->ubicacion}}</td>
+                                                <td>{{$detalle->medida}}</td>
+                                                <td>{{$detalle->mobiliario}}</td>
+                                                <td>{{$detalle->area}}</td>
+                                                <td>{{$detalle->material}}</td>
+                                                <td>{{$detalle->totales}}</td>
+                                                <td>{{$detalle->unidades}}</td>
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -312,13 +340,14 @@
 <script src="{{ asset('js/datatablesdefault.js')}}"></script>
 <script>
     $(document).ready( function () {
-        $('#tcampaignDetalles').DataTable({
-            'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaigndetalle",
-            'columns': [
-                { 'data': 'segmento' },{ 'data': 'ubicacion' }, { 'data': 'medida' }, { 'data': 'mobiliario' },
-                { 'data': 'area' }, { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' },
-            ],
-        });
+        // $('#tcampaignDetalles').DataTable({
+        //     'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaigndetalle",
+        //     'columns': [
+        //         { 'data': 'segmento' },{ 'data': 'ubicacion' }, { 'data': 'medida' }, { 'data': 'mobiliario' },
+        //         { 'data': 'area' }, { 'data': 'material' }, { 'data': 'totales' }, { 'data': 'unidades' },
+        //     ],
+        //     'paging':true,
+        // });
         $('#tcampaignStores').DataTable({
             'ajax': "http://grafitexlte.test/api/api/{{$campaign->id}}/campaignstore",
             'columns': [
@@ -388,3 +417,5 @@
     $('#navestadisticas').toggleClass('activo');
 </script>
 @endpush
+
+

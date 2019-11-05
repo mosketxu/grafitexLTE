@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Campaign;
-use App\{CampaignElemento,CampaignContador};
+
+use App\{Campaign,CampaignElemento,CampaignContador,Maestro};
 use Illuminate\Support\Facades\DB;
 
 class APIController extends Controller
 {
+    public function getMaestros(){
+        $query=Maestro::select('store','country','name','area','segmento','storeconcept','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop','observaciones');
+        
+        return datatables($query)
+        ->make(true);
+    }
+
     public function getCampaigns(){
         $query=Campaign::select('id','campaign_name','campaign_initdate','campaign_enddate','campaign_state','created_at','updated_at');
         return datatables($query)
@@ -28,14 +35,14 @@ class APIController extends Controller
     //     ->make(true);
     // }
 
-    public function getCampaignDetalles($id){
-        $query = CampaignElemento::where('campaign_id',$id)
-            ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
-            ->groupBy('segmento','ubicacion','medida','mobiliario','area','material');
+    // public function getCampaignDetalles($id){
+    //     $query = CampaignElemento::where('campaign_id',$id)
+    //         ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+    //         ->groupBy('segmento','ubicacion','medida','mobiliario','area','material');
         
-        return datatables($query)
-        ->make(true);
-    }
+    //     return datatables($query)
+    //     ->make(true);
+    // }
     
     public function getCampaignStores($id){
         $query = CampaignElemento::distinct('store')->where('campaign_id',$id)

@@ -6,9 +6,10 @@ use App\Maestro;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 
-class MaestrosImport implements ToModel, WithChunkReading
+class MaestrosImport implements ToModel, WithHeadingRow, WithChunkReading
 {
     use Importable;
     /**
@@ -19,21 +20,21 @@ class MaestrosImport implements ToModel, WithChunkReading
     public function model(array $row)
     {
         return new Maestro([
-            'store' => $row[0],
-            'country' => $row[1], 
-            'area' => $row[2], 
-            'name' => $row[3], 
-            'segment2018' => $row[4], 
-            'segmento' => $row[5], 
-            'storeconcept' => $row[6], 
-            'ubicacion' => $row[7], 
-            'mobiliario' => $row[8], 
-            'propxelemento' => $row[9], 
-            'carteleria' => $row[10], 
-            'medida' => $row[11], 
-            'material' => $row[12], 
-            'unitxprop' =>$row[13], 
-            'observaciones' =>$row[14], 
+            'store' => $row['store'],
+            'country' => $row['country'], 
+            'name' => $row['name'], 
+            'area' => $row['area'], 
+            'segment2018' => $row['segment2018'], 
+            'segmento' => $row['segment2019'], 
+            'storeconcept' => $row['concept'], 
+            'ubicacion' => $row['ubicacion'], 
+            'mobiliario' => $row['mobiliario'], 
+            'propxelemento' => $row['propxelemento'], 
+            'carteleria' => $row['carteleria'], 
+            'medida' => $row['medida'], 
+            'material' => $row['material'], 
+            'unitxprop' =>$row['unitxprop'], 
+            'observaciones' =>$row['observaciones'], 
         ]);
     }
 

@@ -131,7 +131,7 @@ class CampaignGaleriaController extends Controller
             unlink($mi_imagen);
         }
         if (@getimagesize($mi_imagenthumb)) {
-            unlink($mi_imagenthumb);
+            unlink($mi_imagenthumb); 
         }
 
         // verifico que realmente llega un fichero
@@ -140,10 +140,11 @@ class CampaignGaleriaController extends Controller
             $imageUpload=Image::make($files);
             $originalPath='storage/galeria/';
             $imageUpload->save($originalPath.$file_name);
-        }
-        Image::make($request->file('photo'))
+            //redimensionando
+            Image::make($request->file('photo'))
             ->resize(144,144)
             ->save('storage/galeria/thumbnails/thumb-'.$file_name);
+        }
 
         $campaigngaleria=CampaignGaleria::find($campGal->id);
         $campaigngaleria->imagen = $file_name;

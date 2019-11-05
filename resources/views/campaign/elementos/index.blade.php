@@ -68,9 +68,10 @@
                     <div class="card-body">
                         {{-- links  y cuadro busqueda --}}
                         <div class="row">
-                            <div class="col-10">
+                            <div class="col-10 row">
+                                {{ $elementos->links() }} &nbsp; &nbsp;
                                 Hay {{$totalElementos}} elementos
-                                {{-- {{ $elementos->links() }} --}}
+                                
                             </div>
                             <div class="col-2 float-right mb-2">
                                 <form method="GET" action="{{route('campaign.elementos',$campaign) }}">

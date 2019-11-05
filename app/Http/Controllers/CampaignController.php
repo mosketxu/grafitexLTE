@@ -363,41 +363,34 @@ class CampaignController extends Controller
             Campaign::inserta('campaign_ubicacions',$ubicacions,'ubicacion',$id);
         }
             
-        //elijo una query en funcion de si hay Stores o no y después relleno la tabla elementos
-        // if(CampaignStore::where('campaign_id',$id)->count()>0){
-            // Como he rellenado stores cojo siempre esta query. Lo comentado borrar cuando esté validado
-            $generar=Maestro::CampaignStore($id)->get();
-
-        // }
-        // else{
-            // $generar=Maestro::Campaign($id)->get();
-        // }
-        
-        // relleno la tabla campaing_elementos
-        foreach (array_chunk($generar->toArray(),500) as $t){
+    
+        //recupero todos los elementos elegidos y los inserto
+        $generar=Maestro::CampaignStore($id)->get();
+        foreach (array_chunk($generar->toArray(),100) as $t){
             $dataSet = [];
-            foreach ($generar as $gen) {
+            foreach ($t as $gen) {
+                // dd($gen['store']);
                 $dataSet[] = [
                     'campaign_id'  => $id,
-                    'store'  => $gen->store,
-                    'name'  => $gen->name,
-                    'country'  => $gen->country,
-                    'area'  => $gen->area,
-                    'segmento'  => $gen->segmento,
-                    'storeconcept'  => $gen->storeconcept,
-                    'ubicacion'  => $gen->ubicacion,
-                    'mobiliario'  => $gen->mobiliario,
-                    'propxelemento'  => $gen->propxelemento,
-                    'carteleria'  => $gen->carteleria,
-                    'medida'  => $gen->medida,
-                    'material'  => $gen->material,
-                    'unitxprop'  => $gen->unitxprop,
-                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen->mobiliario.'-'.$gen->carteleria.'-'.$gen->medida))))).'.jpg',
+                    'store'  => $gen['store'],
+                    'name'  => $gen['name'],
+                    'country'  => $gen['country'],
+                    'area'  => $gen['area'],
+                    'segmento'  => $gen['segmento'],
+                    'storeconcept'  => $gen['storeconcept'],
+                    'ubicacion'  => $gen['ubicacion'],
+                    'mobiliario'  => $gen['mobiliario'],
+                    'propxelemento'  => $gen['propxelemento'],
+                    'carteleria'  => $gen['carteleria'],
+                    'medida'  => $gen['medida'],
+                    'material'  => $gen['material'],
+                    'unitxprop'  => $gen['unitxprop'],
+                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen['mobiliario'].'-'.$gen['carteleria'].'-'.$gen['medida']))))).'-'.$id.'.jpg',
                 ];
             }
             DB::table('campaign_elementos')->insert($dataSet);
         }
-        
+
         //relleno la tabla imagenes
         $imagenes=CampaignElemento::where('campaign_id',$id)
         ->distinct('campaign_id','mobiliario','carteleria','medida')
@@ -423,12 +416,28 @@ class CampaignController extends Controller
         return redirect()->route('campaign.elementos', $campaign);
     }
 
-    public function conteo($campaignId)
+    public function conteo($campaignId, Request $request)
     {
+        if ($request->busca) {
+            $busqueda = $request->busca;
+        } else {
+            $busqueda = '';
+        } 
+    
         $campaign = Campaign::find($campaignId);
         $total=CampaignElemento::where('campaign_id',$campaignId)->count();
         $totalstores=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)->count('store');
         
+        $conteodetallado=CampaignElemento::search($request->busca)
+            ->where('campaign_id',$campaignId)
+            ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('segmento','ubicacion','medida','mobiliario','area','material')
+            ->paginate('50');
+
+            // dd($conteodetallado);
+
+        // $totalElementos=CampaignElemento::where('campaign_id',$campaignId)->count();
+
         $conteostoresAreaCountry=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)
         ->select('country','area',DB::raw('count(*) as totales'))
         ->groupBy('country','area')
@@ -448,7 +457,7 @@ class CampaignController extends Controller
         // return view('campaign.conteo', compact('campaign','conteoStores','conteostoresAreaCountry','conteoCountryAreaSegmentoConcept','conteoMateriales','total'))
         //     ->with('notice', 'Generación realizada satisfactoriamente.');    
         
-        return view('campaign.conteos', compact('campaign','conteostoresAreaCountry','total','totalstores'))
+        return view('campaign.conteos', compact('campaign','conteodetallado','conteostoresAreaCountry','total','totalstores','busqueda'))
             ->with('notice', 'Generación realizada satisfactoriamente.');    
     }
 

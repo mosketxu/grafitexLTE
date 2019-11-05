@@ -17,9 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/api/maestros', 'APIController@getMaestros')->name('api.maestros.index');
 Route::get('/api/campaigns', 'APIController@getCampaigns')->name('api.campaigns.index');
 // Route::get('/api/{id}/campaignelementos', 'APIController@getCampaignElementos')->name('api.campaigns.elementos');
-Route::get('/api/{id}/campaigndetalle', 'APIController@getCampaignDetalles')->name('api.campaigns.detalles');
+// Route::get('/api/{id}/campaigndetalle', 'APIController@getCampaignDetalles')->name('api.campaigns.detalles');
 Route::get('/api/{id}/campaignstore', 'APIController@getCampaignStores')->name('api.campaigns.stores');
 Route::get('/api/{id}/campaignmaterial', 'APIController@getCampaignMateriales')->name('api.campaigns.materiales');
 Route::get('/api/{id}/campaignsegmento', 'APIController@getCampaignSegmentos')->name('api.campaigns.segmentos');

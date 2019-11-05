@@ -19,12 +19,12 @@ class CreateMaestrosTable extends Migration
             $table->string('country');
             $table->string('name')->index();
             $table->string('area');
-            $table->string('segment2018');
+            $table->string('segment2018')->nullable();
             $table->string('segmento')->index();
             $table->string('storeconcept');
             $table->string('ubicacion');
             $table->string('mobiliario')->index();
-            $table->string('propxelemento');
+            $table->string('propxelemento')->index();
             $table->string('carteleria');
             $table->string('medida')->index();
             $table->string('material');

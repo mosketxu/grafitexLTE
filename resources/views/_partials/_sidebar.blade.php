@@ -12,7 +12,7 @@
         <nav class="mt-2">
             <ul id="main-menu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{route('campaign.index') }}" id="menucampaign" class="nav-link active">
+                    <a href="{{route('campaign.index') }}" id="menucampaign" class="nav-link">
                         <i class="nav-icon fas fa-campground "></i>
                         <p>Campañas </p>
                     </a>
@@ -57,7 +57,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" id="menumaestro" class="nav-link">
+                            <a href="{{route('maestro.index') }}" id="menumaestro" class="nav-link">
                                 <i class="nav-icon fas fa-database"></i>
                                 <p>Maestro</p>
                             </a>

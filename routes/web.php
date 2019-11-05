@@ -24,6 +24,10 @@ Route::get('/home', 'CampaignController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('user', 'UserController');//->middleware('admin');
+    //Maestro
+    Route::get('/maestro','MaestroController@index')->name('maestro.index');
+    Route::post('/maestro/import', 'MaestroController@import')->name('maestro.import');;
+    //Store
     Route::resource('store', 'StoreController');//->middleware('admin');
     Route::resource('address', 'AddressController');//->middleware('admin');
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
@@ -62,7 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('element', 'ElementController');//->middleware('admin');
 
-    Route::get('/import', 'MaestroController@import');
+
 });
 
 

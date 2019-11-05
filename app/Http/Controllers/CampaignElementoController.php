@@ -29,8 +29,8 @@ class CampaignElementoController extends Controller
             'ubicacion','mobiliario','propxelemento','carteleria','medida',
             'material','unitxprop','imagen','observaciones')
         ->orderBy('store')
-        ->get();
-        // ->paginate('5');
+        ->paginate('50');
+        // ->get();
 
         $totalElementos=CampaignElemento::where('campaign_id',$campaignId)->count();
 

@@ -25,11 +25,11 @@ class CreateCampaignElementosTable extends Migration
             $table->string('storeconcept')->index();
             $table->string('ubicacion')->index();
             $table->string('mobiliario')->index();
-            $table->string('propxelemento')->index();
+            $table->string('propxelemento')->index()->nullable();
             $table->string('carteleria')->index();
             $table->string('medida')->index();
             $table->string('material')->index();
-            $table->string('unitxprop');
+            $table->string('unitxprop')->nullable();
             $table->string('imagen')->nullable();
             $table->string('observaciones')->nullable();
             $table->decimal('precio')->nullable();

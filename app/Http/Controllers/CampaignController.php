@@ -364,7 +364,7 @@ class CampaignController extends Controller
                 DB::table('campaign_stores')->insert($dataSet);
             }
         }
-        // Si no se ha seleccionado ningun ubicacion entiendo que los quiero todos
+        // Si no se ha seleccionado ningun ubicacion entiendo que los quiero todos 
         if(CampaignUbicacion::where('campaign_id','=',$id)->count()==0){
             $ubicacions=CampaignUbicacion::get();
             Campaign::inserta('campaign_ubicacions',$ubicacions,'ubicacion',$id);
@@ -441,26 +441,21 @@ class CampaignController extends Controller
             ->groupBy('segmento','ubicacion','medida','mobiliario','area','material')
             ->paginate('50');
 
-            // dd($conteodetallado);
-
         // $totalElementos=CampaignElemento::where('campaign_id',$campaignId)->count();
 
         $conteostoresAreaCountry=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)
         ->select('country','area',DB::raw('count(*) as totales'))
         ->groupBy('country','area')
         ->get();
-
         
         $conteoCountryAreaSegmentoConcept= CampaignElemento::where('campaign_id',$campaignId)
         ->select('country','area','segmento','storeconcept', DB::raw('count(*) as totales'))
         ->groupBy('country','area','segmento','storeconcept')
         ->get();
         
-        $conteoMateriales=CampaignElemento::where('campaign_id',$campaignId)
-        ->select('material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
-        ->groupBy('material')
-        ->get();
- 
+
+        $conteoMateriales=Campaign::getConteoMaterial($campaignId);
+
         // return view('campaign.conteo', compact('campaign','conteoStores','conteostoresAreaCountry','conteoCountryAreaSegmentoConcept','conteoMateriales','total'))
         //     ->with('notice', 'Generación realizada satisfactoriamente.');    
         

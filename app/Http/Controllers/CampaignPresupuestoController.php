@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign,CampaignPresupuesto};
-
-
+use App\{Campaign, CampaignElemento, CampaignPresupuesto};
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class CampaignPresupuestoController extends Controller
 {
@@ -26,7 +26,7 @@ class CampaignPresupuestoController extends Controller
         $presupuestos= CampaignPresupuesto::search($request->busca)
             ->orderBy('fecha')
             ->paginate('50');
-    
+
         return view('campaign.presupuesto.index', compact('presupuestos','campaign','busqueda'));    
     }
 
@@ -48,11 +48,39 @@ class CampaignPresupuestoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'referencia' => 'required',
+            'version' => 'required',
+            'fecha' => 'required|date',
+            'estado' => 'required',
+            ]);
+            
         $campaign = Campaign::find($request->campaign_id);
 
-        CampaignPresupuesto::create($request->all());
+        $campPresu=CampaignPresupuesto::create($request->all());
 
-        return redirect()->route('campaign.presupuesto',$campaign);
+        //Recupero el conteo por material y lo inserto en la tabla campaign_presupuestos_materiales
+        $conteoMateriales=Campaign::getConteoMaterial($request->campaign_id);
+        foreach (array_chunk($conteoMateriales->toArray(),100) as $t){
+            $dataSet = [];
+            foreach ($t as $dato) {
+                $dataSet[] = [
+                    'presupuesto_id'  => $campPresu->id,
+                    'concepto'  => $dato['material'],
+                    'unidades'  => $dato['totales'],
+                    'uxprop'  => $dato['unidades'],
+                ];
+            }
+            DB::table('campaign_presupuesto_materiales')->insert($dataSet);
+        }
+
+        $notification = array(
+            'message' => '¡Presupuesto actualizado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+        // return redirect()->route('campaign.presupuesto',$campaign)->with($notification);
     }
     
 
@@ -121,6 +149,18 @@ class CampaignPresupuestoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        CampaignPresupuesto::find($id)->delete();
+
+        // $notification = array(
+        //     'message' => '¡Presupuesto eliminado satisfactoriamente!',
+        //     'alert-type' => 'success' 
+        // );
+  
+        // return redirect()->back()->with($notification);
+
+        return response()->json(['success'=>'guay']);
     }
+
+
 }

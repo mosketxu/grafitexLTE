@@ -62,7 +62,7 @@
                             </thead>
                             <tbody class="">
                                 @foreach($presupuestos as $presupuesto)
-                                <tr>
+                            <tr id="t{{$presupuesto->id}}">
                                     <td>{{$presupuesto->id}}</td>
                                     <td>{{$presupuesto->referencia}}</td>
                                     <td>{{$presupuesto->version}}</td>
@@ -87,9 +87,15 @@
                                     </td>
                                     <td>
                                         <div class="text-right">
-                                                {{-- <a href="{{route('campaign.destroy', $id )}}" title="Show"><i class="far fa-eye text-success fa-lg mr-1"></i></a> --}}
+                                            <form action="#" method="post">
+                                                <input type="hidden" name="_tokenPresupuesto" value="{{ csrf_token()}}" id="tokenPresupuesto">
+                                                @csrf
+                                            {{-- <form action="{{ route('campaign.presupuesto.delete',$presupuesto->id) }}" method="POST"> --}}
+                                                @method('DELETE')
                                                 <a href="{{route('campaign.presupuesto.edit', $presupuesto->id )}}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
-                                                <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                                {{-- <button type="submit" class="btn btn-danger" id="boton{{$presupuesto->id}}" style="display:none"></button> --}}
+                                                <a href="#" onclick="borrarPresupuesto({{$presupuesto->id}},'campaign.presupuesto.delete','#tokenPresupuesto')" title="Eliminar"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -100,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
+        <!-- Modal Crear-->
         <div class="modal fade" id="campaignPresupuestoCreateModal" tabindex="-1" role="dialog"
             aria-labelledby="campaignPresupuestoCreateModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -115,6 +121,7 @@
                         <form method="post" action="{{ route('campaign.presupuesto.store') }}">
                             @csrf
                             <input type="hidden" id="campaign_id" name="campaign_id" value="{{ $campaign->id }}" />
+                            <input type="hidden" id="estado" name="estado" value="creado" />
                             <div class="row">
                                 <div class="form-group col">
                                     <label for="referencia">Referencia</label>
@@ -123,13 +130,13 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="version">Versión</label>
-                                    <input type="text" class="form-control form-control-sm" id="version" name="version"
+                                    <input type="number" class="form-control form-control-sm" id="version" name="version" step="0.1"
                                         value="{{ old('version','1.0')}}" />
                                 </div>
                                 <div class="form-group col">
                                     <label for="fecha">Fecha</label>
                                     <input type="date" class="form-control form-control-sm" id="fecha" name="fecha"
-                                        value="{{ old('fecha') }}" />
+                                        value="{{ old('fecha',date('Y-m-d')) }}" />
                                 </div>
                             </div>
                             <div class="row">
@@ -173,4 +180,76 @@
     });
 </script>
 
+<script>
+    @if(Session::has('message'))
+        toastr.options={
+            progressBar:true,
+            positionClass:"toast-top-center"
+        };
+        toastr.success("{{ Session::get('message') }}");
+    @endif
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+        toastr.options={
+            closeButton: true,
+            progressBar:true,
+            positionClass:"toast-top-center",
+            showDuration: "300",
+            hideDuration: "1000",
+            timeOut: 0,
+        };
+        toastr.error("{{ $error }}");
+        @endforeach
+    @endif
+</script>
+
+<script>
+function borrarPresupuesto(presupuestoId,ruta,tok) {
+   var token = $(tok).val();
+   var route = ruta;
+   route= '/campaign/presupuesto/delete/'+presupuestoId;
+
+   var mensaje;
+    var opcion = confirm("Clicka en Aceptar o Cancelar");
+
+
+    if (opcion == true) {
+        $.ajax({
+            url: route,
+            headers: { "X-CSRF-TOKEN": token },
+            type: "DELETE",
+            dataType: "json",
+            data: { 
+                "presupuestoId": presupuestoId,
+                "_method":'DELETE',
+            },
+            success: function(data) {
+                $('#t'+presupuestoId).remove();
+                toastr.info('Presupuesto borrado con éxito',{
+                    "progressBar":true,
+                    "positionClass":"toast-top-center"
+                });
+            },
+            error:function(msj){
+                    console.log(msj.responseJSON.errors);
+                    toastr.error("Ha habido un error. <br />No se ha podido borrar. <br />"+ msj.responseJSON.message,{
+                    "closeButton": true,
+                    "progressBar":true,
+                    "positionClass":"toast-top-center",
+                    "options.escapeHtml" : true,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": 0,
+                    });
+            }
+        });
+    } else {
+	    mensaje = "Has clickado Cancelar";
+	}
+}
+
+</script>
 @endpush
+
+
+

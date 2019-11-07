@@ -106,38 +106,22 @@
 @push('scriptchosen')
 
 <script>
-        @if(Session::has('message'))
-          var type = "{{ Session::get('alert-type', 'info') }}";
-          switch(type){
-              case 'info':
-                  toastr.info("{{ Session::get('message') }}");
-                  break;
-      
-              case 'warning':
-                  toastr.warning("{{ Session::get('message') }}");
-                  break;
-      
-              case 'success':
-                  toastr.success("{{ Session::get('message') }}");
-                  break;
-      
-              case 'error':
-                  toastr.error("{{ Session::get('message') }}");
-                  break;
-          }
-        @endif
-</script>
-
-{{-- <script>
-    @if(count($errors) > 0)
-        @foreach($errors->all() as $error)
-            toastr.error("{{ $error }}");
-        @endforeach
+    @if(Session::has('message'))
+        toastr.options={
+                progressBar:true,
+                positionClass:"toast-top-center"
+            };
+        toastr.success("{{ Session::get('message') }}");
     @endif
-</script> --}}
-
-<script>
     @if(session('error'))
+        toastr.options={
+                closeButton: true,
+                progressBar:true,
+                positionClass:"toast-top-center",
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: 0,
+        };
         toastr.error("{{ Session::get('error') }}");
     @endif
 </script>

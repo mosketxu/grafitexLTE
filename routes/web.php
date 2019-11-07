@@ -32,13 +32,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('address', 'AddressController');//->middleware('admin');
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
         Route::group(['prefix' => 'campaign'], function () {
+            //Campaign
             Route::post('/asociar', 'CampaignController@asociar');
             Route::post('/asociarstore', 'CampaignController@asociarstore');
             Route::get('/{id?}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
             Route::get('/{id?}/filtro', 'CampaignController@filtrar')->name('campaign.filtrar');
             Route::get('/{id?}/conteo', 'CampaignController@conteo')->name('campaign.conteo');
             //Elementos
-            Route::group(['prefix' => 'elementos'], function () {
+            Route::group(['prefix' => 'elementos'], function () { 
                 Route::get('/{id}', 'CampaignElementoController@index')->name('campaign.elementos');
                 // Route::get('/{campaignlemento}', 'CampaignElementoController@edit')->name('campaign.elementos.edit');
                 Route::get('/{campaign}/{campaigngaleria}/edit', 'CampaignElementoController@editelemento')->name('campaign.elemento.editelemento');
@@ -59,6 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::get('/edit/{presupuestoId}', 'CampaignPresupuestoController@edit')->name('campaign.presupuesto.edit');
                 Route::post('/update/{presupuestoId}', 'CampaignPresupuestoController@update')->name('campaign.presupuesto.update');
                 Route::post('/store','CampaignPresupuestoController@store')->name('campaign.presupuesto.store');
+                Route::delete('/delete/{presupuestoId}', 'CampaignPresupuestoController@destroy')->name('campaign.presupuesto.delete');
             });
             // albaran
             Route::group(['prefix' => 'albaran'], function () {

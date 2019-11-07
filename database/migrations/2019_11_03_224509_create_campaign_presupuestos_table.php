@@ -19,10 +19,10 @@ class CreateCampaignPresupuestosTable extends Migration
             $table->foreign('campaign_id')->references('id')->on('campaigns');
             $table->string('referencia',100);
             $table->date('fecha');
-            $table->string('version');
-            $table->string('atencion');
-            $table->string('ambito');
-            $table->string('observaciones');            
+            $table->string('version',50)->nullable();
+            $table->string('atencion',50)->nullable();
+            $table->string('ambito',50)->nullable();
+            $table->string('observaciones')->nullable();            
             $table->string('estado',10)->default('creado');
             $table->softDeletes();
             $table->timestamps();

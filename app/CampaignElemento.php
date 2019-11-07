@@ -28,7 +28,7 @@ class CampaignElemento extends Model
     ->orWhere('carteleria', 'LIKE', "%$busca%")
     ->orWhere('medida', 'LIKE', "%$busca%")
     ->orWhere('material', 'LIKE', "%$busca%")
-    ->orWhere('observaciones', 'LIKE', "%$busca%")
+    ->orWhere('observaciones', 'LIKE', "%$busca%") 
     ;
   }
 

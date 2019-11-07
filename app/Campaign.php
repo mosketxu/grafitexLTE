@@ -50,4 +50,13 @@ class Campaign extends Model
     public function campaignElementos(){
         return $this->hasMany(CampaignElemento::class);
     }
+
+    static function getConteoMaterial($campaignId)
+    {
+        return CampaignElemento::where('campaign_id',$campaignId)
+            ->select('material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('material')
+            ->get();
+
+    }
 }

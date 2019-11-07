@@ -80,8 +80,8 @@
                                  </div>
                                  <div class="form-group col-1">
                                     <label class="form-label-sm" for="version">Versión</label>
-                                    <input type="text" class="form-control-sm form-control" id="version" name="version"
-                                       value="{{$campaignpresupuesto->version}}">
+                                    <input type="number" class="form-control-sm form-control" id="version" name="version" step="0.1"
+                                       value="{{$campaignpresupuesto->version}} ">
                                  </div>
                                  <div class="form-group col">
                                     <label class="form-label-sm" for="fecha">Fecha</label>
@@ -239,27 +239,28 @@
 @push('scriptchosen')
 
 <script>
-   @if(Session::has('message'))
-      toastr.success("{{ Session::get('message') }}");
-   @endif
-</script>
-
-<script>
-   @if ($errors->any())
-            @foreach ($errors->all() as $error)
-               toastr.error("{{ $error }}",{
-                  "closeButton": true,
-                  "progressBar":true,
-                  "positionClass":"toast-top-center",
-                  "options.escapeHtml" : true,
-                  "showDuration": "300",
-                  "hideDuration": "1000",
-                  "timeOut": 0,
-               });
-            @endforeach
-   @endif
-
-</script>
+      @if(Session::has('message'))
+          toastr.options={
+              progressBar:true,
+              positionClass:"toast-top-center"
+          };
+          toastr.success("{{ Session::get('message') }}");
+      @endif
+      @if ($errors->any())
+          @foreach ($errors->all() as $error)
+          toastr.options={
+              closeButton: true,
+              progressBar:true,
+              positionClass:"toast-top-center",
+              showDuration: "300",
+              hideDuration: "1000",
+              timeOut: 0,
+          };
+          toastr.error("{{ $error }}");
+          @endforeach
+      @endif
+  </script>
+  
 <script>
    $('#menucampaign').addClass('active');
     $('#navpresupuesto').toggleClass('activo');

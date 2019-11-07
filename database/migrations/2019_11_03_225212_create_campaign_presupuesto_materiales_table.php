@@ -18,10 +18,11 @@ class CreateCampaignPresupuestoMaterialesTable extends Migration
             $table->unsignedBigInteger('presupuesto_id');
             $table->foreign('presupuesto_id')->references('id')->on('campaign_presupuestos');
             $table->string('concepto');
-            $table->decimal('preciounidad')->nullable();
-            $table->decimal('unidades')->nullable();
+            $table->decimal('preciounidad')->default(0);
+            $table->integer('unidades')->default(0)->nullable();
+            $table->integer('uxprop')->default(0)->nullable();
             $table->decimal('total')->nullable();
-            $table->string('observaciones');
+            $table->string('observaciones')->nullable();
             $table->timestamps();
         });
     }

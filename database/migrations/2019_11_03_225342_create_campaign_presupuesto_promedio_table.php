@@ -22,7 +22,6 @@ class CreateCampaignPresupuestoPromedioTable extends Migration
             $table->decimal('unidades')->nullable();
             $table->decimal('total')->nullable();
             $table->string('observaciones');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

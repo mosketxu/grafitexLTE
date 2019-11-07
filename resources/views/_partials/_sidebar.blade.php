@@ -10,19 +10,14 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <nav class="mt-2">
-            <ul id="main-menu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul id="main-menu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <li class="nav-item">
                     <a href="{{route('campaign.index') }}" id="menucampaign" class="nav-link">
                         <i class="nav-icon fas fa-campground "></i>
                         <p>Campañas </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                        <a href="{{route('campaign.index') }}" id="menupresupuesto" class="nav-link">
-                            <i class="nav-icon fas fa-coins"></i>
-                            <p>Presupuestos</p>
-                        </a>
-                    </li>
                 <li class="nav-item has-treeview menu-close">
                     <a href="#" id="menumantenimiento" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
@@ -45,11 +40,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                                <a href="" id="menumateriales" class="nav-link">
-                                    <i class="nav-icon fas fa-cube"></i>
-                                    <p>Materiales</p>
-                                </a>
-                            </li>
+                            <a href="" id="menumateriales" class="nav-link">
+                                <i class="nav-icon fas fa-cube"></i>
+                                <p>Materiales</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="" id="menudirecciones" class="nav-link">
                                 <i class="nav-icon fas fa-map-marker"></i>
@@ -62,7 +57,7 @@
                                 <p>Maestro</p>
                             </a>
                         </li>
-                                
+
                     </ul>
                 </li>
                 <li class="nav-header">MISCELLANEOUS</li>

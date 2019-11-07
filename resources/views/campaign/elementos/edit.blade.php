@@ -6,7 +6,7 @@
 @section('title','Grafitex-Elemento Editar')
 @section('titlePag','Selección del elemento')
 @section('navbar')
-@include('campaign._navbarcamapign')
+@include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
 {{ Breadcrumbs::render('campaignElementos') }}

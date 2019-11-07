@@ -56,6 +56,9 @@ Route::group(['middleware' => ['auth']], function () {
             // presupuesto
             Route::group(['prefix' => 'presupuesto'], function () {
                 Route::get('/{campaignId}', 'CampaignPresupuestoController@index')->name('campaign.presupuesto');
+                Route::get('/edit/{presupuestoId}', 'CampaignPresupuestoController@edit')->name('campaign.presupuesto.edit');
+                Route::post('/update/{presupuestoId}', 'CampaignPresupuestoController@update')->name('campaign.presupuesto.update');
+                Route::post('/store','CampaignPresupuestoController@store')->name('campaign.presupuesto.store');
             });
             // albaran
             Route::group(['prefix' => 'albaran'], function () {

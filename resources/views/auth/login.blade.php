@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 my-auto pl-5">
-                            <img src="{{ asset('storage/logo.jpg')}}" id="GrafitexLogo" class="img-fluid" width="80%" alt="Grafitex">
+                            <img src="{{ asset('storage/grafitexLogomail.png')}}" id="GrafitexLogo" class="img-fluid" width="80%" alt="Grafitex">
                         </div>
                         <div class="col-md-6 align-self-center clearfix">
                             <form role="form" method="POST" action="{{ route('login') }}">

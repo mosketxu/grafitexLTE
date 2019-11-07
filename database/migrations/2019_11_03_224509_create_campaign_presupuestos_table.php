@@ -17,11 +17,13 @@ class CreateCampaignPresupuestosTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns');
-            $table->date('presupuesto_date');
+            $table->string('referencia',100);
+            $table->date('fecha');
             $table->string('version');
             $table->string('atencion');
             $table->string('ambito');
-            $table->string('observaciones');
+            $table->string('observaciones');            
+            $table->string('estado',10)->default('creado');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -3,13 +3,15 @@
 @section('styles')
 @endsection
 
-@section('title','Grafitex-Elemento Editar')
-@section('titlePag','Selección del elemento')
+@section('title','Grafitex-Presupuestos')
+@section('titlePag','Presupuesto')
 @section('navbar')
-@include('campaign._navbarcamapign')
+    @include('campaign._navbarcampaign')
 @endsection
+
+
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignElementos') }}
+{{-- {{ Breadcrumbs::render('campaign') }} --}}
 @endsection
 
 @section('content')
@@ -21,9 +23,11 @@
             <div class="row">
                 <div class="col-auto ">
                     <span class="h3 m-0 text-dark">@yield('titlePag')</span>
-                    <span class="hidden" id="campaign_id"></span>
                 </div>
                 <div class="col-auto mr-auto">
+                    <a href="" role="button" data-toggle="modal" data-target="#campaignPresupuestoCreateModal">
+                        <i class="fas fa-plus-circle fa-lg text-primary mt-2"></i>
+                    </a>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -33,162 +37,126 @@
             </div>
         </div>
     </div>
+    {{-- - /.content-header --}}
     {{-- main content  --}}
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col">
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label for="campaign_name">Campaña</label>
-                                    <input type="text" class="form-control form-control-sm" id="campaign_name"
-                                        name="campaign_name" value="{{ old('campaign_name',$campaign->campaign_name) }}"
-                                        disabled />
-                                </div>
-                                <div class="form-group col">
-                                    <label for="campaign_initdate">Fecha Inicio</label>
-                                    <input type="date" class="form-control form-control-sm" id="campaign_initdate"
-                                        name="campaign_initdate"
-                                        value="{{ old('campaign_initdate',$campaign->campaign_initdate) }}" disabled />
-                                </div>
-                                <div class="form-group col">
-                                    <label for="campaign_enddate">Fecha Finalización</label>
-                                    <input type="date" class="form-control form-control-sm" id="campaign_enddate"
-                                        name="campaign_enddate"
-                                        value="{{ old('campaign_enddate',$campaign->campaign_enddate) }}" disabled />
-                                </div>
-                            </div>
-                        </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tpresupuesto" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Referencia</th>
+                                    <th>Versión</th>
+                                    <th>Fecha Presupuesto</th>
+                                    <th>A la Atención</th>
+                                    <th>Ámbito</th>
+                                    <th>Observaciones</th>
+                                    <th>Creado el:</th>
+                                    <th>Modificado el:</th>
+                                    <th>Estado</th>
+                                    <th class="text-right">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody class="">
+                                @foreach($presupuestos as $presupuesto)
+                                <tr>
+                                    <td>{{$presupuesto->id}}</td>
+                                    <td>{{$presupuesto->referencia}}</td>
+                                    <td>{{$presupuesto->version}}</td>
+                                    <td>{{$presupuesto->fecha}}</td>
+                                    <td>{{$presupuesto->atención}}</td>
+                                    <td>{{$presupuesto->ambito}}</td>
+                                    <td>{{$presupuesto->observaciones}}</td>
+                                    <td>{{$presupuesto->created_at}}</td>
+                                    <td>{{$presupuesto->updated_at}}</td>
+                                    <td>
+                                        <div class="text-right">
+                                            @if($presupuesto->estado==="Creado")
+                                            <i class="fas fa-circle text-primary fa-lg"></i>
+                                            @elseif($presupuesto->estado==="Iniciado")
+                                            <i class="fas fa-circle text-teal fa-lg"></i>
+                                            @elseif($presupuesto->estado==="Finalizado")
+                                            <i class="fas fa-circle text-fuchsia fa-lg"></i>
+                                            @else
+                                            <i class="fas fa-circle text-warning fa-lg"></i>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-right">
+                                                {{-- <a href="{{route('campaign.destroy', $id )}}" title="Show"><i class="far fa-eye text-success fa-lg mr-1"></i></a> --}}
+                                                <a href="{{route('campaign.presupuesto.edit', $presupuesto->id )}}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
+                                                <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="card-body">
-                    <form id="formelemento" role="form" method="post" action="{{ route('campaign.elemento.update') }}"
-                        enctype="multipart/form-data" id="uploadimage">
-                        {{-- <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage"> --}}
-                        @csrf
-                        <div class="card-body">
-                            <input type="text" class="d-none" id="campaignelemento" name="campaignelemento"
-                                value="{{$campaignelemento}}">
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="campaignPresupuestoCreateModal" tabindex="-1" role="dialog"
+            aria-labelledby="campaignPresupuestoCreateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="campaignPresupuestoCreateModalLabel">Nuevo Presupuesto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="{{ route('campaign.presupuesto.store') }}">
+                            @csrf
+                            <input type="hidden" id="campaign_id" name="campaign_id" value="{{ $campaign->id }}" />
                             <div class="row">
-                                <div class="col-9 img-thumbnail">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="store">Store</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext" id="Store" name="store" value="{{$campaignelemento->store}} - {{$campaignelemento->name}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="country">Country</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="country" name="country" value="{{$campaignelemento->country}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="area">Area</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="area" name="area" value="{{$campaignelemento->area}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="segmento">Segmento</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="segmento" name="segmento" value="{{$campaignelemento->segmento}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="storeconcept">Storeconcept</label> 
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="storeconcept" name="storeconcept" value="{{$campaignelemento->storeconcept}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="observaciones">Observaciones</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control-sm form-control" id="observaciones" name="observaciones" value="{{$campaignelemento->observaciones}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="precio">Precio</label>
-                                                <div class="col-sm-9">
-                                                    <input type="number" step=0.01 class="form-control-sm form-control" id="precio" name="precio" value="{{$campaignelemento->precio}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="ubicacion">Ubicación</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="ubicacion" name="ubicacion" value="{{$campaignelemento->ubicacion}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="mobiliario">Mobiliario</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="mobiliario" name="mobiliario" value="{{$campaignelemento->mobiliario}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="propxelemento">Prop x Elemento</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="propxelemento" name="propxelemento" value="{{$campaignelemento->propxelemento}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="carteleria">Carteleria</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="carteleria" name="carteleria" value="{{$campaignelemento->carteleria}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="medida">Medida</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="medida" name="medida" value="{{$campaignelemento->medida}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="material">Material</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="material" name="material" value="{{$campaignelemento->material}}">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label col-form-label-sm" for="unitxprop">Unit x Prop</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" readonly class="form-control-sm form-control-plaintext"  id="unitxprop" name="unitxprop" value="{{$campaignelemento->unitxprop}}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-group col">
+                                    <label for="referencia">Referencia</label>
+                                    <input type="text" class="form-control form-control-sm" id="referencia"
+                                        name="referencia" value="{{ old('referencia') }}" />
                                 </div>
-                                <div class="col-3" style="max-height: 350px;">
-                                    <input type="file" id="inputFile{{$campaignelemento->id}}" name="photo"
-                                        style="display:none">
-                                    @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$campaignelemento->imagen ))
-                                    <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$campaignelemento->imagen)}}"
-                                        alt={{$campaignelemento->imagen}} title={{$campaignelemento->imagen}} id="original"
-                                        class="img-fluid img-thumbnail" style="height: 350px;cursor:pointer"
-                                        onclick='document.getElementById("inputFile{{$campaignelemento->id}}").click()' />
-                                    @else
-                                    <img src="{{asset('storage/galeria/pordefecto.jpg')}}" alt={{$campaignelemento->imagen}}
-                                        title={{$campaignelemento->imagen}} id="original" class="img-fluid img-thumbnail"
-                                        style="height: 350px;cursor:pointer"
-                                        onclick='document.getElementById("inputFile{{$campaignelemento->id}}").click()' />
-                                    @endif
-                                    <a href="#" name="Upload"
-                                        onclick="subirImagen('formelemento','{{$campaignelemento->id}}')"><i
-                                            class="fas fa-upload text-primary fa-lg mx-1"></i></a>
-                                    {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
+                                <div class="form-group col">
+                                    <label for="version">Versión</label>
+                                    <input type="text" class="form-control form-control-sm" id="version" name="version"
+                                        value="{{ old('version','1.0')}}" />
+                                </div>
+                                <div class="form-group col">
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" class="form-control form-control-sm" id="fecha" name="fecha"
+                                        value="{{ old('fecha') }}" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="ambito">Ámbito</label>
+                                    <input type="text" class="form-control form-control-sm" id="ambito" name="ambito"
+                                        value="{{ old('ambito','Nacional')}}" />
+                                </div>
+                                <div class="form-group col">
+                                    <label for="atención">A la atención</label>
+                                    <input type="text" class="form-control form-control-sm" id="atencion"
+                                        name="atencion" value="{{ old('atención') }}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="observaciones">Observaciones</label>
+                                    <input type="memo" class="form-control form-control-sm" id="observaciones"
+                                        name="observaciones" value="{{ old('atención') }}" />
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" name="Guardar" onclick="form.submit()">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -197,85 +165,12 @@
 @endsection
 
 @push('scriptchosen')
-{{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
 
 <script>
-    $(document).ready(function (e) {
-        var token= $('#token').val();
-        let timestamp = Math.floor( Date.now() );
-        $('#imageUploadForm').on('submit',(function(e) {
-            $('#original').attr('src', '');
-            $.ajaxSetup({
-                headers: { "X-CSRF-TOKEN": $('#token').val() },
-            });
-  
-            e.preventDefault();
-  
-            var formData = new FormData(this);
-            $.ajax({
-                type:'POST',
-                url: "{{ route('campaign.elemento.update') }}",
-                data:formData,
-                cache:false,
-                contentType: false,
-                processData: false,
-                success:function(data){
-                    $('#uploadForm + img').remove();
-                    $('#original').attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
-                },
-                error: function(data){
-                    console.log(data);
-                }
-            });
-        }));
+    $(document).ready( function () {
+        $('#menucampaign').addClass('active');
+        $('#navpresupuesto').toggleClass('activo');
     });
-
-    function subirImagen(formulario,elementoId){
-        var token= $('#token').val();
-        let timestamp = Math.floor( Date.now() );
-        $.ajaxSetup({
-            headers: { "X-CSRF-TOKEN": $('#token').val() },
-        });
-        
-        var formElement = document.getElementById(formulario);
-        var formData = new FormData(formElement);
-        formData.append("elementoId", elementoId);
-        
-        $.ajax({
-            type:'POST',
-            url: "{{ route('campaign.elementos.updateimagenindex') }}",
-            data:formData,
-            cache:false,
-            contentType: false,
-            processData: false,
-            success:function(data){
-                // $('#'+formulario +' img').remove();
-                $('#original').attr('src', '/storage/galeria/'+ data.campaign_id+'/'+ data.imagen+'?ver=' + timestamp);
-                toastr.info('Imagen actualizada con éxito','Imagen',{
-                    "progressBar":true,
-                    "positionClass":"toast-top-center"
-                });
-            },
-            error: function(data){
-                console.log(data);
-                toastr.error("No se ha actualizado la imagen.<br>"+ data.responseJSON.message,'Error actualización',{
-                    "closeButton": true,
-                    "progressBar":true,
-                    "positionClass":"toast-top-center",
-                    "options.escapeHtml" : true,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": 0,
-                });
-            }
-        }); 
-    }
-
-</script>
-
-<script>
-    $('#menucampaign').addClass('active');
-    $('#navelemento').toggleClass('activo');
 </script>
 
 @endpush

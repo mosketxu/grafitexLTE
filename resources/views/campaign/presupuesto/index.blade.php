@@ -44,7 +44,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="tpresupuesto" class="table table-hover table-sm small" cellspacing="0" width=100%>
+                        <table id="tpresupuesto" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -67,7 +67,7 @@
                                     <td>{{$presupuesto->referencia}}</td>
                                     <td>{{$presupuesto->version}}</td>
                                     <td>{{$presupuesto->fecha}}</td>
-                                    <td>{{$presupuesto->atención}}</td>
+                                    <td>{{$presupuesto->atencion}}</td>
                                     <td>{{$presupuesto->ambito}}</td>
                                     <td>{{$presupuesto->observaciones}}</td>
                                     <td>{{$presupuesto->created_at}}</td>
@@ -173,6 +173,8 @@
 
 @push('scriptchosen')
 
+<script src="{{ asset('js/sortTable.js')}}"></script>
+
 <script>
     $(document).ready( function () {
         $('#menucampaign').addClass('active');
@@ -210,8 +212,7 @@ function borrarPresupuesto(presupuestoId,ruta,tok) {
    route= '/campaign/presupuesto/delete/'+presupuestoId;
 
    var mensaje;
-    var opcion = confirm("Clicka en Aceptar o Cancelar");
-
+   var opcion = confirm("¿Estás seguro?");
 
     if (opcion == true) {
         $.ajax({

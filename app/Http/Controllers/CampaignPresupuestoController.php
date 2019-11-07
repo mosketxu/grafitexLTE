@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignElemento, CampaignPresupuesto};
+use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoMaterial};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -105,8 +105,10 @@ class CampaignPresupuestoController extends Controller
     {
         $campaignpresupuesto=CampaignPresupuesto::find($id);
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
+        $materiales=CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->get();
+
         
-        return view('campaign.presupuesto.edit',compact('campaign','campaignpresupuesto'));
+        return view('campaign.presupuesto.edit',compact('campaign','materiales','campaignpresupuesto'));
 
     }
 

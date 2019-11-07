@@ -31,8 +31,6 @@
 
 {{-- Dropzone --}}
 <link rel="stylesheet" href="{{ asset('css/dropzone.min.css')}}">
-
-
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('css/adminlte.min.css')}}">
 <!-- This style -->

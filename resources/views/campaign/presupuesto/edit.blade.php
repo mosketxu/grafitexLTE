@@ -80,8 +80,8 @@
                                  </div>
                                  <div class="form-group col-1">
                                     <label class="form-label-sm" for="version">Versión</label>
-                                    <input type="number" class="form-control-sm form-control" id="version" name="version" step="0.1"
-                                       value="{{$campaignpresupuesto->version}} ">
+                                    <input type="number" class="form-control-sm form-control" id="version"
+                                       name="version" step="0.1" value="{{$campaignpresupuesto->version}} ">
                                  </div>
                                  <div class="form-group col">
                                     <label class="form-label-sm" for="fecha">Fecha</label>
@@ -124,27 +124,56 @@
                            </div>
                         </div>
                         <div class="card-body m-1 p-0">
+                           {{-- <a href="" title="Edit" onclick="cambiaDisabled();"><i class="far fa-edit text-primary fa-lg mx-1"></i></a> --}}
                            <!-- Materiales -->
-                           <div class="card collapsed-card">
+                           <div class="card">
                               <div class="card-header text-white bg-primary p-0" data-card-widget="collapse"
                                  style="cursor: pointer">
                                  <h3 class="card-title pl-3">Materiales</h3>
                                  <div class="card-tools pr-3">
-                                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
                                  </div>
                               </div>
                               <div class="card-body">
-                                 <form action="#" method="post">
-                                    <input type="hidden" name="_tokenMaterial" value="{{ csrf_token()}}" id="tokenMaterial">
-                                    <div class="form-group">
-                                       @csrf
-                                       <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
-                                       Materiales
+                              <form action="#" method="post">
+                                 <input type="hidden" name="_tokenMaterial" value="{{ csrf_token()}}" id="tokenMaterial">
+                                 <div class="form-group">
+                                    @csrf
+                                    <div class="table-responsive">
+                                       <table id="" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
+                                          <thead>
+                                             <tr>
+                                                <th>Material</th>
+                                                <th>Unidades</th>
+                                                <th>Ud x Prop</th>
+                                                <th>€ ud.</th>
+                                                <th>Total</th>
+                                                <th>Observaciones</th>
+                                                <th colspan="2">Actions</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             @foreach($materiales as $material)
+                                                <form method="POST" action="POST">
+                                                   <tr>
+                                                   <td><input type="text" id="concepto{{$material->id}}" class="form-control-plaintext item" name="concepto" value="{{$material->concepto}}" readonly="readonly"></td>
+                                                      <td><input type="number" step="1" id="unidades{{$material->id}}" class="form-control-plaintext item" name="unidades" onchange="totalizar({{$material->id}})"  value="{{$material->unidades}}" readonly="readonly"></td>
+                                                      <td><input type="number" step="1" id="uxprop{{$material->id}}" class="form-control-plaintext item" name="uxprop" value="{{$material->uxprop}}" readonly="readonly"></td>
+                                                      <td><input type="number"  step="0.01" id="preciounidad{{$material->id}}" class="form-control-plaintext item" name="preciounidad" onchange="totalizar({{$material->id}})"  value="{{$material->preciounidad}}" readonly="readonly"></td>
+                                                      <td><input name="total" id="total{{$material->id}}" class="form-control-plaintext item" name="total" value="{{$material->total}}" readonly="readonly" disabled></td>
+                                                      <td><input type="text" id="observaciones{{$material->id}}" class="form-control-plaintext item" name="observaciones" value="{{$material->observaciones}}" readonly="readonly"></td>
+                                                      <td>
+                                                         <a class="editar" title="Validar"><i class="fas fa-edit text-primary fa-lg mx-1"></i></a>
+                                                         <a href="" title="Edit" class="pulsame"><i class="far fa-check-circle text-success fa-lg mx-1"></i></a>
+                                                         <a href="#" title="Eliminar"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                                      </td>
+                                                   </tr>
+                                                </form>
+                                             @endforeach
+                                          </tbody>
+                                       </table>
+                                       <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar Materiales</button>
                                     </div>
-                                    {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                       onclick="asociar({{ $campaign->id}},'/campaign/asociarstore','#tokenStore','storesduallistbox[]','Stores','store','campaign_stores')">Asociar
-                                       Stores</button> --}}
-                                    <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar Materiales</button>
                                  </form>
                               </div>
                            </div>
@@ -167,8 +196,9 @@
                                     </div>
                                     {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                        onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenSegmento','segmentosduallistbox[]','Segmentos','segmento','campaign_segmentos')">Asociar
-                                       Segmentos</button> --}}
-                                    <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar Promedios</button>
+                                    Segmentos</button> --}}
+                                    <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar
+                                       Promedios</button>
                                  </form>
                               </div>
                            </div>
@@ -188,38 +218,41 @@
                                        @csrf
                                        <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
                                     </div>
-                                    <button type="button" class="btn btn-default btn-block" name="Guardar" >Guardar Extras</button>
+                                    <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar
+                                       Extras</button>
                                     {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
                                        onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
-                                       Ubicaciones</button> --}}
+                                    Ubicaciones</button> --}}
                                  </form>
                               </div>
                            </div>
 
                            <!-- Picking -->
                            <div class="card collapsed-card">
-                                 <div class="card-header text-black bg-warning p-0" data-card-widget="collapse"
-                                    style="cursor: pointer">
-                                    <h3 class="card-title pl-3">Picking</h3>
-                                    <div class="card-tools pr-3">
-                                       <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
-                                    </div>
-                                 </div>
-                                 <div class="card-body collapse">
-                                    <form action="#" method="post">
-                                       <input type="hidden" name="_tokenPicking" value="{{ csrf_token()}}" id="tokenPicking">
-                                       <div class="form-group">
-                                          @csrf
-                                          <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
-                                       </div>
-                                       <button type="button" class="btn btn-default btn-block" name="Guardar" >Guardar Picking</button>
-                                       {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                          onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
-                                          Ubicaciones</button> --}}
-                                    </form>
+                              <div class="card-header text-black bg-warning p-0" data-card-widget="collapse"
+                                 style="cursor: pointer">
+                                 <h3 class="card-title pl-3">Picking</h3>
+                                 <div class="card-tools pr-3">
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                  </div>
                               </div>
-   
+                              <div class="card-body collapse">
+                                 <form action="#" method="post">
+                                    <input type="hidden" name="_tokenPicking" value="{{ csrf_token()}}"
+                                       id="tokenPicking">
+                                    <div class="form-group">
+                                       @csrf
+                                       <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
+                                    </div>
+                                    <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar
+                                       Picking</button>
+                                    {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
+                                          onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
+                                    Ubicaciones</button> --}}
+                                 </form>
+                              </div>
+                           </div>
+
                         </div>
                      </form>
                   </div>
@@ -239,7 +272,7 @@
 @push('scriptchosen')
 
 <script>
-      @if(Session::has('message'))
+   @if(Session::has('message'))
           toastr.options={
               progressBar:true,
               positionClass:"toast-top-center"
@@ -259,8 +292,25 @@
           toastr.error("{{ $error }}");
           @endforeach
       @endif
-  </script>
-  
+</script>
+<script>
+   function totalizar(id) {
+      ud=$('#unidades'+id).val();
+      precio=parseFloat($('#preciounidad'+id).val());
+      // precio = precio.toString().replace(/\./g,',');
+      total=ud*precio;
+      $('#preciounidad'+id).val(precio);
+      $('#total'+id).val(total);
+   }
+
+   $('.editar').click(function(){
+      $(this).closest('tr').find('input').removeAttr('readonly');
+      $(this).closest('tr').css('background-color','#e2eae4');
+   });
+
+
+</script>
+
 <script>
    $('#menucampaign').addClass('active');
     $('#navpresupuesto').toggleClass('activo');

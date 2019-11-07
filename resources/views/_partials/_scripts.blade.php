@@ -28,7 +28,8 @@
     
         <!-- Toastr -->
         <script src="{{ asset('plugins/toastr/toastr.min.js')}}"></script>
-    
+
+  
         <!-- ChartJS -->
         {{-- <script src="{{ asset('plugins/chart.js/Chart.min.js')}}"></script> --}}
         

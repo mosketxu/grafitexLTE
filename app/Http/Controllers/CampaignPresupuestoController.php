@@ -139,8 +139,6 @@ class CampaignPresupuestoController extends Controller
         
         // return redirect('/maestro')->with($notification);
         return redirect()->back()->with($notification);
-
-
     }
 
     /**

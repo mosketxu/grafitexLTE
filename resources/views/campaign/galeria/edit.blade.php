@@ -64,8 +64,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="formgaleria" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data" id="uploadimage">
-                    {{-- <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage"> --}}
+                    <form id="formgaleria" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data">
+                    {{-- <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data"> --}}
                         @csrf
                         <div class="card-body">
                             <input type="text" class="d-none" id="campaigngaleria" name="campaigngaleria" value="{{$campaigngaleria}}">

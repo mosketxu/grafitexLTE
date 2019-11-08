@@ -244,9 +244,7 @@ function borrarPresupuesto(presupuestoId,ruta,tok) {
                     });
             }
         });
-    } else {
-	    mensaje = "Has clickado Cancelar";
-	}
+    }
 }
 
 </script>

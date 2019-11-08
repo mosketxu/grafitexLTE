@@ -61,6 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::post('/update/{presupuestoId}', 'CampaignPresupuestoController@update')->name('campaign.presupuesto.update');
                 Route::post('/store','CampaignPresupuestoController@store')->name('campaign.presupuesto.store');
                 Route::delete('/delete/{presupuestoId}', 'CampaignPresupuestoController@destroy')->name('campaign.presupuesto.delete');
+                //presupuesto material
+                Route::group(['prefix' => 'material'], function () {
+                    Route::post('/update/{presupuestomaterialId}', 'CampaignPresupuestoMaterialController@update')->name('campaign.presupuesto.material.update');
+                });
             });
             // albaran
             Route::group(['prefix' => 'albaran'], function () {

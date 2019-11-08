@@ -135,10 +135,7 @@
                                  </div>
                               </div>
                               <div class="card-body">
-                              <form action="#" method="post">
-                                 <input type="hidden" name="_tokenMaterial" value="{{ csrf_token()}}" id="tokenMaterial">
                                  <div class="form-group">
-                                    @csrf
                                     <div class="table-responsive">
                                        <table id="" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
                                           <thead>
@@ -154,27 +151,33 @@
                                           </thead>
                                           <tbody>
                                              @foreach($materiales as $material)
-                                                <form method="POST" action="POST">
-                                                   <tr>
+                                             <form id="form{{$material->id}}" role="form" method="post" action="javascript:void(0)" >
+                                             {{-- <form id="form{{$material->id}}" role="form" method="post" action="{{ route('campaign.presupuesto.material.update',$material->id) }}" > --}}
+                                                <input type="hidden" name="_tokenMaterial{{$material->id}}" value="{{ csrf_token()}}" id="tokenMaterial{{$material->id}}">
+                                                @csrf
+                                                <tr>
+                                                   <input type="hidden" name="presupuesto_id" value="{{$material->presupuesto_id}}" readonly="readonly">
                                                    <td><input type="text" id="concepto{{$material->id}}" class="form-control-plaintext item" name="concepto" value="{{$material->concepto}}" readonly="readonly"></td>
-                                                      <td><input type="number" step="1" id="unidades{{$material->id}}" class="form-control-plaintext item" name="unidades" onchange="totalizar({{$material->id}})"  value="{{$material->unidades}}" readonly="readonly"></td>
-                                                      <td><input type="number" step="1" id="uxprop{{$material->id}}" class="form-control-plaintext item" name="uxprop" value="{{$material->uxprop}}" readonly="readonly"></td>
-                                                      <td><input type="number"  step="0.01" id="preciounidad{{$material->id}}" class="form-control-plaintext item" name="preciounidad" onchange="totalizar({{$material->id}})"  value="{{$material->preciounidad}}" readonly="readonly"></td>
-                                                      <td><input name="total" id="total{{$material->id}}" class="form-control-plaintext item" name="total" value="{{$material->total}}" readonly="readonly" disabled></td>
-                                                      <td><input type="text" id="observaciones{{$material->id}}" class="form-control-plaintext item" name="observaciones" value="{{$material->observaciones}}" readonly="readonly"></td>
-                                                      <td>
-                                                         <a class="editar" title="Validar"><i class="fas fa-edit text-primary fa-lg mx-1"></i></a>
-                                                         <a href="" title="Edit" class="pulsame"><i class="far fa-check-circle text-success fa-lg mx-1"></i></a>
-                                                         <a href="#" title="Eliminar"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
-                                                      </td>
-                                                   </tr>
-                                                </form>
+                                                   <td><input type="number" step="1" id="unidades{{$material->id}}" class="form-control-plaintext item" name="unidades" onchange="totalizar({{$material->id}})"  value="{{$material->unidades}}" readonly="readonly"></td>
+                                                   <td><input type="number" step="1" id="uxprop{{$material->id}}" class="form-control-plaintext item" name="uxprop" value="{{$material->uxprop}}" readonly="readonly"></td>
+                                                   <td><input type="number"  step="0.01" id="preciounidad{{$material->id}}" class="form-control-plaintext item" name="preciounidad" onchange="totalizar({{$material->id}})"  value="{{$material->preciounidad}}" readonly="readonly"></td>
+                                                   <td><input name="total" id="total{{$material->id}}" class="form-control-plaintext item" name="total" value="{{$material->total}}" readonly="readonly"></td>
+                                                   <td><input type="text" id="observaciones{{$material->id}}" class="form-control-plaintext item" name="observaciones" value="{{$material->observaciones}}" readonly="readonly"></td>
+                                                   <td>
+                                                      <a class="editar" title="Editar"><i class="fas fa-edit text-primary fa-lg mx-1"></i></a>
+                                                      <a href="#" title="Validar" onclick="actualizarMaterial('form{{$material->id}}',{{$material->id}},'/campaign/presupuesto/material/update/','#tokenMaterial{{$material->id}}')"><i class="far fa-check-circle text-success fa-lg mx-1"></i></a>
+                                                      <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button>
+                  
+
+                                                      <a href="#" title="Eliminar"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                                   </td>
+                                                </tr>
+                                             </form>
                                              @endforeach
                                           </tbody>
                                        </table>
-                                       <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar Materiales</button>
+                                       {{-- <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar Materiales</button> --}}
                                     </div>
-                                 </form>
                               </div>
                            </div>
                            <!-- Promedio -->
@@ -307,8 +310,45 @@
       $(this).closest('tr').find('input').removeAttr('readonly');
       $(this).closest('tr').css('background-color','#e2eae4');
    });
+</script>
 
-
+<script>
+function actualizarMaterial(formulario,materialId,ruta,tok) {
+   var token = $(tok).val();
+   var route = ruta;
+   route= ruta+materialId;
+   var formElement = document.getElementById(formulario);
+   var formData = new FormData(formElement);
+   
+   $.ajax({
+      cache:false,
+      contentType: false,
+      processData: false,
+      
+      type: "POST",
+      url: route,
+      headers: { "X-CSRF-TOKEN": token },
+      data: formData,
+      success: function(data) {
+         toastr.success('Línea actualizada con éxito',{
+            "progressBar":true,
+            "positionClass":"toast-top-center"
+         });
+      },
+      error:function(msj){
+         console.log(msj.responseJSON.errors);
+         toastr.error("Ha habido un error. <br />No se ha podido actualizar. <br />"+ msj.responseJSON.message,{
+            "closeButton": true,
+            "progressBar":true,
+            "positionClass":"toast-top-center",
+            "options.escapeHtml" : true,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": 0,
+         });
+      }
+   });
+}
 </script>
 
 <script>

@@ -75,14 +75,22 @@ class CampaignPresupuestoMaterialController extends Controller
             'preciounidad' => 'required|numeric',
             'uxprop' => 'required|numeric',
             ]);
-            // dd($request);
+        // dd($request);
         CampaignPresupuestoMaterial::find($id)->update($request->all());
+        $totalMateriales = CampaignPresupuestoMaterial::where('presupuesto_id',$request->presupuesto_id)->sum('total');
+            // dd($totalMateriales);
+
+        return response()->json([
+            "mensaje" => $request->all(),
+            "tot"=>$totalMateriales,
+            'notification'=> '¡Línea actualizada satisfactoriamente!',
+            ]);
         
-        $notification = array(
-            'message' => '¡Línea actualizada satisfactoriamente!',
-            'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification);
+        // $notification = array(
+        //     'message' => '¡Línea actualizada satisfactoriamente!',
+        //     'alert-type' => 'success'
+        // );
+        // return redirect()->back()->with($notification);
     }
 
     /**

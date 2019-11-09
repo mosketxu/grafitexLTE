@@ -19,9 +19,9 @@ class CreateCampaignPresupuestoMaterialesTable extends Migration
             $table->foreign('presupuesto_id')->references('id')->on('campaign_presupuestos');
             $table->string('concepto');
             $table->decimal('preciounidad')->default(0);
-            $table->integer('unidades')->default(0)->nullable();
-            $table->integer('uxprop')->default(0)->nullable();
-            $table->decimal('total')->nullable();
+            $table->integer('unidades')->default(0);
+            $table->integer('uxprop')->default(0);
+            $table->decimal('total')->default(0);
             $table->string('observaciones')->nullable();
             $table->timestamps();
         });

@@ -16,6 +16,15 @@
     cursor: pointer;
 }
 
+/* quitar las flechas de los numeros */
+
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    
+
+
 /* Para el plugin de ordenacion */
 /* table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     content: " \25B4\25BE" 

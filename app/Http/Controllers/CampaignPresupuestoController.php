@@ -106,10 +106,18 @@ class CampaignPresupuestoController extends Controller
         $campaignpresupuesto=CampaignPresupuesto::find($id);
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
         $materiales=CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->get();
-
         
         return view('campaign.presupuesto.edit',compact('campaign','materiales','campaignpresupuesto'));
+    }
 
+    public function cotizacion($id)
+    {
+        $campaignpresupuesto=CampaignPresupuesto::find($id);
+        $campaign=Campaign::find($campaignpresupuesto->campaign_id);
+        $materiales=CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->get();
+        $totalMateriales = CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->sum('total');
+
+        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales'));
     }
 
     /**
@@ -121,25 +129,24 @@ class CampaignPresupuestoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'referencia' => 'required',
-            'version' => 'required',
-            'fecha' => 'required|date',
-            'estado' => 'required',
-            ]);
-        CampaignPresupuesto::find($id)->update($request->all());
-        $campaign=Campaign::find($request->campaign_id);
-        
-        // if validator()->pass
-
-        $notification = array(
-            'message' => '¡Presupuesto actualizado satisfactoriamente!',
-            'alert-type' => 'success'
-        );
-        
-        // return redirect('/maestro')->with($notification);
-        return redirect()->back()->with($notification);
-    }
+        // if ($request->ajax()) {
+            $request->validate([
+                'referencia' => 'required',
+                'version' => 'required',
+                'fecha' => 'required|date',
+                'estado' => 'required',
+                ]);
+                CampaignPresupuesto::find($id)->update($request->all());
+                $campaign=Campaign::find($request->campaign_id);
+                
+                $notification = array(
+                    'message' => '¡Presupuesto actualizado satisfactoriamente!',
+                    'alert-type' => 'success'
+                );
+                
+            return redirect()->back()->with($notification);
+        }
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -159,7 +166,7 @@ class CampaignPresupuestoController extends Controller
   
         // return redirect()->back()->with($notification);
 
-        return response()->json(['success'=>'guay']);
+        return response()->json(['success'=>'Eliminado con exito']);
     }
 
 

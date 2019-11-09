@@ -6,7 +6,7 @@
 @section('title','Grafitex-Presupuestos')
 @section('titlePag','Presupuesto')
 @section('navbar')
-    @include('campaign._navbarcampaign')
+@include('campaign._navbarcampaign')
 @endsection
 
 
@@ -42,9 +42,37 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="campaign_name">Campaña</label>
+                                    <input type="text" class="form-control form-control-sm" id="campaign_name"
+                                        name="campaign_name" value="{{ old('campaign_name',$campaign->campaign_name) }}"
+                                        disabled />
+                                </div>
+                                <div class="form-group col">
+                                    <label for="campaign_initdate">Fecha Inicio</label>
+                                    <input type="date" class="form-control form-control-sm" id="campaign_initdate"
+                                        name="campaign_initdate"
+                                        value="{{ old('campaign_initdate',$campaign->campaign_initdate) }}" disabled />
+                                </div>
+                                <div class="form-group col">
+                                    <label for="campaign_enddate">Fecha Finalización</label>
+                                    <input type="date" class="form-control form-control-sm" id="campaign_enddate"
+                                        name="campaign_enddate"
+                                        value="{{ old('campaign_enddate',$campaign->campaign_enddate) }}" disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="tpresupuesto" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
+                        <table id="tpresupuesto" class="table table-hover table-sm small sortable" cellspacing="0"
+                            width=100%>
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -56,13 +84,13 @@
                                     <th>Observaciones</th>
                                     <th>Creado el:</th>
                                     <th>Modificado el:</th>
-                                    <th>Estado</th>
+                                    <th class="text-right">Estado</th>
                                     <th class="text-right">Acción</th>
                                 </tr>
                             </thead>
                             <tbody class="">
                                 @foreach($presupuestos as $presupuesto)
-                            <tr id="t{{$presupuesto->id}}">
+                                <tr id="t{{$presupuesto->id}}">
                                     <td>{{$presupuesto->id}}</td>
                                     <td>{{$presupuesto->referencia}}</td>
                                     <td>{{$presupuesto->version}}</td>
@@ -88,13 +116,22 @@
                                     <td>
                                         <div class="text-right">
                                             <form action="#" method="post">
-                                                <input type="hidden" name="_tokenPresupuesto" value="{{ csrf_token()}}" id="tokenPresupuesto">
+                                                <input type="hidden" name="_tokenPresupuesto" value="{{ csrf_token()}}"
+                                                    id="tokenPresupuesto">
                                                 @csrf
-                                            {{-- <form action="{{ route('campaign.presupuesto.delete',$presupuesto->id) }}" method="POST"> --}}
+                                                {{-- <form action="{{ route('campaign.presupuesto.delete',$presupuesto->id) }}"
+                                                method="POST"> --}}
                                                 @method('DELETE')
-                                                <a href="{{route('campaign.presupuesto.edit', $presupuesto->id )}}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
-                                                {{-- <button type="submit" class="btn btn-danger" id="boton{{$presupuesto->id}}" style="display:none"></button> --}}
-                                                <a href="#" onclick="borrarPresupuesto({{$presupuesto->id}},'campaign.presupuesto.delete','#tokenPresupuesto')" title="Eliminar"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a>
+                                                <a href="{{route('campaign.presupuesto.edit', $presupuesto->id )}}"
+                                                    title="Edit"><i class="far fa-edit text-primary fa-2x mx-1"></i></a>
+                                                    {{-- <button type="submit" class="btn btn-danger" id="boton{{$presupuesto->id}}"
+                                                        style="display:none"></button> --}}
+                                                <a href="{{route('campaign.presupuesto.cotizacion', $presupuesto->id )}}"
+                                                    title="Cotización"><i class="fas fa-calculator  text-primary fa-2x mx-1"></i></a>
+                                                <a href="#"
+                                                    onclick="borrarPresupuesto({{$presupuesto->id}},'campaign.presupuesto.delete','#tokenPresupuesto')"
+                                                    title="Eliminar"><i
+                                                        class="far fa-trash-alt text-danger fa-2x ml-1"></i></a>
                                             </form>
                                         </div>
                                     </td>
@@ -130,8 +167,8 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="version">Versión</label>
-                                    <input type="number" class="form-control form-control-sm" id="version" name="version" step="0.1"
-                                        value="{{ old('version','1.0')}}" />
+                                    <input type="number" class="form-control form-control-sm" id="version"
+                                        name="version" step="0.1" value="{{ old('version','1.0')}}" />
                                 </div>
                                 <div class="form-group col">
                                     <label for="fecha">Fecha</label>
@@ -160,7 +197,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" name="Guardar" onclick="form.submit()">Guardar</button>
+                                <button type="button" class="btn btn-primary" name="Guardar"
+                                    onclick="form.submit()">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -206,7 +244,7 @@
 </script>
 
 <script>
-function borrarPresupuesto(presupuestoId,ruta,tok) {
+    function borrarPresupuesto(presupuestoId,ruta,tok) {
    var token = $(tok).val();
    var route = ruta;
    route= '/campaign/presupuesto/delete/'+presupuestoId;
@@ -226,7 +264,8 @@ function borrarPresupuesto(presupuestoId,ruta,tok) {
             },
             success: function(data) {
                 $('#t'+presupuestoId).remove();
-                toastr.info('Presupuesto borrado con éxito',{
+                // toastr.success("{{ Session::get('message') }}")
+                toastr.success('Presupuesto borrado con éxito',{
                     "progressBar":true,
                     "positionClass":"toast-top-center"
                 });
@@ -249,6 +288,3 @@ function borrarPresupuesto(presupuestoId,ruta,tok) {
 
 </script>
 @endpush
-
-
-

@@ -123,7 +123,7 @@
                                              <th class="text-center" >Unidades</th>
                                              <th class="text-center" >Ud x Prop</th>
                                              <th class="text-center" >€ ud.</th>
-                                             <th class="text-center"  id="totMat">Total {{$totalMateriales}}</th>
+                                             <th class="text-center"  id="totMat">Total {{number_format($totalMateriales,2,',','.')}}</th>
                                              <th class="text-center" >Observaciones</th>
                                              <th class="text-center" width="140px">Actions</th>
                                           </tr>
@@ -134,18 +134,18 @@
                                           {{-- <form id="form{{$material->id}}" role="form" method="post" action="{{ route('campaign.presupuesto.material.update',$material->id) }}" > --}}
                                              <input type="hidden" name="_tokenMaterial{{$material->id}}" value="{{ csrf_token()}}" id="tokenMaterial{{$material->id}}">
                                              @csrf
-                                             <tr class="editarTr" id="{{$material->id}}">
+                                             <tr class="editarTr" id="{{$material->id}}" >
                                                 <input type="hidden" name="presupuesto_id" value="{{$material->presupuesto_id}}" readonly="readonly">
                                                 <input type="checkbox" id="check{{$material->id}}" style="display:none">
-                                                <td ><input type="text" id="concepto{{$material->id}}" class="form-control-plaintext item" name="concepto" value="{{$material->concepto}}" readonly="readonly"></td>
-                                                <td ><input type="number" step="1" id="unidades{{$material->id}}" class="form-control-plaintext item text-right" name="unidades" onchange="totalizar({{$material->id}})"  value="{{$material->unidades}}" readonly="readonly"></td>
-                                                <td ><input type="number" step="1" id="uxprop{{$material->id}}" class="form-control-plaintext item text-right" name="uxprop" value="{{$material->uxprop}}" readonly="readonly"></td>
-                                                <td ><input type="number"  step="0.01" id="preciounidad{{$material->id}}" class="form-control-plaintext item text-right" name="preciounidad" onchange="totalizar({{$material->id}})"  value="{{$material->preciounidad}}" readonly="readonly"></td>
-                                                <td ><input type="hidden" name="total" id="total{{$material->id}}" class="form-control-plaintext item" name="total" value="{{$material->total}}" readonly="readonly">
-                                                <span id="totLabel{{$material->id}}" class="form-control-plaintext item text-right text-primary">{{$material->total}}</span>
+                                                <td class="my-0 py-1"><input type="text" id="concepto{{$material->id}}" class="my-0 py-0 form-control-plaintext item" name="concepto" value="{{$material->concepto}}" readonly="readonly"></td>
+                                                <td class="my-0 py-1"><input type="text" id="unidades{{$material->id}}" class="my-0 py-0 form-control-plaintext item text-right" name="unidades" onchange="totalizar({{$material->id}})"  value="{{$material->unidades}}" readonly="readonly"></td>
+                                                <td class="my-0 py-1"><input type="text" id="uxprop{{$material->id}}" class="my-0 py-0 form-control-plaintext item text-right" name="uxprop" value="{{$material->uxprop}}" readonly="readonly"></td>
+                                                <td class="my-0 py-1"><input type="text" id="preciounidad{{$material->id}}" class="my-0 py-0 form-control-plaintext item text-right" name="preciounidad" onchange="totalizar({{$material->id}})"  value="{{number_format($material->preciounidad,2,',','.')}}" readonly="readonly"></td>
+                                                <td class="my-0 py-1"><input type="hidden" name="total" id="total{{$material->id}}" class="my-0 py-0 form-control-plaintext item" name="total" value="{{$material->total}}" readonly="readonly">
+                                                <span id="totLabel{{$material->id}}" class="my-0 py-0 form-control-plaintext item text-right text-primary">{{number_format($material->total,2,',','.')}}</span>
                                                 </td>
-                                                <td ><input type="text" id="observaciones{{$material->id}}" class="form-control-plaintext item" name="observaciones" value="{{$material->observaciones}}" readonly="readonly"></td>
-                                                <td>
+                                                <td class="my-0 py-1" ><input type="text" id="observaciones{{$material->id}}" class="my-0 py-0 form-control-plaintext item" name="observaciones" value="{{$material->observaciones}}" readonly="readonly"></td>
+                                                <td class="my-0 py-1">
                                                 <a class="editar" title="Editar"><i id="editar{{$material->id}}" class="fas fa-edit text-primary fa-2x mx-1"></i></a>
                                                    <a href="#" title="Validar" onclick="actualizarMaterial('form{{$material->id}}',{{$material->id}},'/campaign/presupuesto/material/update/','#tokenMaterial{{$material->id}}')"><i class="far fa-check-circle text-success fa-2x mx-1"></i></a>
                                                    <a href="#" title="Eliminar"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></a>
@@ -262,10 +262,10 @@
 @push('scriptchosen')
 
 <script>
-      $(document).ready( function () {
-         $('#menucampaign').addClass('active');
-         $('#navpresupuesto').toggleClass('activo');
-      });
+   $(document).ready( function () {
+      $('#menucampaign').addClass('active');
+      $('#navpresupuesto').toggleClass('activo');
+   });
 </script>
 
 <script>
@@ -291,6 +291,18 @@
    @endif
 </script>
 <script>
+   function format(input){
+      var num = input.value.replace(/\./g,'');
+      if(!isNaN(num)){
+         num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+         num = num.split('').reverse().join('').replace(/^[\.]/,'');
+         input.value = num;
+      }
+  
+else{ alert('Solo se permiten numeros');
+input.value = input.value.replace(/[^\d\.]*/g,'');
+}
+}
    function totalizar(id) {
       ud=$('#unidades'+id).val();
       precio=parseFloat($('#preciounidad'+id).val());

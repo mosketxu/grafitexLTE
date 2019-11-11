@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\CampaignPresupuestoDetalle; 
+use App\CampaignPresupuestoDetalle;
 use Illuminate\Http\Request;
+
 
 class CampaignPresupuestoDetalleController extends Controller
 {
@@ -35,7 +36,38 @@ class CampaignPresupuestoDetalleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'concepto' => 'required',
+            'unidades' => 'required|numeric',
+            'preciounidad' => 'required|numeric',
+            ]);
+        // dd($request);
+
+        $detalle = new CampaignPresupuestoDetalle;
+
+        $detalle->presupuesto_id = $request->presupuesto_id;
+        $detalle->concepto = $request->concepto;
+        $detalle->tipo = $request->tipo;
+        $detalle->preciounidad = $request->preciounidad;
+        $detalle->uxprop=0;
+        $detalle->unidades = $request->unidades;
+        $detalle->total = $request->total;
+        $detalle->observaciones = $request->observaciones;
+
+        $detalle->save();
+
+        // return response()->json([
+        //     "mensaje" => $request->all(),
+        //     'notification'=> '¡Línea añadida satisfactoriamente!',
+        //     ]);
+
+        $notification = array(
+            'message' => '¡Concepto añadido satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+
     }
 
     /**
@@ -73,7 +105,6 @@ class CampaignPresupuestoDetalleController extends Controller
             'concepto' => 'required',
             'unidades' => 'required|numeric',
             'preciounidad' => 'required|numeric',
-            'uxprop' => 'required|numeric',
             ]);
         // dd($request);
         CampaignPresupuestoDetalle::find($id)->update($request->all());
@@ -95,6 +126,14 @@ class CampaignPresupuestoDetalleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        CampaignPresupuestoDetalle::find($id)->delete();
+
+        $notification = array(
+            'message' => '¡Concepto eliminado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+
     }
 }

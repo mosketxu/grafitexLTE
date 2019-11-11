@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoMaterial};
+use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoDetalle,CampaignPaisStore};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,6 +24,7 @@ class CampaignPresupuestoController extends Controller
         $campaign = Campaign::find($campaignId);
 
         $presupuestos= CampaignPresupuesto::search($request->busca)
+            ->where('campaign_id',$campaignId)
             ->orderBy('fecha')
             ->paginate('50');
 
@@ -66,12 +67,13 @@ class CampaignPresupuestoController extends Controller
             foreach ($t as $dato) {
                 $dataSet[] = [
                     'presupuesto_id'  => $campPresu->id,
+                    'tipo'=>0,
                     'concepto'  => $dato['material'],
                     'unidades'  => $dato['totales'],
                     'uxprop'  => $dato['unidades'],
                 ];
             }
-            DB::table('campaign_presupuesto_materiales')->insert($dataSet);
+            DB::table('campaign_presupuesto_detalles')->insert($dataSet);
         }
 
         $notification = array(
@@ -105,7 +107,7 @@ class CampaignPresupuestoController extends Controller
     {
         $campaignpresupuesto=CampaignPresupuesto::find($id);
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
-        $materiales=CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->get();
+        $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)->get();
         
         return view('campaign.presupuesto.edit',compact('campaign','materiales','campaignpresupuesto'));
     }
@@ -114,10 +116,13 @@ class CampaignPresupuestoController extends Controller
     {
         $campaignpresupuesto=CampaignPresupuesto::find($id);
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
-        $materiales=CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->get();
-        $totalMateriales = CampaignPresupuestoMaterial::where('presupuesto_id',$campaignpresupuesto->id)->sum('total');
+        $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)->get(); //ya están agrupados aquí
+        $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)->sum('total');
 
-        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales'));
+        $paisStores=Campaign::getConteoPaisStores($campaignpresupuesto->campaign_id); //hay que agrupar
+        $totalPaisStores=CampaignPaisStore::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
+
+        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales','paisStores','totalPaisStores'));
     }
 
     /**

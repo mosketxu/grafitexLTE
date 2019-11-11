@@ -16,6 +16,7 @@ use App\{
     CampaignCountry,
     CampaignElemento,
     CampaignGaleria,
+    CampaignPaisStore,
     CampaignPresupuesto,
     CampaignAlbaran,
 };
@@ -419,11 +420,23 @@ class CampaignController extends Controller
             }
             DB::table('campaign_galerias')->insert($dataSet);
         }
+
+        //relleno tabla tiendas por pais
+        if (CampaignPaisStore::where('campaign_id',$id)->count()>0)
+            CampaignPaisStore::where('campaign_id',$id)->delete();
+    
+        $generar= CampaignElemento::where('campaign_id',$id)
+            ->distinct('store')
+            ->select('store','country','campaign_id')
+            ->orderBy('store')
+            ->get()->toArray();
         
+        CampaignPaisStore::insert($generar);
+
         return redirect()->route('campaign.elementos', $campaign);
     }
 
-    public function conteo($campaignId, Request $request)
+    public function conteo($campaignId, Request $request) 
     {
         if ($request->busca) {
             $busqueda = $request->busca;
@@ -455,10 +468,6 @@ class CampaignController extends Controller
         
 
         $conteoMateriales=Campaign::getConteoMaterial($campaignId);
-
-        // return view('campaign.conteo', compact('campaign','conteoStores','conteostoresAreaCountry','conteoCountryAreaSegmentoConcept','conteoMateriales','total'))
-        //     ->with('notice', 'Generación realizada satisfactoriamente.');    
-        
         return view('campaign.conteos', compact('campaign','conteodetallado','conteostoresAreaCountry','total','totalstores','busqueda'))
             ->with('notice', 'Generación realizada satisfactoriamente.');    
     }

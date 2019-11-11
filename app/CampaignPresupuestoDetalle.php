@@ -4,13 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CampaignPresupuestoMaterial extends Model
+class CampaignPresupuestoDetalle extends Model
 {
-    protected $table = "campaign_presupuesto_materiales";
+    protected $table = "campaign_presupuesto_detalles";
     protected $fillable=['presupuesto_id','concepto','preciounidad','unidades','total','observaciones'];
 
     public function campaignpresupuesto(){
         return $this->belongsTo(CampaignPresupuesto::class);
     }
-
 }

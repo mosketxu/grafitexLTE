@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampaignSegmentosTable extends Migration
+class CreateCampaignPaisStoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateCampaignSegmentosTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_segmentos', function (Blueprint $table) {
+        Schema::create('campaign_pais_stores', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('segmento')->index();
+            $table->string('country');
+            $table->string('store');
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -29,6 +31,6 @@ class CreateCampaignSegmentosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campaign_segmentos');
+        Schema::dropIfExists('campaign_pais_stores');
     }
 }

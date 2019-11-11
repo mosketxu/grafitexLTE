@@ -16,7 +16,7 @@ class CreateCampaignUbicacionsTable extends Migration
         Schema::create('campaign_ubicacions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->references('id')->on('campaigns');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
             $table->string('ubicacion')->index();
             $table->timestamps();
         });

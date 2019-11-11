@@ -16,7 +16,7 @@ class CreateCampaignElementosTable extends Migration
         Schema::create('campaign_elementos', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->references('id')->on('campaigns');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
             $table->integer('store')->index();
             $table->string('name')->index();
             $table->string('country',2)->index();

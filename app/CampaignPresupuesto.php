@@ -29,20 +29,8 @@ class CampaignPresupuesto extends Model
     return $this->belongsTo(Campaign::class);
     }
 
-    public function presupuestoextras(){
-    return $this->hasMany(CampaignPresupuestoExtra::class);
-    }
-
-    public function materiales(){
-        return $this->hasMany(CampaignPresupuestoMaterial::class);
-    }
-
-    public function pickings(){
-        return $this->hasMany(CampaignPresupuestoPicking::class);
-    }
-
-    public function promedios(){
-        return $this->hasMany(CampaignPresupuestoPromedio::class);
+    public function detalles(){
+        return $this->hasMany(CampaignPresupuestoDetalle::class);
     }
 
 }

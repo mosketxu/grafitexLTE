@@ -16,7 +16,7 @@ class CreateCampaignStoresTable extends Migration
         Schema::create('campaign_stores', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->references('id')->on('campaigns');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
             $table->integer('store_id')->index();
             $table->string('store')->index();
             $table->timestamps();

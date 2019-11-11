@@ -16,7 +16,7 @@ class CreateCampaignGaleriasTable extends Migration
         Schema::create('campaign_galerias', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->references('id')->on('campaigns');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
             $table->string('mobiliario');
             $table->string('carteleria')->default('pordefecto.jpg');
             $table->string('medida')->default('pordefecto.jpg');

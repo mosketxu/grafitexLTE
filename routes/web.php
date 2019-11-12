@@ -63,8 +63,8 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::post('/store','CampaignPresupuestoController@store')->name('campaign.presupuesto.store');
                 Route::delete('/delete/{presupuestoId}', 'CampaignPresupuestoController@destroy')->name('campaign.presupuesto.delete');
                 //presupuesto detalles
-                Route::group(['prefix' => 'material'], function () {
-                    Route::post('/update/{presupuestomaterialId}', 'CampaignPresupuestoDetalleController@update')->name('campaign.presupuesto.detalle.update');
+                Route::group(['prefix' => 'detalle'], function () {
+                    Route::post('/update/{presupuestodetallelId}', 'CampaignPresupuestoDetalleController@update')->name('campaign.presupuesto.detalle.update');
                     Route::post('/store', 'CampaignPresupuestoDetalleController@store')->name('campaign.presupuesto.detalle.store');
                     Route::get('/delete/{detalleId}', 'CampaignPresupuestoDetalleController@destroy')->name('campaign.presupuesto.detalle.delete');
                 });

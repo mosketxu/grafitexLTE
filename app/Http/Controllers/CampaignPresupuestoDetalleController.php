@@ -108,12 +108,14 @@ class CampaignPresupuestoDetalleController extends Controller
             ]);
         // dd($request);
         CampaignPresupuestoDetalle::find($id)->update($request->all());
-        $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$request->presupuesto_id)->sum('total');
+        $totalDetalles = CampaignPresupuestoDetalle::where('presupuesto_id',$request->presupuesto_id)
+        ->where('tipo',$request->tipo)
+        ->sum('total');
             // dd($totalMateriales);
 
         return response()->json([
             "mensaje" => $request->all(),
-            "tot"=>$totalMateriales,
+            "tot"=>$totalDetalles,
             'notification'=> '¡Línea actualizada satisfactoriamente!',
             ]);
     }

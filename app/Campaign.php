@@ -71,24 +71,3 @@ class Campaign extends Model
             ->get();
     }
 }
-
-
-// $imagenes=CampaignElemento::where('campaign_id',$id)
-// ->distinct('campaign_id','mobiliario','carteleria','medida')
-// ->select('campaign_id',DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,carteleria,medida),' ',''),'.',''),'(',''),')',''),'+','') as elemento"))
-// ->get();
-
-
-// foreach (array_chunk($imagenes->toArray(),1000) as $t){
-//     $dataSet = [];
-//     foreach ($generar as $gen) {
-//         $dataSet[] = [
-//             'campaign_id'  => $id,
-//             'mobiliario'  => $gen->mobiliario,
-//             'carteleria'  => $gen->carteleria,
-//             'medida'  => $gen->medida,
-//             'elemento'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen->mobiliario.'-'.$gen->carteleria.'-'.$gen->medida))))),
-//             'imagen'  => 'pordefecto.jpg',
-//         ];
-//     }
-//     DB::table('campaign_galerias')->insert($dataSet);

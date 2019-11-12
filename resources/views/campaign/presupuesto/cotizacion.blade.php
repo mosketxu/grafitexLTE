@@ -71,10 +71,11 @@
             </div>
             <div class="card-body">
                <div class="card">
-                  <div class="card-header"> 
+                  <div class="card-header">
                      <div class="row">
                         <div class="form-group col">
-                           <label class="form-label-sm" for="referencia">Referencia</label>
+                           <label class="form-label-sm" for="referencia">Referencia<span
+                                 class="badge badge-primary navbar-badge">{{$campaignpresupuesto->id}}</span></label>
                            <input type="text" class="form-control-sm form-control" id="referencia" name="referencia"
                               value="{{$campaignpresupuesto->referencia}}" readonly>
                         </div>
@@ -112,11 +113,11 @@
                   </div>
                   <div class="card-body m-1 p-0">
                      <!-- Materiales -->
-                     <div class="card">
+                     <div class="card collapsed-card">
                         {{-- titulo card --}}
                         <div class="card-header text-white bg-primary p-0" data-card-widget="collapse"
                            style="cursor: pointer">
-                           <h3 class="card-title pl-3">Materiales</h3><span id="totMat2" class="ml-3">
+                           <h3 class="card-title pl-3">Materiales</h3><span class="sumTotMat ml-3">
                               {{number_format($totalMateriales,2,',','.')}}</span>
                            <div class="card-tools pr-3">
                               <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
@@ -132,8 +133,10 @@
                                        <th class="text-left px-2">Material</th>
                                        <th class="text-right px-2">Unidades</th>
                                        <th class="text-right px-2">€ ud.</th>
-                                       <th class="text-right px-2" id="totMat">Total
-                                          <br />{{number_format($totalMateriales,2,',','.')}}</th>
+                                       <th class="text-right px-2">Total<br />
+                                          <span class="sumTotMat">{{number_format($totalMateriales,2,',','.')}}
+                                          </span>
+                                       </th>
                                        <th class="text-center">Observaciones</th>
                                        <th class="text-center" width="140px">Actions</th>
                                     </tr>
@@ -148,45 +151,51 @@
                                        <input type="hidden" name="_tokenMaterial{{$material->id}}"
                                           value="{{ csrf_token()}}" id="tokenMaterial{{$material->id}}">
                                        @csrf
-                                       <tr class="editarTr" id="{{$material->id}}">
+                                       <tr class="editarTr" id="{{$material->id}}"><span class="d-none" id="sum{{$material->id}}">sumTotMat</span>                                          
                                           <input type="hidden" name="presupuesto_id"
                                              value="{{$material->presupuesto_id}}" readonly="readonly">
+                                          <input type="hidden" name="tipo" value="0" readonly="readonly">
                                           <input type="checkbox" id="check{{$material->id}}" style="display:none">
                                           <td class="my-0 py-1">
-                                             <input type="text" id="concepto{{$material->id}}" 
-                                             class="my-0 py-0 form-control-plaintext item text-left" 
-                                             name="concepto" value="{{$material->concepto}}" readonly="readonly">
+                                             <input type="text" id="concepto{{$material->id}}"
+                                                class="my-0 py-0 form-control-plaintext item text-left" name="concepto"
+                                                value="{{$material->concepto}}" readonly="readonly">
                                           </td>
                                           <td class="my-0 py-1">
-                                             <input type="text" id="unidades{{$material->id}}" 
-                                             class="my-0 py-0 px-2 form-control-plaintext item text-right" 
-                                             name="unidades" onchange="totalizar({{$material->id}})" 
-                                             value="{{$material->unidades}}" readonly="readonly"></td>
+                                             <input type="text" id="unidades{{$material->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-right"
+                                                name="unidades" onchange="totalizar({{$material->id}})"
+                                                value="{{$material->unidades}}" readonly="readonly"></td>
                                           <td class="my-0 py-1">
-                                             <input type="text" id="preciounidad{{$material->id}}" 
-                                             class="my-0 py-0 px-2 form-control-plaintext item text-right" 
-                                             name="preciounidad" onchange="totalizar({{$material->id}})" 
-                                             value="{{number_format($material->preciounidad,2,',','.')}}" readonly="readonly"></td>
+                                             <input type="text" id="preciounidad{{$material->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-right"
+                                                name="preciounidad" onchange="totalizar({{$material->id}})"
+                                                value="{{number_format($material->preciounidad,2,',','.')}}"
+                                                readonly="readonly"></td>
                                           <td class="my-0 py-1"><input type="hidden" id="total{{$material->id}}"
                                                 class="my-0 py-0 px-2 form-control-plaintext item" name="total"
                                                 value="{{$material->total}}" readonly="readonly">
-                                                <span id="totLabel{{$material->id}}"
-                                                   class="my-0 py-0 px-2 form-control-plaintext item text-right text-primary">
-                                                   {{number_format($material->total,2,',','.')}}
-                                                </span>
+                                             <span id="totLabel{{$material->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-right text-primary">
+                                                {{number_format($material->total,2,',','.')}}
+                                             </span>
                                           </td>
                                           <td class="my-0 py-1">
                                              <input type="text" id="observaciones{{$material->id}}"
                                                 class="my-0 py-0 px-2 form-control-plaintext item text-center"
-                                                name="observaciones" value="{{$material->observaciones}}" readonly="readonly"></td>
-                                                {{-- acctiones --}}
+                                                name="observaciones" value="{{$material->observaciones}}"
+                                                readonly="readonly"></td>
+                                          {{-- acctiones --}}
                                           <td class="my-0 py-1"> <a class="editar" title="Editar">
-                                                <i id="editar{{$material->id}}" class="fas fa-edit text-primary fa-2x mx-1"></i>
+                                                <i id="editar{{$material->id}}"
+                                                   class="fas fa-edit text-primary fa-2x mx-1"></i>
                                              </a>
-                                             <a href="#" title="Validar" class="far fa-check-circle text-success fa-2x mx-1"
-                                                onclick="actualizar('form{{$material->id}}',{{$material->id}},'/campaign/presupuesto/material/update/','#tokenMaterial{{$material->id}}')"><i></i>
+                                             <a href="#" title="Validar"
+                                                class="far fa-check-circle text-success fa-2x mx-1"
+                                                onclick="actualizar('form{{$material->id}}',{{$material->id}},'/campaign/presupuesto/detalle/update/','#tokenMaterial{{$material->id}}'),'.sumTotMat'"><i></i>
                                              </a>
-                                             <a href="{{ route('campaign.presupuesto.detalle.delete',$material->id) }}" title="hola">
+                                             <a href="{{ route('campaign.presupuesto.detalle.delete',$material->id) }}"
+                                                title="hola">
                                                 <i class="far fa-trash-alt text-danger fa-2x ml-1"></i>
                                              </a>
                                              {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
@@ -205,23 +214,24 @@
                                        <th class="text-center"></th>
                                     </tr>
                                     {{-- <form id="formMaterialNew" role="form" method="post" action="javascript:void(0)"> --}}
-                                       <form id="formMaterialNew" role="form" method="post" action="{{ route('campaign.presupuesto.detalle.store') }}"
-                                          >
-                                       <input type="hidden" name="_tokenMaterialNew" value="{{ csrf_token()}}" id="tokenMaterialNew">
+                                    <form id="formMaterialNew" role="form" method="post"
+                                       action="{{ route('campaign.presupuesto.detalle.store') }}">
+                                       <input type="hidden" name="_tokenMaterialNew" value="{{ csrf_token()}}"
+                                          id="tokenMaterialNew">
                                        @csrf
                                        <tr class="" id="tmaterialNew">
                                           <input type="hidden" name="presupuesto_id"
                                              value="{{$material->presupuesto_id}}" readonly="readonly">
                                           <input type="hidden" name="tipo" value="0" readonly="readonly">
                                           <td class="my-0 py-1"><input type="text" id="materialNew"
-                                             class="my-0 py-0 form-control item text-left" name="concepto" value="">
+                                                class="my-0 py-0 form-control item text-left" name="concepto" value="">
                                           </td>
                                           <td class="my-0 py-1"><input type="text" id="unidadesMaterialNew"
                                                 class="my-0 py-0 px-2 form-control item text-right" name="unidades"
                                                 onchange="totalizar('MaterialNew')" value="0"></td>
                                           <td class="my-0 py-1"><input type="text" id="preciounidadMaterialNew"
-                                             class="my-0 py-0 px-2 form-control item text-right" name="preciounidad"
-                                             onchange="totalizar('MaterialNew')" value="0"></td>
+                                                class="my-0 py-0 px-2 form-control item text-right" name="preciounidad"
+                                                onchange="totalizar('MaterialNew')" value="0"></td>
                                           <td class="my-0 py-1"><input type="hidden" id="totalMaterialNew"
                                                 class="my-0 py-0 px-2 form-control item" name="total" value="0">
                                              <span id="totLabelMaterialNew"
@@ -232,9 +242,10 @@
                                                 name="observaciones" value=""></td>
                                           <td class="my-0 py-1">
                                              {{-- <a href="#" title="Validar"
-                                                onclick="nuevoMaterial('formMaterialNew','tmaterialNew','/campaign/presupuesto/material/store/','#tokenMaterialNew')"><i
+                                                onclick="nuevoMaterial('formMaterialNew','tmaterialNew','/campaign/presupuesto/detalle/store/','#tokenMaterialNew')"><i
                                                    class="fas fa-plus text-success fa-2x mx-1"></i></a> --}}
-                                             <a href="#" title="Validar" onclick="document.getElementById('formMaterialNew').submit()">
+                                             <a href="#" title="Validar"
+                                                onclick="document.getElementById('formMaterialNew').submit()">
                                                 <i class="fas fa-plus text-success fa-2x mx-1"></i>
                                              </a>
                                              {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
@@ -245,106 +256,171 @@
                               </table>
                               {{-- <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar Materiales</button> --}}
                            </div>
-                           <!-- Modal Crear-->
-                           {{-- <div class="modal fade" id="conceptoCreateModal" tabindex="-1" role="dialog"
-                              aria-labelledby="conceptoCreateModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                       <h5 class="modal-title" id="conceptoCreateModalLabel">Nuevo Concepto</h5>
-                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                       </button>
-                                    </div>
-                                    <div class="modal-body">
-                                       <form method="post" action="{{ route('campaign.presupuesto.material.store') }}">
-                                          @csrf
-                                          <input type="hidden" id="presupuesto_id" name="presupuesto_id"
-                                             value="{{ $presupuesto->id }}" />
-
-                                             <div class="modal-footer">
-                                             <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Cerrar</button>
-                                             <button type="button" class="btn btn-primary" name="Guardar"
-                                                onclick="form.submit()">Guardar</button>
-                                          </div>
-                                       </form>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div> --}}
                         </div>
                      </div>
-                     <div class="card-footer">
-                     </div>
-                  </div>
-                  <!-- Promedio -->
-                  <div class="card collapsed-card">
-                     <div class="card-header text-white bg-success p-0" data-card-widget="collapse"
-                        style="cursor: pointer">
-                        <h3 class="card-title pl-3">Promedio</h3>
-                        <div class="card-tools pr-3">
-                           <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
-                        </div>
-                     </div>
-                     <div class="card-body">
-                        <form action="#" method="post">
-                           <input type="hidden" name="_tokenPromedio" value="{{ csrf_token()}}" id="tokenPromedio">
-                           <div class="form-group">
-                              @csrf
-                              <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
+                     <!-- Promedio -->
+                     <div class="card collapsed-card">
+                        <div class="card-header text-white bg-success p-0" data-card-widget="collapse"
+                           style="cursor: pointer">
+                           <h3 class="card-title pl-3">Promedio</h3>
+                           <div class="card-tools pr-3">
+                              <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                            </div>
-                           <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar
-                              Promedios</button>
-                        </form>
-                     </div>
-                  </div>
-                  <!-- Extras -->
-                  <div class="card collapsed-card">
-                     <div class="card-header text-black bg-warning p-0" data-card-widget="collapse"
-                        style="cursor: pointer">
-                        <h3 class="card-title pl-3">Extras</h3>
-                        <div class="card-tools pr-3">
-                           <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="card-body">
                         </div>
                      </div>
-                     <div class="card-body collapse">
-                        <form action="#" method="post">
-                           <input type="hidden" name="_tokenExtras" value="{{ csrf_token()}}" id="tokenExtras">
-                           <div class="form-group">
-                              @csrf
-                              <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
+                     <!-- Extras -->
+                     <div class="card collapsed-card">
+                        <div class="card-header text-white bg-warning p-0" data-card-widget="collapse"
+                           style="cursor: pointer">
+                           <h3 class="card-title pl-3">Extras</h3><span class="sumTotExtra ml-3">
+                              {{number_format($totalExtras,2,',','.')}}</span>
+                           <div class="card-tools pr-3">
+                              <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
                            </div>
-                           <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar
-                              Extras</button>
-                           {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                    onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
-                           Ubicaciones</button> --}}
-                        </form>
-                     </div>
-                  </div>
-                  <!-- Picking -->
-                  <div class="card collapsed-card">
-                     <div class="card-header text-black bg-warning p-0" data-card-widget="collapse"
-                        style="cursor: pointer">
-                        <h3 class="card-title pl-3">Picking</h3>
-                        <div class="card-tools pr-3">
-                           <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="card-body">
+                           <div class="table-responsive">
+                              <table id="tExtra" class="table table-hover table-sm small sortable" cellspacing="0"
+                                 width=100%>
+                                 <thead>
+                                    <tr>
+                                       <th class="text-left px-2">Concepto</th>
+                                       <th class="text-right px-2">Unidades</th>
+                                       <th class="text-right px-2">€ ud.</th>
+                                       <th class="text-right px-2">Total <br />
+                                          <span class="sumTotExtra ml-3">{{number_format($totalExtras,2,',','.')}}
+                                          </span>
+                                       </th>
+                                       <th class="text-center">Observaciones</th>
+                                       <th class="text-center" width="140px">Actions</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    @foreach($extras as $extra)
+                                    <form id="form{{$extra->id}}" role="form" method="post" action="javascript:void(0)">
+                                       {{-- <form id="form{{$extra->id}}" role="form" method="post"
+                                       action="{{ route('campaign.presupuesto.detalle.update',$extra->id) }}" >
+                                       --}}
+                                       <input type="hidden" name="_tokenDetalle{{$extra->id}}" value="{{ csrf_token()}}"
+                                          id="tokenDetalle{{$extra->id}}">
+                                       @csrf
+                                       <tr class="editarTr" id="{{$extra->id}}"><span class="d-none" id="sum{{$extra->id}}">sumTotExtra</span>
+                                          <input type="hidden" name="presupuesto_id" value="{{$extra->presupuesto_id}}"
+                                             readonly="readonly">
+                                          <input type="hidden" name="tipo" value="1" readonly="readonly">                                             
+                                          <input type="checkbox" id="check{{$extra->id}}" style="display:none">
+                                          <td class="my-0 py-1">
+                                             <input type="text" id="concepto{{$extra->id}}"
+                                                class="my-0 py-0 form-control-plaintext item text-left" name="concepto"
+                                                value="{{$extra->concepto}}" readonly="readonly">
+                                          </td>
+                                          <td class="my-0 py-1">
+                                             <input type="text" id="unidades{{$extra->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-right"
+                                                name="unidades" onchange="totalizar({{$extra->id}})"
+                                                value="{{$extra->unidades}}" readonly="readonly"></td>
+                                          <td class="my-0 py-1">
+                                             <input type="text" id="preciounidad{{$extra->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-right"
+                                                name="preciounidad" onchange="totalizar({{$extra->id}})"
+                                                value="{{number_format($extra->preciounidad,2,',','.')}}"
+                                                readonly="readonly"></td>
+                                          <td class="my-0 py-1"><input type="hidden" id="total{{$extra->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item" name="total"
+                                                value="{{$extra->total}}" readonly="readonly">
+                                             <span id="totLabel{{$extra->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-right text-primary">
+                                                {{number_format($extra->total,2,',','.')}}
+                                             </span>
+                                          </td>
+                                          <td class="my-0 py-1">
+                                             <input type="text" id="observaciones{{$extra->id}}"
+                                                class="my-0 py-0 px-2 form-control-plaintext item text-center"
+                                                name="observaciones" value="{{$extra->observaciones}}"
+                                                readonly="readonly"></td>
+                                          {{-- actiones --}}
+                                          <td class="my-0 py-1"> <a class="editar" title="Editar">
+                                                <i id="editar{{$extra->id}}"
+                                                   class="fas fa-edit text-primary fa-2x mx-1"></i>
+                                             </a>
+                                             <a href="#" title="Validar"
+                                                class="far fa-check-circle text-success fa-2x mx-1"
+                                                onclick="actualizar('form{{$extra->id}}',{{$extra->id}},'/campaign/presupuesto/detalle/update/','#tokenDetalle{{$extra->id}}','.sumTotExtra')"><i></i>
+                                             </a>
+                                             <a href="{{ route('campaign.presupuesto.detalle.delete',$extra->id) }}"
+                                                title="hola">
+                                                <i class="far fa-trash-alt text-danger fa-2x ml-1"></i>
+                                             </a>
+                                             {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
+                                          </td>
+                                       </tr>
+                                    </form>
+                                    @endforeach
+                                 </tbody>
+                                 <tfoot>
+                                    <tr>
+                                       <th class="text-center">Concepto</th>
+                                       <th class="text-center">Unidades</th>
+                                       <th class="text-center">€ ud</th>
+                                       <th class="text-center">Total</th>
+                                       <th class="text-center">Observaciones</th>
+                                       <th class="text-center"></th>
+                                    </tr>
+                                    {{-- <form id="formExtraNew" role="form" method="post" action="javascript:void(0)"> --}}
+                                    <form id="formExtraNew" role="form" method="post"
+                                       action="{{ route('campaign.presupuesto.detalle.store') }}">
+                                       <input type="hidden" name="_tokenDetalleNew" value="{{ csrf_token()}}"
+                                          id="tokenDetalleNew">
+                                       @csrf
+                                       <tr class="" id="tExtraNew">
+                                          <input type="hidden" name="presupuesto_id" value="{{$extra->presupuesto_id}}"
+                                             readonly="readonly">
+                                          <input type="hidden" name="tipo" value="1" readonly="readonly">
+                                          <td class="my-0 py-1"><input type="text" id="extraNew"
+                                                class="my-0 py-0 form-control item text-left" name="concepto" value="">
+                                          </td>
+                                          <td class="my-0 py-1"><input type="text" id="unidadesExtraNew"
+                                                class="my-0 py-0 px-2 form-control item text-right" name="unidades"
+                                                onchange="totalizar('ExtraNew')" value="0"></td>
+                                          <td class="my-0 py-1"><input type="text" id="preciounidadExtraNew"
+                                                class="my-0 py-0 px-2 form-control item text-right" name="preciounidad"
+                                                onchange="totalizar('ExtraNew')" value="0"></td>
+                                          <td class="my-0 py-1"><input type="hidden" id="totalExtraNew"
+                                                class="my-0 py-0 px-2 form-control item" name="total" value="0">
+                                             <span id="totLabelExtraNew"
+                                                class="my-0 py-0 px-2 pt-1 form-control item"></span>
+                                          </td>
+                                          <td class="my-0 py-1"><input type="text" id="observacionesExtraNew"
+                                                class="my-0 py-0 px-2 form-control item text-center"
+                                                name="observaciones" value=""></td>
+                                          <td class="my-0 py-1">
+                                             <a href="#" title="Validar"
+                                                onclick="document.getElementById('formExtraNew').submit()">
+                                                <i class="fas fa-plus text-success fa-2x mx-1"></i>
+                                             </a>
+                                             {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
+                                          </td>
+                                       </tr>
+                                    </form>
+                                 </tfoot>
+                              </table>
+                              {{-- <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar extras</button> --}}
+                           </div>
                         </div>
                      </div>
-                     <div class="card-body collapse">
-                        <form action="#" method="post">
-                           <input type="hidden" name="_tokenPicking" value="{{ csrf_token()}}" id="tokenPicking">
-                           <div class="form-group">
-                              @csrf
-                              <input type="hidden" class="" name="campaign_id" value="{{$campaign->id}} " />
+                     <!-- Picking -->
+                     <div class="card collapsed-card">
+                        <div class="card-header text-black bg-orange p-0" data-card-widget="collapse"
+                           style="cursor: pointer">
+                           <h3 class="card-title pl-3">Picking</h3>
+                           <div class="card-tools pr-3">
+                              <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                            </div>
-                           <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar
-                              Picking</button>
-                           {{-- <button type="button" class="btn btn-default btn-block" name="Guardar"
-                                       onclick="asociar({{ $campaign->id}},'/campaign/asociar','#tokenUbicacion','ubicacionesduallistbox[]','Ubicaciones','ubicacion','campaign_ubicacions')">Asociar
-                           Ubicaciones</button> --}}
-                        </form>
+                        </div>
+                        <div class="card-body">
+                        </div>
                      </div>
                   </div>
                </div>
@@ -400,14 +476,15 @@
    }
 
    $('.editarTr').dblclick(function(){
-      var trid = $(this).closest('tr').attr('id'); // table row ID 
+      var trid = $(this).closest('tr').attr('id'); // table row ID
+      var sumTot='.'+$('#sum'+trid).text();
       checkId='#check'+trid;
 
       if( $(checkId).prop('checked') ==true) {
          $('#check'+trid).prop('checked',false);
          $('#editar'+trid).removeClass("text-warning").addClass("text-primary")
          $(this).closest('tr').css('background-color','#ffffff');
-         actualizar('form'+trid,trid,'/campaign/presupuesto/material/update/','#tokenMaterial'+trid);
+         actualizar('form'+trid,trid,'/campaign/presupuesto/detalle/update/','#tokenMaterial'+trid,sumTot);
          $(this).closest('tr').find('input').attr('readonly',true);
       }
       else{
@@ -438,7 +515,7 @@
 </script>
 
 <script>
-   function actualizar(formulario,materialId,ruta,tok) {
+   function actualizar(formulario,materialId,ruta,tok,sumTot) {
    var token = $(tok).val();
    var route = ruta;
    route= ruta+materialId;
@@ -456,49 +533,7 @@
       data: formData,
       success: function(data) {
          console.log(data);
-         $('#totMat').text('Total:'+data.tot);
-         $('#totMat2').text('Total:'+data.tot);
-         toastr.options={
-            progressBar:true,
-            positionClass:"toast-top-center"
-         };
-         toastr.info(data.notification);
-      },
-      error:function(msj){
-         console.log(msj.responseJSON.errors);
-         toastr.options={
-            "closeButton": true,
-            "progressBar":true,
-            "positionClass":"toast-top-center",
-            "options.escapeHtml" : true,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": 0,
-         };
-         toastr.error("Ha habido un error. <br />No se ha podido actualizar. <br />"+ msj.responseJSON.message);
-      }
-   });
-}
-
-function nuevoMaterial(formulario,materialId,ruta,tok,tipo) {
-   var token = $(tok).val();
-   var route = route('campaign.presupuesto.detalle.store');
-   var formElement = document.getElementById(formulario);
-   var formData = new FormData(formElement);
-   
-   $.ajax({
-      cache:false,
-      contentType: false,
-      processData: false,
-      
-      type: "POST",
-      url: route,
-      headers: { "X-CSRF-TOKEN": token },
-      data: formData,
-      success: function(data) {
-         console.log(data);
-         $('#totMat').text('Total:'+data.tot);
-         $('#totMat2').text('Total:'+data.tot);
+         $(sumTot).text(data.tot);
          toastr.options={
             progressBar:true,
             positionClass:"toast-top-center"

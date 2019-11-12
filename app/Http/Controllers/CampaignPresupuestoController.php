@@ -116,13 +116,24 @@ class CampaignPresupuestoController extends Controller
     {
         $campaignpresupuesto=CampaignPresupuesto::find($id);
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
-        $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)->get(); //ya están agrupados aquí
-        $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)->sum('total');
+        $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',0)
+        ->get(); //ya están agrupados aquí
+        $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',0)
+        ->sum('total');
+
+        $extras=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',1)
+        ->get(); //ya están agrupados aquí
+        $totalExtras = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',1)
+        ->sum('total');
 
         $paisStores=Campaign::getConteoPaisStores($campaignpresupuesto->campaign_id); //hay que agrupar
         $totalPaisStores=CampaignPaisStore::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
 
-        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales','paisStores','totalPaisStores'));
+        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales','paisStores','totalPaisStores','extras','totalExtras'));
     }
 
     /**

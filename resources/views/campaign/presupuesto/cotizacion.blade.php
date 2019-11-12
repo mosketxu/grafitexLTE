@@ -161,7 +161,7 @@
                                              <input type="text" id="unidades{{$material->id}}" 
                                              class="my-0 py-0 px-2 form-control-plaintext item text-right" 
                                              name="unidades" onchange="totalizar({{$material->id}})" 
-                                             value="{{number_format($material->unidades,2,',','.')}}" readonly="readonly"></td>
+                                             value="{{$material->unidades}}" readonly="readonly"></td>
                                           <td class="my-0 py-1">
                                              <input type="text" id="preciounidad{{$material->id}}" 
                                              class="my-0 py-0 px-2 form-control-plaintext item text-right" 
@@ -184,7 +184,7 @@
                                                 <i id="editar{{$material->id}}" class="fas fa-edit text-primary fa-2x mx-1"></i>
                                              </a>
                                              <a href="#" title="Validar" class="far fa-check-circle text-success fa-2x mx-1"
-                                                onclick="actualizarMaterial('form{{$material->id}}',{{$material->id}},'/campaign/presupuesto/material/update/','#tokenMaterial{{$material->id}}')"><i></i>
+                                                onclick="actualizar('form{{$material->id}}',{{$material->id}},'/campaign/presupuesto/material/update/','#tokenMaterial{{$material->id}}')"><i></i>
                                              </a>
                                              <a href="{{ route('campaign.presupuesto.detalle.delete',$material->id) }}" title="hola">
                                                 <i class="far fa-trash-alt text-danger fa-2x ml-1"></i>
@@ -390,21 +390,9 @@
    @endif
 </script>
 <script>
-   function format(input){
-      var num = input.value.replace(/\./g,'');
-      if(!isNaN(num)){
-         num = num.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-         num = num.split('').reverse().join('').replace(/^[\.]/,'');
-         input.value = num;
-      }
-  
-else{ alert('Solo se permiten numeros');
-input.value = input.value.replace(/[^\d\.]*/g,'');
-}
-}
    function totalizar(id) {
       ud=$('#unidades'+id).val();
-      precio=parseFloat($('#preciounidad'+id).val());
+      precio=parseFloat($('#preciounidad'+id).val().replace(',','.'));
       total=(ud*precio).toFixed(2);
       $('#preciounidad'+id).val(precio);
       $('#total'+id).val(total);
@@ -419,7 +407,7 @@ input.value = input.value.replace(/[^\d\.]*/g,'');
          $('#check'+trid).prop('checked',false);
          $('#editar'+trid).removeClass("text-warning").addClass("text-primary")
          $(this).closest('tr').css('background-color','#ffffff');
-         actualizarMaterial('form'+trid,trid,'/campaign/presupuesto/material/update/','#tokenMaterial'+trid);
+         actualizar('form'+trid,trid,'/campaign/presupuesto/material/update/','#tokenMaterial'+trid);
          $(this).closest('tr').find('input').attr('readonly',true);
       }
       else{
@@ -450,7 +438,7 @@ input.value = input.value.replace(/[^\d\.]*/g,'');
 </script>
 
 <script>
-   function actualizarMaterial(formulario,materialId,ruta,tok) {
+   function actualizar(formulario,materialId,ruta,tok) {
    var token = $(tok).val();
    var route = ruta;
    route= ruta+materialId;

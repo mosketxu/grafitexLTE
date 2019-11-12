@@ -118,22 +118,39 @@ class CampaignPresupuestoController extends Controller
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
         $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
         ->where('tipo',0)
-        ->get(); //ya están agrupados aquí
+        ->get(); 
         $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
         ->where('tipo',0)
         ->sum('total');
-
-        $extras=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        
+        $promedios=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
         ->where('tipo',1)
         ->get(); //ya están agrupados aquí
-        $totalExtras = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        $totalPromedios = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
         ->where('tipo',1)
         ->sum('total');
+
+        $extras=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',2)
+        ->get(); 
+        $totalExtras = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',2)
+        ->sum('total');
+
+        $pickings=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',3)
+        ->get(); 
+        // dd($pickings);s
+        $totalPickings = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        ->where('tipo',3)
+        ->sum('total');
+
 
         $paisStores=Campaign::getConteoPaisStores($campaignpresupuesto->campaign_id); //hay que agrupar
         $totalPaisStores=CampaignPaisStore::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
 
-        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales','paisStores','totalPaisStores','extras','totalExtras'));
+        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales',
+            'paisStores','totalPaisStores','extras','totalExtras','promedios','totalPromedios','pickings','totalPickings'));
     }
 
     /**

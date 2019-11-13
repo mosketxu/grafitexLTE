@@ -60,7 +60,7 @@ class CampaignPresupuestoController extends Controller
 
         $campPresu=CampaignPresupuesto::create($request->all());
 
-        //Recupero el conteo por material y lo inserto en la tabla campaign_presupuestos_materiales
+        //Recupero el conteo por material y lo inserto en la tabla campaign_presupuestos_detalles
         $conteoMateriales=Campaign::getConteoMaterial($request->campaign_id);
         foreach (array_chunk($conteoMateriales->toArray(),100) as $t){
             $dataSet = [];
@@ -76,6 +76,22 @@ class CampaignPresupuestoController extends Controller
             DB::table('campaign_presupuesto_detalles')->insert($dataSet);
         }
 
+        //Recupero el conteo por area y lo inserto en la tabla campaign_presupuestos_detalles
+        $conteoAreas=Campaign::getConteoPaisStores($request->campaign_id);
+        foreach (array_chunk($conteoAreas->toArray(),100) as $t){
+            $dataSet = [];
+            foreach ($t as $dato) {
+                $dataSet[] = [
+                    'presupuesto_id'  => $campPresu->id,
+                    'tipo'=>3,
+                    'concepto'  => $dato['country'],
+                    'unidades'  => $dato['totales'],
+                    'uxprop'  => 0,
+                ];
+            }
+            DB::table('campaign_presupuesto_detalles')->insert($dataSet);
+        }
+        
         $notification = array(
             'message' => '¡Presupuesto actualizado satisfactoriamente!',
             'alert-type' => 'success'

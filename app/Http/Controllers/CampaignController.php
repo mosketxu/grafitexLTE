@@ -393,7 +393,7 @@ class CampaignController extends Controller
                     'medida'  => $gen['medida'],
                     'material'  => $gen['material'],
                     'unitxprop'  => $gen['unitxprop'],
-                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen['mobiliario'].'-'.$gen['carteleria'].'-'.$gen['medida']))))).'-'.$id.'.jpg',
+                    'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen['mobiliario'].'-'.$gen['carteleria'].'-'.$gen['medida']))))).'.jpg',
                 ];
             }
             DB::table('campaign_elementos')->insert($dataSet);
@@ -427,7 +427,7 @@ class CampaignController extends Controller
     
         $generar= CampaignElemento::where('campaign_id',$id)
             ->distinct('store')
-            ->select('store','country','campaign_id')
+            ->select('store','area as country','campaign_id')
             ->orderBy('store')
             ->get()->toArray();
         

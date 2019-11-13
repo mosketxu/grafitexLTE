@@ -101,13 +101,31 @@ class CampaignPresupuestoDetalleController extends Controller
      */
     public function update(Request $request, $id) 
     {
+        // dd($request);
+        $request->preciounidad=str_replace(',', '.', $request->preciounidad);
+        // floatval($string);
+        // dd($request->preciounidad);
         $request->validate([
             'concepto' => 'required',
             'unidades' => 'required|numeric',
-            'preciounidad' => 'required|numeric',
+            'preciounidad' => 'required',
             ]);
-        // dd($request);
-        CampaignPresupuestoDetalle::find($id)->update($request->all());
+
+        if(!is_numeric($request->preciounidad))
+            $request->validate(['preciounidad' => 'required|numeric']);
+            
+        // CampaignPresupuestoDetalle::find($id)->update($request->all());
+
+        $presup = CampaignPresupuestoDetalle::find($id);
+            $presup->presupuesto_id = $request->presupuesto_id;
+            $presup->tipo = $request->tipo;
+            $presup->concepto = $request->concepto;
+            $presup->unidades = $request->unidades;
+            $presup->preciounidad = $request->preciounidad;
+            $presup->total = $request->total;
+            $presup->observaciones = $request->observaciones;
+        $presup->save();
+
         $totalDetalles = CampaignPresupuestoDetalle::where('presupuesto_id',$request->presupuesto_id)
         ->where('tipo',$request->tipo)
         ->sum('total');

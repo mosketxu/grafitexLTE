@@ -122,7 +122,7 @@
                                  <h3 class="card-title pl-3">Materiales</h3><span class="sumTotMat ml-3">
                                     {{number_format($totalMateriales,2,',','.')}}</span>
                                  <div class="card-tools pr-3">
-                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                  </div>
                               </div>
                               {{-- tabla presupuesto materiales --}}
@@ -146,11 +146,11 @@
                                        @if(count($materiales)>0)
                                        <tbody>
                                           @foreach($materiales as $material)
-                                          <form id="form{{$material->id}}" role="form" method="post"
-                                             action="javascript:void(0)">
-                                             {{-- <form id="form{{$material->id}}" role="form" method="post"
+                                          {{-- <form id="form{{$material->id}}" role="form" method="post"
+                                             action="javascript:void(0)"> --}}
+                                             <form id="form{{$material->id}}" role="form" method="post"
                                              action="{{ route('campaign.presupuesto.detalle.update',$material->id) }}" >
-                                             --}}
+                                            
                                              <input type="hidden" name="_tokenMaterial{{$material->id}}"
                                                 value="{{ csrf_token()}}" id="tokenMaterial{{$material->id}}">
                                              @csrf
@@ -211,14 +211,6 @@
                                        </tbody>
                                        @endif
                                        <tfoot>
-                                          <tr>
-                                             <th class="text-center">Material</th>
-                                             <th class="text-center">Unidades</th>
-                                             <th class="text-center">€ ud</th>
-                                             <th class="text-center">Total</th>
-                                             <th class="text-center">Observaciones</th>
-                                             <th class="text-center"></th>
-                                          </tr>
                                           {{-- <form id="formMaterialNew" role="form" method="post" action="javascript:void(0)"> --}}
                                           <form id="formMaterialNew" role="form" method="post"
                                              action="{{ route('campaign.presupuesto.detalle.store') }}">
@@ -276,7 +268,7 @@
                                  <h3 class="card-title pl-3">Promedio</h3><span class="sumTotPromedio ml-3">
                                     {{number_format($totalPromedios,2,',','.')}}</span>
                                  <div class="card-tools pr-3">
-                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                  </div>
                               </div>
                               <div class="card-body">
@@ -366,14 +358,6 @@
                                        </tbody>
                                        @endif
                                        <tfoot>
-                                          <tr>
-                                             <th class="text-center">Concepto</th>
-                                             <th class="text-center">Unidades</th>
-                                             <th class="text-center">€ ud</th>
-                                             <th class="text-center">Total</th>
-                                             <th class="text-center">Observaciones</th>
-                                             <th class="text-center"></th>
-                                          </tr>
                                           {{-- <form id="formPromedioNew" role="form" method="post" action="javascript:void(0)"> --}}
                                           <form id="formPromedioNew" role="form" method="post"
                                              action="{{ route('campaign.presupuesto.detalle.store') }}">
@@ -430,7 +414,7 @@
                                  <h3 class="card-title pl-3">Extras</h3><span class="sumTotExtra ml-3">
                                     {{number_format($totalExtras,2,',','.')}}</span>
                                  <div class="card-tools pr-3">
-                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                  </div>
                               </div>
                               <div class="card-body">
@@ -439,7 +423,7 @@
                                        width=100%>
                                        <thead>
                                           <tr>
-                                             <th class="text-left px-2">Concepto</th>
+                                             <th class="text-left px-2">Extra</th>
                                              <th class="text-right px-2">Unidades</th>
                                              <th class="text-right px-2">€ ud.</th>
                                              <th class="text-right px-2">Total <br />
@@ -517,14 +501,6 @@
                                        </tbody>
                                        @endif
                                        <tfoot>
-                                          <tr>
-                                             <th class="text-center">Concepto</th>
-                                             <th class="text-center">Unidades</th>
-                                             <th class="text-center">€ ud</th>
-                                             <th class="text-center">Total</th>
-                                             <th class="text-center">Observaciones</th>
-                                             <th class="text-center"></th>
-                                          </tr>
                                           {{-- <form id="formExtraNew" role="form" method="post" action="javascript:void(0)"> --}}
                                           <form id="formExtraNew" role="form" method="post"
                                              action="{{ route('campaign.presupuesto.detalle.store') }}">
@@ -577,7 +553,7 @@
                                  <h3 class="card-title pl-3">Picking</h3><span class="sumTotPicking ml-3">
                                     {{number_format($totalPickings,2,',','.')}}</span>
                                  <div class="card-tools pr-3">
-                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-plus"></i></button>
                                  </div>
                               </div>
                               <div class="card-body">
@@ -586,7 +562,7 @@
                                        width=100%>
                                        <thead>
                                           <tr>
-                                             <th class="text-left px-2">Concepto</th>
+                                             <th class="text-left px-2">Área</th>
                                              <th class="text-right px-2">Unidades</th>
                                              <th class="text-right px-2">€ ud.</th>
                                              <th class="text-right px-2">Total <br />
@@ -665,14 +641,6 @@
                                        </tbody>
                                        @endif
                                        <tfoot>
-                                          <tr>
-                                             <th class="text-center">Concepto</th>
-                                             <th class="text-center">Unidades</th>
-                                             <th class="text-center">€ ud</th>
-                                             <th class="text-center">Total</th>
-                                             <th class="text-center">Observaciones</th>
-                                             <th class="text-center"></th>
-                                          </tr>
                                           {{-- <form id="formPickingNew" role="form" method="post" action="javascript:void(0)"> --}}
                                           <form id="formPickingNew" role="form" method="post"
                                              action="{{ route('campaign.presupuesto.detalle.store') }}">

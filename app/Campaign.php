@@ -63,7 +63,7 @@ class Campaign extends Model
 
     }
 
-    static function getConteoPaisStores($campaignId)
+    static function getConteoPaisStores($campaignId) 
     {
         return CampaignPaisStore::where('campaign_id',$campaignId)
             ->select('country',DB::raw('count(*) as totales'))

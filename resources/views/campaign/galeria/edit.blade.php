@@ -9,7 +9,7 @@
 @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignGaleria') }}
+{{-- {{ Breadcrumbs::render('campaignGaleria') }} --}}
 @endsection
 
 @section('content')
@@ -92,13 +92,13 @@
                                             value="{{$campaigngaleria->medida}}">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    {{-- <div class="form-group row">
                                         <label class="col-sm-3 col-form-label col-form-label-sm" for="elemento">Elemento</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="elemento" name="elemento"
+                                        <div class="col-sm-9"> --}}
+                                        <input type="hidden" readonly class="form-control-sm form-control-plaintext" id="elemento" name="elemento"
                                             value="{{$campaigngaleria->elemento}}">
-                                        </div>
-                                        </div>
+                                        {{-- </div>
+                                        </div> --}}
                                     <div class="form-group row">
                                         <label class="col-sm-3 col-form-label col-form-label-sm" for="imagen">Imagen</label>
                                         <div class="col-sm-9">

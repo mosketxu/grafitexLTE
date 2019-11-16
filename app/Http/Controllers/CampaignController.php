@@ -19,6 +19,7 @@ use App\{
     CampaignPaisStore,
     CampaignPresupuesto,
     CampaignAlbaran,
+    VCampaignGaleria,
 };
 use App\Exports\CampaignExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -265,29 +266,6 @@ class CampaignController extends Controller
         $campaign = Campaign::find($id);
 
         // Verifico si ya se ha generado la campaña. Si es así borrar todo lo generado y regenerar
-        // if(CampaignArea::where('campaign_id','=',$id)->count()>0){
-        //     CampaignArea::where('campaign_id','=',$id)->delete();}
-        // if(CampaignCarteleria::where('campaign_id','=',$id)->count()>0){
-        //     CampaignCarteleria::where('campaign_id','=',$id)->delete();}
-        // if(CampaignCountry::where('campaign_id','=',$id)->count()>0){
-        //     CampaignCountry::where('campaign_id','=',$id)->delete();}
-        // if(CampaignElemento::where('campaign_id','=',$id)->count()>0){
-        //     CampaignElemento::where('campaign_id','=',$id)->delete();}
-        // if(CampaignGaleria::where('campaign_id','=',$id)->count()>0){
-        //     CampaignGaleria::where('campaign_id','=',$id)->delete();}
-        // if(CampaignMedida::where('campaign_id','=',$id)->count()>0){
-        //     CampaignMedida::where('campaign_id','=',$id)->delete();}
-        // if(CampaignMobiliario::where('campaign_id','=',$id)->count()>0){
-        //     CampaignMobiliario::where('campaign_id','=',$id)->delete();}
-        // if(CampaignSegmento::where('campaign_id','=',$id)->count()>0){
-        //     CampaignSegmento::where('campaign_id','=',$id)->delete();}
-        // if(CampaignStoreconcept::where('campaign_id','=',$id)->count()>0){
-        //     CampaignStoreconcept::where('campaign_id','=',$id)->delete();}
-        // if(CampaignStore::where('campaign_id','=',$id)->count()>0){
-        //     CampaignStore::where('campaign_id','=',$id)->delete();}
-        // if(CampaignUbicacion::where('campaign_id','=',$id)->count()>0){
-        //     CampaignUbicacion::where('campaign_id','=',$id)->delete();}
-
         if(CampaignElemento::where('campaign_id','=',$id)->count()>0){
             CampaignElemento::where('campaign_id','=',$id)->delete();
         }
@@ -296,30 +274,12 @@ class CampaignController extends Controller
             CampaignGaleria::where('campaign_id','=',$id)->delete();
         }
 
-        // if(CampaignPresupuesto::where('campaign_id','=',$id)->count()>0){
-        //     CampaignPresupuesto::where('campaign_id','=',$id)->delete();}
-        // if(CampaignAlbaran::where('campaign_id','=',$id)->count()>0){
-        //     CampaignAlbaran::where('campaign_id','=',$id)->delete();}
-                
-
+        //Filtros
         // Si no se ha seleccionado ningun Area entiendo que los quiero todos
         if(CampaignArea::where('campaign_id','=',$id)->count()==0){
             $areas=Maestro::select('area')->groupBy('area')->get();
             Campaign::inserta('campaign_areas',$areas,'area',$id);
         }
-
-        // Si no se ha seleccionado ningun Carteleria entiendo que los quiero todos
-        // if(CampaignCarteleria::where('campaign_id','=',$id)->count()==0){
-        //     $cartelerias=Maestro::select('carteleria')->groupBy('carteleria')->get();
-        //     Campaign::inserta('campaign_cartelerias',$cartelerias,'carteleria',$id);
-        // }
-
-        // Si no se ha seleccionado ningun Country entiendo que los quiero todos
-        // if(CampaignCountry::where('campaign_id','=',$id)->count()==0){
-        //     $countries=Maestro::select('country')->groupBy('country')->get();
-        //     Campaign::inserta('campaign_countries',$countries,'country',$id);
-        // }
-
         // Si no se ha seleccionado ningun Medida entiendo que los quiero todos
         if(CampaignMedida::where('campaign_id','=',$id)->count()==0){
             $medidas=Maestro::select('medida')->groupBy('medida')->get();
@@ -335,19 +295,11 @@ class CampaignController extends Controller
             $segmentos=Maestro::select('segmento')->groupBy('segmento')->get();
             Campaign::inserta('campaign_segmentos',$segmentos,'segmento',$id);
         }
-
         // Si no se ha seleccionado ningun ubicacion entiendo que los quiero todos
         if(CampaignUbicacion::where('campaign_id','=',$id)->count()==0){
             $ubicacions=Maestro::select('ubicacion')->groupBy('ubicacion')->get();
             Campaign::inserta('campaign_ubicacions',$ubicacions,'ubicacion',$id);
         }
-
-        // Si no se ha seleccionado ningun Storeconcept entiendo que los quiero todos
-        // if(CampaignStoreconcept::where('campaign_id','=',$id)->count()==0){
-        //     $storeconcepts=Maestro::select('storeconcep')->groupBy('storeconcep')->get();
-        //     Campaign::inserta('campaign_storeconcepts',$storeconcepts,'storeconcept',$id);
-        // }
-            
         // Si no se ha seleccionado ningun store entiendo que los quiero todos
         if(CampaignStore::where('campaign_id','=',$id)->count()==0){
             $stores=Maestro::select('store','name')
@@ -365,25 +317,28 @@ class CampaignController extends Controller
                 DB::table('campaign_stores')->insert($dataSet);
             }
         }
-        // Si no se ha seleccionado ningun ubicacion entiendo que los quiero todos 
-        if(CampaignUbicacion::where('campaign_id','=',$id)->count()==0){
-            $ubicacions=CampaignUbicacion::get();
-            Campaign::inserta('campaign_ubicacions',$ubicacions,'ubicacion',$id);
-        }
-            
-    
+
         //recupero todos los elementos elegidos y los inserto
         $generar=Maestro::CampaignStore($id)->get();
         foreach (array_chunk($generar->toArray(),100) as $t){
             $dataSet = [];
             foreach ($t as $gen) {
-                // dd($gen['store']);
+                if ($gen['country']=='PT'){
+                    $zona='Portugal';
+                }
+                else{
+                    if($gen['area']=='Canarias')
+                        $zona='Canarias';
+                    else
+                        $zona='Nacional';
+                }
                 $dataSet[] = [
                     'campaign_id'  => $id,
                     'store'  => $gen['store'],
                     'name'  => $gen['name'],
                     'country'  => $gen['country'],
                     'area'  => $gen['area'],
+                    'zona'  => $zona,
                     'segmento'  => $gen['segmento'],
                     'storeconcept'  => $gen['storeconcept'],
                     'ubicacion'  => $gen['ubicacion'],
@@ -400,38 +355,22 @@ class CampaignController extends Controller
         }
 
         //relleno la tabla imagenes
-        $imagenes=CampaignElemento::where('campaign_id',$id)
-        ->distinct('campaign_id','mobiliario','carteleria','medida')
-        ->select('campaign_id',DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(CONCAT(mobiliario,carteleria,medida),' ',''),'.',''),'(',''),')',''),'+','') as elemento"))
-        ->get();
-
-
+        $imagenes=VCampaignGaleria::getGaleria($id);
         foreach (array_chunk($imagenes->toArray(),1000) as $t){
             $dataSet = [];
-            foreach ($generar as $gen) {
+            foreach ($t as $gen) {
                 $dataSet[] = [
                     'campaign_id'  => $id,
-                    'mobiliario'  => $gen->mobiliario,
-                    'carteleria'  => $gen->carteleria,
-                    'medida'  => $gen->medida,
-                    'elemento'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen->mobiliario.'-'.$gen->carteleria.'-'.$gen->medida))))),
-                    'imagen'  => 'pordefecto.jpg',
+                    'mobiliario'  => $gen['mobiliario'],
+                    'carteleria'  => $gen['carteleria'],
+                    'medida'  => $gen['medida'],
+                    'elemento'  => $gen['elemento'],
+                    'eci'  => $gen['ECI'],
+                    'imagen'  => $gen['imagen'],
                 ];
             }
             DB::table('campaign_galerias')->insert($dataSet);
         }
-
-        //relleno tabla tiendas por pais
-        if (CampaignPaisStore::where('campaign_id',$id)->count()>0)
-            CampaignPaisStore::where('campaign_id',$id)->delete();
-    
-        $generar= CampaignElemento::where('campaign_id',$id)
-            ->distinct('store')
-            ->select('store','area as country','campaign_id')
-            ->orderBy('store')
-            ->get()->toArray();
-        
-        CampaignPaisStore::insert($generar);
 
         return redirect()->route('campaign.elementos', $campaign);
     }

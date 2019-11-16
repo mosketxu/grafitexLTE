@@ -21,6 +21,7 @@ class CreateCampaignElementosTable extends Migration
             $table->string('name')->index();
             $table->string('country',2)->index();
             $table->string('area')->index();
+            $table->string('zona')->index();
             $table->string('segmento')->index();
             $table->string('storeconcept')->index();
             $table->string('ubicacion')->index();

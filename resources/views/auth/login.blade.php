@@ -9,8 +9,9 @@
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-5 my-auto pl-5">
-                            <img src="{{ asset('storage/grafitexLogomail.png')}}" id="GrafitexLogo" class="img-fluid" width="60%" alt="Grafitex">
+                        <div class="col-md-5">
+                            {{-- <img src="{{ asset('storage/SGH.jpg')}}" id="GrafitexLogo" class="img-fluid" width="100%" alt="Grafitex"> --}}
+                            <img src="{{ asset('storage/Grafitex.jpg')}}" id="GrafitexLogo" class="img-fluid" width="100%" alt="Grafitex">
                         </div>
                         <div class="col-md-7 align-self-center clearfix">
                             <form role="form" method="POST" action="{{ route('login') }}">

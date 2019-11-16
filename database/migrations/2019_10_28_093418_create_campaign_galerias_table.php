@@ -21,6 +21,7 @@ class CreateCampaignGaleriasTable extends Migration
             $table->string('carteleria')->default('pordefecto.jpg');
             $table->string('medida')->default('pordefecto.jpg');
             $table->string('elemento')->index();
+            $table->string('eci',3)->nullable();
             $table->string('imagen')->default('pordefecto.jpg');
             $table->string('observaciones')->nullable();
             $table->timestamps();

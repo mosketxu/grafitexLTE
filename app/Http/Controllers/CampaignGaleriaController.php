@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Campaign;
-use App\CampaignGaleria;
+use App\{Campaign,CampaignGaleria};
 use Image;
 use Illuminate\Http\Request;
 
@@ -15,14 +14,23 @@ class CampaignGaleriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($campaignId)
+    public function index($campaignId, Request $request)
     {
+        if ($request->busca) {
+            $busqueda = $request->busca;
+        } else {
+            $busqueda = '';
+        } 
+
         $campaign=Campaign::find($campaignId);
-        $campaigngaleria=CampaignGaleria::where('campaign_id',$campaignId)->get();
+        $campaigngaleria=CampaignGaleria::search($request->busca)
+        ->where('campaign_id',$campaignId)
+        ->orderBy('elemento')
+        ->paginate('25');
+        // ->get();
+        $totalGaleria=CampaignGaleria::where('campaign_id',$campaignId)->count();
 
-        // dd($campaign);
-
-        return view('campaign.galeria.index',compact('campaign','campaigngaleria'));
+        return view('campaign.galeria.index',compact('campaign','campaigngaleria','totalGaleria','busqueda'));
     }
 
     /**

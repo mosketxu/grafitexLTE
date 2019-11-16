@@ -9,7 +9,7 @@
     @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignGaleria') }}
+{{-- {{ Breadcrumbs::render('campaignGaleria') }} --}}
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-auto ">
+                    <div class="col-auto "> 
                         <span class="h3 m-0 text-dark">@yield('titlePag')</span>
                         <span class="hidden" id="campaign_id"></span>
                     </div>
@@ -66,6 +66,25 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        {{-- links  y cuadro busqueda --}}
+                        <div class="row">
+                            <div class="col-10 row">
+                                {{ $campaigngaleria->links() }} &nbsp; &nbsp;
+                                Hay {{$totalGaleria}} imágenes
+                                
+                            </div>
+                            <div class="col-2 float-right mb-2">
+                                <form method="GET" action="{{route('campaign.galeria',$campaign) }}">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-search fa-sm text-primary"></i></span>
+                                        </div>
+                                        <input id="busca" name="busca"  type="text" class="form-control" name="search" value='{{$busqueda}}' placeholder="Search for..."/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                            
                         <div class="table-responsive">
                             <table id="tcampaignElementos" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                 <thead>
@@ -74,8 +93,9 @@
                                         <th>Mobiliario</th>
                                         <th>Carteleria</th>
                                         <th>Medidas</th>
-                                        <th>Elemento</th>
+                                        {{-- <th>Elemento</th> --}}
                                         <th>Observaciones</th>
+                                        <th>Eci</th>
                                         <th>Imagen</th>
                                         <th width="100px">Img</th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
@@ -92,8 +112,9 @@
                                         <td>{{$imagen->mobiliario}}</td>
                                         <td>{{$imagen->carteleria}}</td>
                                         <td>{{$imagen->medida}}</td>
-                                        <td>{{$imagen->elemento}}</td>
+                                        <td class="d-none">{{$imagen->elemento}}</td>
                                         <td>{{$imagen->observaciones}}</td>
+                                        <td>{{$imagen->eci}}</td>
                                         <td id="imagen{{$imagen->id}}">{{$imagen->imagen}}</td>
                                         <td>
                                             <div class="">

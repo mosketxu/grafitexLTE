@@ -9,7 +9,7 @@
     @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignConteo') }}
+{{-- {{ Breadcrumbs::render('campaignConteo') }} --}}
 @endsection
 
 @section('content')

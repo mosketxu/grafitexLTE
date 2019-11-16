@@ -9,7 +9,7 @@
     @include('campaign._navbarcampaign')
 @endsection
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaignElementos') }}
+{{-- {{ Breadcrumbs::render('campaignElementos') }} --}}
 @endsection
 
 @section('content')
@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-auto ">
-                        <span class="h3 m-0 text-dark">@yield('titlePag')</span>
+                        <span class="h3 m-0 text-dark">@yield('titlePag')</span> 
                         <span class="hidden" id="campaign_id"></span>
                     </div>
                     <div class="col-auto mr-auto">

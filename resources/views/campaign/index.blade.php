@@ -11,7 +11,7 @@
 
 
 @section('breadcrumbs')
-{{ Breadcrumbs::render('campaign') }}
+{{-- {{ Breadcrumbs::render('campaign') }} --}}
 @endsection
 
 @section('content')

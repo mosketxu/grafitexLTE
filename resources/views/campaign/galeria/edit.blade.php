@@ -116,24 +116,23 @@
                                 </div>
                                 <div class="col-6" style="height: 350px;">
                                     <div class="col-sm-9">
-                                    <input type="file" id="inputFile{{$campaigngaleria->id}}" name="photo" style="display:none">
-                                    @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen ))
-                                    </                                        </div>
-                                        <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen)}}" alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
-                                            id="original" class="img-fluid img-thumbnail" 
-                                            style="width: 350px;cursor:pointer"
-                                            onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
-                                    @else
-                                        <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
-                                            id="original" class="img-fluid img-thumbnail" 
-                                            style="width: 350px;cursor:pointer"
-                                            onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
-                                    @endif                                        
+                                        <input type="file" id="inputFile{{$campaigngaleria->id}}" name="photo" style="display:none">
+                                        @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen ))
+                                            <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen)}}" alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
+                                                id="original" class="img-fluid img-thumbnail" 
+                                                style="width: 350px;cursor:pointer"
+                                                onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
+                                        @else
+                                            <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
+                                                id="original" class="img-fluid img-thumbnail" 
+                                                style="width: 350px;cursor:pointer"
+                                                onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
+                                        @endif                                        
                                     <a href="#" name="Upload" onclick="subirImagen('formgaleria','{{$campaigngaleria->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
                                     {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -141,8 +140,7 @@
                 </div>
             </div>
         </div>
-</div>
-</section>
+    </section>
 </div>
 @endsection
 

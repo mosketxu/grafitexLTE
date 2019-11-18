@@ -52,6 +52,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('tarifa.index') }}" id="menutarifa" class="nav-link">
+                                <i class="nav-icon fas fa-database"></i>
+                                <p>Tarifas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('maestro.index') }}" id="menumaestro" class="nav-link">
                                 <i class="nav-icon fas fa-database"></i>
                                 <p>Maestro</p>

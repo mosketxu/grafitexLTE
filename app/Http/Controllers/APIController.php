@@ -23,27 +23,6 @@ class APIController extends Controller
         ->make(true);
     }
 
-    // public function getCampaignElementos($id){
-    //     $query = CampaignElemento::where('campaign_id',$id)
-    //         ->select('id','store','country','name','area','segmento','storeconcept',
-    //         'ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop','imagen','observaciones','precio')
-    //         ->orderByRaw('segmento ASC,ubicacion ASC,medida ASC,mobiliario ASC,area ASC,material ASC');
-        
-    //     return datatables($query)
-    //     ->addColumn('btn','campaign._actionsElementos')
-    //     ->rawColumns(['btn'])
-    //     ->make(true);
-    // }
-
-    // public function getCampaignDetalles($id){
-    //     $query = CampaignElemento::where('campaign_id',$id)
-    //         ->select('segmento','ubicacion','medida','mobiliario','area','material', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
-    //         ->groupBy('segmento','ubicacion','medida','mobiliario','area','material');
-        
-    //     return datatables($query)
-    //     ->make(true);
-    // }
-    
     public function getCampaignStores($id){
         $query = CampaignElemento::distinct('store')->where('campaign_id',$id)
             ->select('country','area', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
@@ -108,5 +87,24 @@ class APIController extends Controller
         return datatables($query)
         ->make(true);
     }
+
+    public function getCampaignMaterialMedidas($id){
+        $query = CampaignElemento::where('campaign_id',$id)
+            ->select('material','medida', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('material','medida');
+        
+        return datatables($query)
+        ->make(true);
+    }
+
+    public function getCampaignIdiomaMaterialMedidas($id){
+        $query = CampaignElemento::where('campaign_id',$id)
+            ->select('country','material','medida', DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('country','material','medida');
+        
+        return datatables($query)
+        ->make(true);
+    }
+
 
 }

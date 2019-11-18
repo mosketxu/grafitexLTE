@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class CampaignPresupuestoController extends Controller
+class CampaignPresupuestoController extends Controller 
 {
     /**
      * Display a listing of the resource.
@@ -27,6 +27,8 @@ class CampaignPresupuestoController extends Controller
             ->where('campaign_id',$campaignId)
             ->orderBy('fecha')
             ->paginate('50');
+        
+        
 
         return view('campaign.presupuesto.index', compact('presupuestos','campaign','busqueda'));    
     }
@@ -162,9 +164,10 @@ class CampaignPresupuestoController extends Controller
         ->sum('total');
 
 
-        $paisStores=Campaign::getConteoPaisStores($campaignpresupuesto->campaign_id); //hay que agrupar
-        $totalPaisStores=CampaignPaisStore::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
+        $AreaStores=Campaign::getConteoAreaStores($campaignpresupuesto->campaign_id); //hay que agrupar
+        $totalAreaStores=vCampaignA::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
 
+        dd($AreaStores);
         return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales',
             'paisStores','totalPaisStores','extras','totalExtras','promedios','totalPromedios','pickings','totalPickings'));
     }
@@ -185,13 +188,13 @@ class CampaignPresupuestoController extends Controller
                 'fecha' => 'required|date',
                 'estado' => 'required',
                 ]);
-                CampaignPresupuesto::find($id)->update($request->all());
-                $campaign=Campaign::find($request->campaign_id);
+            CampaignPresupuesto::find($id)->update($request->all());
+            $campaign=Campaign::find($request->campaign_id);
                 
-                $notification = array(
-                    'message' => '¡Presupuesto actualizado satisfactoriamente!',
-                    'alert-type' => 'success'
-                );
+            $notification = array(
+                'message' => '¡Presupuesto actualizado satisfactoriamente!',
+                'alert-type' => 'success'
+            );
                 
             return redirect()->back()->with($notification);
         }
@@ -205,18 +208,8 @@ class CampaignPresupuestoController extends Controller
      */
     public function destroy($id)
     {
-        
         CampaignPresupuesto::find($id)->delete();
-
-        // $notification = array(
-        //     'message' => '¡Presupuesto eliminado satisfactoriamente!',
-        //     'alert-type' => 'success' 
-        // );
-  
-        // return redirect()->back()->with($notification);
 
         return response()->json(['success'=>'Eliminado con exito']);
     }
-
-
 }

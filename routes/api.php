@@ -28,5 +28,6 @@ Route::get('/api/{id}/campaignstoreconcept', 'APIController@getCampaignStoreConc
 Route::get('/api/{id}/campaignmobiliario', 'APIController@getCampaignMobiliarios')->name('api.campaigns.mobiliarios');
 Route::get('/api/{id}/campaignpropxelemento', 'APIController@getCampaignPropxelementos')->name('api.campaigns.propxelementos');
 Route::get('/api/{id}/campaigncarteleria', 'APIController@getCampaignCartelerias')->name('api.campaigns.cartelerias');
-
 Route::get('/api/{id}/campaignmedida', 'APIController@getCampaignMedidas')->name('api.campaigns.medidas');
+Route::get('/api/{id}/campaignmaterialmedida', 'APIController@getCampaignMaterialMedidas')->name('api.campaigns.materialmedidas');
+Route::get('/api/{id}/campaignidiomamaterialmedida', 'APIController@getCampaignIdiomaMaterialMedidas')->name('api.campaigns.campaignmaterialmedidas');

@@ -63,15 +63,15 @@ class CampaignController extends Controller
 
         $cont = 0;
 
-        if ($campaignstores = $request->campaign_storeId) {
-            while ($campaignstores && $cont  < count($campaignstores)) {
-                $campaignstore = new CampaignStore();
-                $campaignstore->campaign_id = $campaign->id;
-                $campaignstore->store_id = $campaignstores[$cont];
-                $campaignstore->save();
-                $cont = $cont + 1;
-            }
-        }
+        // if ($campaignstores = $request->campaign_storeId) {
+        //     while ($campaignstores && $cont  < count($campaignstores)) {
+        //         $campaignstore = new CampaignStore();
+        //         $campaignstore->campaign_id = $campaign->id;
+        //         $campaignstore->store_id = $campaignstores[$cont];
+        //         $campaignstore->save();
+        //         $cont = $cont + 1;
+        //     }
+        // }
 
         return redirect()->route('campaign.index');
     }
@@ -420,6 +420,6 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd('llego');
     }
 }

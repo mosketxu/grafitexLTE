@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-use App\{CampaignPaisStore};
+use App\{VCampaignGaleria};
+
 
 
 class Campaign extends Model
@@ -15,7 +16,7 @@ class Campaign extends Model
 
     const CREADA = 0;
     const INICIADA = 1;
-    const FINALIZADA = 2;
+    const FINALIZADA = 2; 
     const CANCELADA = 3;
 
     protected $fillable=['campaign_name','campaign_initdate','campaign_enddate','campaign_state','slug'];
@@ -63,11 +64,11 @@ class Campaign extends Model
 
     }
 
-    static function getConteoPaisStores($campaignId) 
+    static function getConteoAreaStores($campaignId) 
     {
-        return CampaignPaisStore::where('campaign_id',$campaignId)
-            ->select('country',DB::raw('count(*) as totales'))
-            ->groupBy('country')
+        return VCampaignGaleria::where('campaign_id',$campaignId)
+            ->select('country','zona',DB::raw('count(*) as totales'))
+            ->groupBy('country','zona')
             ->get();
     }
 }

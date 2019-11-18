@@ -75,8 +75,11 @@ Route::group(['middleware' => ['auth']], function () {
             });
 
         });
-
-    Route::resource('element', 'ElementController');//->middleware('admin');
+        // Tarifas
+        Route::resource('tarifa', 'TarifaController');//->middleware('admin');
+        Route::resource('tarifafamilia', 'TarifaFamiliaController');//->middleware('admin');
+        Route::get('tarifafamilia/actualizar/{id}', 'TarifaFamiliaController@actualizar')->name('tarifafamilia.actualizar');//->middleware('admin');
+        Route::resource('element', 'ElementController');//->middleware('admin');
 
 
 });

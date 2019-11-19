@@ -27,7 +27,7 @@ class CampaignElementoController extends Controller
         ->where('campaign_id',$campaignId)
         ->select('id','store','name','country','area','segmento','storeconcept',
             'ubicacion','mobiliario','propxelemento','carteleria','medida',
-            'material','unitxprop','imagen','observaciones')
+            'material','familia','precio','unitxprop','imagen','observaciones')
         ->orderBy('store')
         ->paginate('50');
         // ->get();

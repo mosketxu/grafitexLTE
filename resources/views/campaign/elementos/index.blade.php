@@ -102,6 +102,8 @@
                                         <th id="tCarteleria">Carteleria</th>
                                         <th id="tMedida">Medida</th>
                                         <th id="tMaterial">Material</th>
+                                        <th id="tTarifa">Tarifa</th>
+                                        <th id="tPrecio">€/ud</th>
                                         <th id="tUnit">Unit x Prop</th>
                                         <th id="tObservaciones">Observaciones</th>
                                         <th width="100px">Imagen </th>
@@ -128,6 +130,8 @@
                                         <td>{{$elemento->carteleria}}</td>
                                         <td>{{$elemento->medida}}</td>
                                         <td>{{$elemento->material}}</td>
+                                        <td>{{$elemento->familia}}-{{$elemento->tarifa->familia}}</td>
+                                        <td>{{$elemento->precio}}</td>
                                         <td>{{$elemento->unitxprop}}</td>
                                         <td>{{$elemento->observaciones}}</td>
                                         <td>

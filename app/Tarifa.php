@@ -13,6 +13,11 @@ class Tarifa extends Model
         return $this->hasMany(TarifaFamilia::class);
     }
 
+    public function campaignelementos()
+    {
+        return $this->hasMany(CampaignElemento::class);
+    }
+
     public function scopeSearch($query, $busca)
     {
       return $query->where('familia', 'LIKE', "%$busca%")

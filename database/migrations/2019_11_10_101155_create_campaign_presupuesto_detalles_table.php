@@ -19,6 +19,9 @@ class CreateCampaignPresupuestoDetallesTable extends Migration
             $table->foreign('presupuesto_id')->references('id')->on('campaign_presupuestos')->onDelete('cascade');
             $table->integer('tipo')->default(0);            
             $table->string('concepto');
+            $table->string('medida')->nullable();
+            $table->string('materialmedida')->index();
+            $table->string('zona');
             $table->decimal('preciounidad')->default(0);
             $table->integer('unidades')->default(0);
             $table->integer('uxprop')->default(0);

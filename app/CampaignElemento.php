@@ -38,4 +38,9 @@ class CampaignElemento extends Model
     {
         return $this->belongsTo(Campaign::class);
     }
+
+    public function tarifa()
+    {
+        return $this->belongsTo(Tarifa::class,'familia');
+    }
 }

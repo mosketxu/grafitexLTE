@@ -30,6 +30,7 @@ class CreateCampaignElementosTable extends Migration
             $table->string('carteleria')->index();
             $table->string('medida')->index();
             $table->string('material')->index();
+            $table->integer('familia')->index();
             $table->string('unitxprop')->nullable();
             $table->string('imagen')->nullable();
             $table->string('observaciones')->nullable();

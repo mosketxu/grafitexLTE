@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoDetalle,CampaignPaisStore};
+use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoDetalle,CampaignPaisStore, VCampaignAreaStore, VCampaignGaleria};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 
 class CampaignPresupuestoController extends Controller 
 {
@@ -71,12 +70,17 @@ class CampaignPresupuestoController extends Controller
                     'presupuesto_id'  => $campPresu->id,
                     'tipo'=>0,
                     'concepto'  => $dato['material'],
+                    'medida'  => $dato['medida'],
+                    'materialmedida'  => $dato['medida'],
+                    'zona'=>$dato['zona'],
                     'unidades'  => $dato['totales'],
                     'uxprop'  => $dato['unidades'],
                 ];
             }
             DB::table('campaign_presupuesto_detalles')->insert($dataSet);
         }
+
+        dd('llego');
 
         //Recupero el conteo por area y lo inserto en la tabla campaign_presupuestos_detalles
         $conteoAreas=Campaign::getConteoPaisStores($request->campaign_id);
@@ -140,10 +144,21 @@ class CampaignPresupuestoController extends Controller
         $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
         ->where('tipo',0)
         ->sum('total');
+
+        $zonaStores=Campaign::getConteoZonaStores($campaignpresupuesto->campaign_id); 
+        $totalZonaStores=VCampaignAreaStore::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
         
-        $promedios=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',1)
-        ->get(); //ya están agrupados aquí
+        // $totalMaterialeZona = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
+        // ->where('tipo',0)
+        // ->select('zona',DB::raw('SUM(total)'))
+        // ->sum('total');
+        // dd($totalZonaStores);
+
+        $promedios=VCampaignAreaStore::where('campaign_id',$campaignpresupuesto->campaign_id)
+        ->select('zona',DB::raw('count(*) as total'))
+        ->groupBy('zona')
+        ->get(); 
+
         $totalPromedios = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
         ->where('tipo',1)
         ->sum('total');
@@ -164,8 +179,6 @@ class CampaignPresupuestoController extends Controller
         ->sum('total');
 
 
-        $AreaStores=Campaign::getConteoAreaStores($campaignpresupuesto->campaign_id); //hay que agrupar
-        $totalAreaStores=vCampaignA::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
 
         dd($AreaStores);
         return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales',

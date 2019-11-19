@@ -58,15 +58,15 @@ class Campaign extends Model
     static function getConteoMaterial($campaignId)
     {
         return CampaignElemento::where('campaign_id',$campaignId)
-            ->select('material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
-            ->groupBy('material')
+            ->select('zona','material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('zona','material')
             ->get();
 
     }
 
-    static function getConteoAreaStores($campaignId) 
+    static function getConteoZonaStores($campaignId) 
     {
-        return VCampaignGaleria::where('campaign_id',$campaignId)
+        return VCampaignAreaStore::where('campaign_id',$campaignId)
             ->select('country','zona',DB::raw('count(*) as totales'))
             ->groupBy('country','zona')
             ->get();

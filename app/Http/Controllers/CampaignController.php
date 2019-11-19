@@ -20,6 +20,8 @@ use App\{
     CampaignPresupuesto,
     CampaignAlbaran,
     VCampaignGaleria,
+    Tarifa,
+    TarifaFamilia,
 };
 use App\Exports\CampaignExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -332,6 +334,10 @@ class CampaignController extends Controller
                     else
                         $zona='Nacional';
                 }
+                // dd($gen['material']);
+                // busco a que familia pertenece el elemento para poder cotizar después                
+                $familia=TarifaFamilia::getFamilia($gen['material'],$gen['medida']);
+
                 $dataSet[] = [
                     'campaign_id'  => $id,
                     'store'  => $gen['store'],
@@ -347,11 +353,36 @@ class CampaignController extends Controller
                     'carteleria'  => $gen['carteleria'],
                     'medida'  => $gen['medida'],
                     'material'  => $gen['material'],
+                    'familia'=>$familia['id'],
                     'unitxprop'  => $gen['unitxprop'],
                     'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen['mobiliario'].'-'.$gen['carteleria'].'-'.$gen['medida']))))).'.jpg',
                 ];
             }
             DB::table('campaign_elementos')->insert($dataSet);
+        }
+        // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
+
+        $elementos=CampaignElemento::where('campaign_id',$id)
+            ->get();
+        
+        foreach ($elementos as $elemento){
+            //por elemen
+            $conteo=CampaignElemento::where('campaign_id',$id)
+            ->where('familia',$elemento->familia)
+            ->count();
+
+            $fam=Tarifa::where('id',$elemento->familia)->first();
+
+            if($conteo<$fam->tramo2)
+                $precio=$fam->tarifa1;
+            elseif($conteo>$fam->tramo3)
+                $precio=$fam->tarifa3;
+            else
+                $precio=$fam->tarifa2;
+            
+            // dd($precio);
+            $elemento->precio=$precio;
+            $elemento->save();
         }
 
         //relleno la tabla imagenes

@@ -75,12 +75,13 @@
                                 <option value="Creada">Creada</option>                                
                                 <option value="Iniciada">Iniciada</option>                                
                                 <option value="Finalizada">Finalizada</option>                                
-                                <option value="Cancelada">Cancelada</option>                            
+                                <option value="Cancelada">Cancelada</option>                             
                             </select>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <input type ='button' class="btn btn-default" onclick="javascript:history.back()" value="Volver"/>
                     </div>
                 </form>
             </div>

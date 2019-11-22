@@ -53,13 +53,14 @@
                     @csrf
                     <input name="_method" type="hidden" value="PATCH">
                     <div class="card-header">
-                        Modifica los datos
+                        <h5>Tarifa {{$tarifa->tipo===0 ? 'Materiales' : $tarifa->tipo===1 ? 'Picking' : 'Transportes'}}</h3> 
+
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="form-group col">
-                                <label for="familia">Familia</label>
-                                <input type="text" class="form-control form-control-sm" id="familia" name="familia" value="{{ old('familia',$tarifa->familia) }}"/>
+                                <label for="familia">Tarifa</label>
+                                <input type="text" class="form-control form-control-sm" name="familia" value="{{ $tarifa->familia }}" readonly/>
                             </div>
                         </div>
                         <div class="row">
@@ -95,6 +96,7 @@
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <input type ='button' class="btn btn-default" onclick="javascript:history.back()" value="Volver"/>
                     </div>
                 </form>
             </div>

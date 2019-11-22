@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tarifa extends Model
 {
-    protected $fillable=['familia','tramo1','tarifa1','tramo2','tarifa2','tramo3','tarifa3'];
+    const MATERIAL = 1;
+    const PICKING = 2;
+    const TRANSPORTE = 3;
+
+    protected $fillable=['familia','tipo','tramo1','tarifa1','tramo2','tarifa2','tramo3','tarifa3'];
 
     public function tarifafamilias()
     {

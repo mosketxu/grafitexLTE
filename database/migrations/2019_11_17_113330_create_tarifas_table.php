@@ -15,7 +15,9 @@ class CreateTarifasTable extends Migration
     {
         Schema::create('tarifas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('zona',2)->nullable();
             $table->string('familia')->index();
+            $table->integer('tipo')->default(0);
             $table->integer('tramo1');
             $table->decimal('tarifa1');
             $table->integer('tramo2');

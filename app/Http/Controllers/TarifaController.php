@@ -19,10 +19,15 @@ class TarifaController extends Controller
         } else {
             $busqueda = '';
         } 
-        $tarifas = Tarifa::search($request->busca)
+        $tarifasMateriales = Tarifa::search($request->busca)
+            ->where('tipo',0)
+            ->paginate(8);
+        $tarifasPicking = Tarifa::where('tipo',1)
+            ->paginate(8);
+        $tarifasTransportes = Tarifa::where('tipo',2)
             ->paginate(8);
 
-        return view('tarifa.index', compact('tarifas','busqueda'));
+        return view('tarifa.index', compact('tarifasMateriales','tarifasPicking','tarifasTransportes','busqueda'));
     }
 
     /**
@@ -70,7 +75,7 @@ class TarifaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    { 
         //
     }
 

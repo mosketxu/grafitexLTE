@@ -185,6 +185,52 @@ class CampaignPresupuestoController extends Controller
         }
     // }
 
+    public function refresh($campaignId,$presupuestoId)
+    {
+        
+        // elimino los detalles del presupuesto para poner nuevos precios
+        $detallePresup=CampaignPresupuestoDetalle::where('presupuesto_id',$presupuestoId)->count();
+        if ($detallePresup>0)
+            CampaignPresupuestoDetalle::where('presupuesto_id',$presupuestoId)->delete();
+
+        // $campaign = Campaign::find($campaignid);
+
+        // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
+        // calculo el total actual de los elementos para insertarlo y mostrarlo en el indice de prepuestos
+        // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
+        $totalpresupuesto= CampaignElemento::asignElementosPrecio($campaignId);
+        
+        
+
+        // guardo los materiales en campaign_presupuestos_detalle para tener historico si se cambian los precios en una segunda versión del presupuesto
+        $materiales=VCampaignResumenElemento::where('campaign_id',$campaignId)
+        ->get();
+        if($materiales->count()>0){
+            foreach (array_chunk($materiales->toArray(),1000) as $t){
+                $dataSet = [];
+                foreach ($t as $material) {
+                    $dataSet[] = [
+                        'presupuesto_id'  => $presupuestoId,
+                        'familia'  => $material['familia'],
+                        'precio'  => $material['precio'],
+                        'unidades'  => $material['unidades'],
+                        'total'  => $material['tot'],
+                    ];
+                }
+                DB::table('campaign_presupuesto_detalles')->insert($dataSet);
+            }
+        }
+        
+        $notification = array(
+            'message' => '¡Nuevos precios asociados satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+
+
     /**
      * Remove the specified resource from storage.
      *

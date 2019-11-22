@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::get('/edit/{presupuestoId}', 'CampaignPresupuestoController@edit')->name('campaign.presupuesto.edit');
                 Route::get('/cotizacion/{presupuestoId}', 'CampaignPresupuestoController@cotizacion')->name('campaign.presupuesto.cotizacion');
                 Route::post('/update/{presupuestoId}', 'CampaignPresupuestoController@update')->name('campaign.presupuesto.update');
+                Route::get('/refresh/{campaignId}/{presupuestoId}', 'CampaignPresupuestoController@refresh')->name('campaign.presupuesto.refresh');
                 Route::post('/store','CampaignPresupuestoController@store')->name('campaign.presupuesto.store');
                 Route::delete('/delete/{presupuestoId}', 'CampaignPresupuestoController@destroy')->name('campaign.presupuesto.delete');
                 //presupuesto detalles

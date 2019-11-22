@@ -24,6 +24,9 @@
                <span class="hidden" id="campaign_id"></span>
             </div>
             <div class="col-auto mr-auto">
+            <a href="{{route('campaign.presupuesto.refresh',[$campaignpresupuesto->campaign_id,$campaignpresupuesto->id])}}" role="button">
+                  <i class="fas fa-sync-alt fa-lg text-primary mt-2"></i>
+               </a>
             </div>
             <div class="col-sm-6">
                <ol class="breadcrumb float-sm-right">

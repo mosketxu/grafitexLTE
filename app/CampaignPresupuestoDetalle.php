@@ -13,4 +13,7 @@ class CampaignPresupuestoDetalle extends Model
         return $this->belongsTo(CampaignPresupuesto::class);
     }
 
+    public function tarifa(){
+        return $this->belongsTo(Tarifa::class,'familia');
+    }
 }

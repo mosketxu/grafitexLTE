@@ -309,7 +309,8 @@ class CampaignController extends Controller
             ->get();
             foreach (array_chunk($stores->toArray(),1000) as $t){
                 $dataSet = [];
-                foreach ($stores as $store) {
+                // foreach ($stores as $store) {
+                foreach ($t as $store) {
                     $dataSet[] = [
                         'campaign_id'  => $id,
                         'store_id'  => $store->store,
@@ -359,30 +360,6 @@ class CampaignController extends Controller
                 ];
             }
             DB::table('campaign_elementos')->insert($dataSet);
-        }
-        // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
-
-        $elementos=CampaignElemento::where('campaign_id',$id)
-            ->get();
-        
-        foreach ($elementos as $elemento){
-            //por elemen
-            $conteo=CampaignElemento::where('campaign_id',$id)
-            ->where('familia',$elemento->familia)
-            ->count();
-
-            $fam=Tarifa::where('id',$elemento->familia)->first();
-
-            if($conteo<$fam->tramo2)
-                $precio=$fam->tarifa1;
-            elseif($conteo>$fam->tramo3)
-                $precio=$fam->tarifa3;
-            else
-                $precio=$fam->tarifa2;
-            
-            // dd($precio);
-            $elemento->precio=$precio;
-            $elemento->save();
         }
 
         //relleno la tabla imagenes
@@ -436,8 +413,8 @@ class CampaignController extends Controller
         ->groupBy('country','area','segmento','storeconcept')
         ->get();
         
+        // $conteoMateriales=Campaign::getConteoMaterial($campaignId);
 
-        $conteoMateriales=Campaign::getConteoMaterial($campaignId);
         return view('campaign.conteos', compact('campaign','conteodetallado','conteostoresAreaCountry','total','totalstores','busqueda'))
             ->with('notice', 'Generación realizada satisfactoriamente.');    
     }
@@ -451,6 +428,14 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        dd('llego');
+        Campaign::where('id',$id)->delete();
+
+
+         $notification = array(
+            'message' => '¡Campaña eliminada satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
     }
 }

@@ -110,6 +110,12 @@
 @push('scriptchosen')
 
 <script src="{{ asset('js/datatablesdefault.js')}}"></script>
+
+<script>
+    @include('_partials._errortemplate')
+</script>
+    
+
 <script>
     $(document).ready( function () {
         $('#tCampaigns').DataTable({

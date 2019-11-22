@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group col">
                                 <label for="tarifa1">Tarifa 1</label>
-                                <input type="number" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
+                                <input type="number" step="0.01" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
                             </div>
                         </div>
                         <div class="row">
@@ -79,7 +79,7 @@
                             </div>
                             <div class="form-group col">
                                 <label for="tarifa2">Tarifa 2</label>
-                                <input type="number" class="form-control form-control-sm" id="tarifa2" name="tarifa2" value="{{ old('tarifa2',$tarifa->tarifa2) }}"/>
+                                <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa2" name="tarifa2" value="{{ old('tarifa2',$tarifa->tarifa2) }}"/>
                             </div>
                         </div>
                         <div class="row">
@@ -89,12 +89,12 @@
                             </div>
                             <div class="form-group col">
                                 <label for="tarifa3">Tarifa 3</label>
-                                <input type="number" class="form-control form-control-sm" id="tarifa3" name="tarifa3" value="{{ old('tarifa3',$tarifa->tarifa3) }}"/>
+                                <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa3" name="tarifa3" value="{{ old('tarifa3',$tarifa->tarifa3) }}"/>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </div>
                 </form>
             </div>

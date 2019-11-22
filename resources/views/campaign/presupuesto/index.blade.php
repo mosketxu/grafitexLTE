@@ -80,10 +80,8 @@
                                     <th>Versión</th>
                                     <th>Fecha Presupuesto</th>
                                     <th>A la Atención</th>
-                                    <th>Ámbito</th>
+                                    <th>Total</th>
                                     <th>Observaciones</th>
-                                    <th>Creado el:</th>
-                                    <th>Modificado el:</th>
                                     <th class="text-right">Estado</th>
                                     <th class="text-right">Acción</th>
                                 </tr>
@@ -96,10 +94,9 @@
                                     <td>{{$presupuesto->version}}</td>
                                     <td>{{$presupuesto->fecha}}</td>
                                     <td>{{$presupuesto->atencion}}</td>
-                                    <td>{{$presupuesto->ambito}}</td>
+                                    <td>{{$presupuesto->total}}</td>
                                     <td>{{$presupuesto->observaciones}}</td>
-                                    <td>{{$presupuesto->created_at}}</td>
-                                    <td>{{$presupuesto->updated_at}}</td>
+                                    
                                     <td>
                                         <div class="text-right">
                                             @if($presupuesto->estado==="Creado")
@@ -124,7 +121,7 @@
                                                 @method('DELETE')
                                                 <a href="{{route('campaign.presupuesto.edit', $presupuesto->id )}}"
                                                     title="Edit"><i class="far fa-edit text-primary fa-2x mx-1"></i></a>
-                                                    {{-- <button type="submit" class="btn btn-danger" id="boton{{$presupuesto->id}}"
+                                                    {{-- <button type="submit" class="btn btn-danger" id="boton{{$presupuesto->id}}" 
                                                         style="display:none"></button> --}}
                                                 <a href="{{route('campaign.presupuesto.cotizacion', $presupuesto->id )}}"
                                                     title="Cotización"><i class="fas fa-calculator  text-primary fa-2x mx-1"></i></a>
@@ -175,13 +172,6 @@
                                     <input type="date" class="form-control form-control-sm" id="fecha" name="fecha"
                                         value="{{ old('fecha',date('Y-m-d')) }}" />
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label for="ambito">Ámbito</label>
-                                    <input type="text" class="form-control form-control-sm" id="ambito" name="ambito"
-                                        value="{{ old('ambito','Nacional')}}" />
-                                </div>
                                 <div class="form-group col">
                                     <label for="atención">A la atención</label>
                                     <input type="text" class="form-control form-control-sm" id="atencion"
@@ -221,30 +211,11 @@
 </script>
 
 <script>
-    @if(Session::has('message'))
-        toastr.options={
-            progressBar:true,
-            positionClass:"toast-top-center"
-        };
-        toastr.success("{{ Session::get('message') }}");
-    @endif
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        toastr.options={
-            closeButton: true,
-            progressBar:true,
-            positionClass:"toast-top-center",
-            showDuration: "300",
-            hideDuration: "1000",
-            timeOut: 0,
-        };
-        toastr.error("{{ $error }}");
-        @endforeach
-    @endif
+    @include('_partials._errortemplate')
 </script>
 
 <script>
-    function borrarPresupuesto(presupuestoId,ruta,tok) {
+    function borrarPresupuesto(presupuestoId,ruta,tok) { 
    var token = $(tok).val();
    var route = ruta;
    route= '/campaign/presupuesto/delete/'+presupuestoId;

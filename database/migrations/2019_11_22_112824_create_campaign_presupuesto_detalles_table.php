@@ -17,17 +17,11 @@ class CreateCampaignPresupuestoDetallesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('presupuesto_id');
             $table->foreign('presupuesto_id')->references('id')->on('campaign_presupuestos')->onDelete('cascade');
-            $table->integer('tipo')->default(0);            
-            $table->string('concepto');
-            $table->string('medida')->nullable();
-            $table->string('materialmedida')->index();
-            $table->string('zona');
-            $table->decimal('preciounidad')->default(0);
+            $table->string('familia');
+            $table->decimal('precio',8,2)->default(0);
             $table->integer('unidades')->default(0);
-            $table->integer('uxprop')->default(0);
-            $table->decimal('total')->default(0);
-            $table->string('observaciones')->nullable();
-            $table->timestamps(); 
+            $table->decimal('total',8,2)->default(0);
+            $table->timestamps();      
         });
     }
 

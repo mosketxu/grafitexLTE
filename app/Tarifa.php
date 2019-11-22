@@ -18,6 +18,16 @@ class Tarifa extends Model
         return $this->hasMany(CampaignElemento::class);
     }
 
+    public function campaignpresupuestodetalles()
+    {
+        return $this->hasMany(CampaignPresupuestoDetalle::class);
+    }
+
+    public function campaignresumenelemento()
+    {
+        return $this->hasMany(VCampaignResumenElemento::class);
+    } 
+
     public function scopeSearch($query, $busca)
     {
       return $query->where('familia', 'LIKE', "%$busca%")

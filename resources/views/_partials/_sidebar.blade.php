@@ -18,6 +18,12 @@
                         <p>Campañas </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('tarifa.index') }}" id="menutarifa" class="nav-link">
+                        <i class="nav-icon fas fa-money-bill-alt"></i>
+                        <p>Tarifas</p>
+                    </a>
+                </li>
                 <li class="nav-item has-treeview menu-close">
                     <a href="#" id="menumantenimiento" class="nav-link">
                         <i class="nav-icon fas fa-cog"></i>
@@ -49,12 +55,6 @@
                             <a href="" id="menudirecciones" class="nav-link">
                                 <i class="nav-icon fas fa-map-marker"></i>
                                 <p>Direcciones</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('tarifa.index') }}" id="menutarifa" class="nav-link">
-                                <i class="nav-icon fas fa-database"></i>
-                                <p>Tarifas</p>
                             </a>
                         </li>
                         <li class="nav-item">

@@ -3,16 +3,27 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class CampaignElemento extends Model
 {
-    // protected $table = 'campaign_resumenes';
-    protected $fillable=['campaign_id',
-        'store','country','name','area','segmento',
-        'storeconcept','ubicacion','mobiliario','propxlemento',
-        'carteleria','medida','material','unitxprop',
-        'imagen','observaciones','precio'
+    public $timestamps = true;
+
+    protected $fillable=['campaign_id', 'store','country','name','area','segmento','storeconcept','ubicacion','mobiliario',
+        'propxlemento','carteleria','medida','material','unitxprop','imagen','observaciones','precio'
     ];
+
+   
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class);
+    }
+
+    public function tarifa()
+    {
+        return $this->belongsTo(Tarifa::class,'familia');
+    }    
 
     public function scopeSearch($query, $busca)
     {
@@ -32,15 +43,32 @@ class CampaignElemento extends Model
       ;
     }
 
-    public $timestamps = true;
-    
-    public function campaign()
+    static function asignElementosPrecio($campaignId)
     {
-        return $this->belongsTo(Campaign::class);
+
+        $elementos=CampaignElemento::where('campaign_id',$campaignId)
+        ->get();
+    
+        foreach ($elementos as $elemento){
+            $conteo=CampaignElemento::where('campaign_id',$campaignId)
+                ->where('familia',$elemento->familia)
+                ->count();
+
+            $fam=Tarifa::where('id',$elemento->familia)->first();
+
+            if($conteo<$fam->tramo2)
+                $elemento->precio=$fam->tarifa1;
+            elseif($conteo>$fam->tramo3)
+                $elemento->precio=$fam->tarifa3;
+            else
+                $elemento->precio=$fam->tarifa2;
+            
+            $elemento->save();
+        }
+
+        return CampaignElemento::where('campaign_id',$campaignId)
+            ->select(DB::raw('SUM(unitxprop*precio) as total'))
+            ->first();
     }
 
-    public function tarifa()
-    {
-        return $this->belongsTo(Tarifa::class,'familia');
-    }
 }

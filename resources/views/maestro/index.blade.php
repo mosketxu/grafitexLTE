@@ -106,25 +106,9 @@
 @push('scriptchosen')
 
 <script>
-    @if(Session::has('message'))
-        toastr.options={
-                progressBar:true,
-                positionClass:"toast-top-center"
-            };
-        toastr.success("{{ Session::get('message') }}");
-    @endif
-    @if(session('error'))
-        toastr.options={
-                closeButton: true,
-                progressBar:true,
-                positionClass:"toast-top-center",
-                showDuration: "300",
-                hideDuration: "1000",
-                timeOut: 0,
-        };
-        toastr.error("{{ Session::get('error') }}");
-    @endif
+    @include('_partials._errortemplate')
 </script>
+        
     
 <script src="{{ asset('js/datatablesdefault.js')}}"></script>
 

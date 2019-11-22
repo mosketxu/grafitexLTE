@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-use App\{VCampaignGaleria};
-
-
 
 class Campaign extends Model
 {
@@ -55,20 +52,33 @@ class Campaign extends Model
         return $this->hasMany(CampaignElemento::class);
     }
 
-    static function getConteoMaterial($campaignId)
+    public function campaignPromedios(){
+        return $this->hasMany(VCampaignPromedio::class);
+    }
+
+    static function getConteoFamiliaPrecio($campaignId)
     {
         return CampaignElemento::where('campaign_id',$campaignId)
-            ->select('zona','material',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
-            ->groupBy('zona','material')
+            ->select('familia','precio',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('familia','precio')
             ->get();
 
     }
 
-    static function getConteoZonaStores($campaignId) 
+    static function getConteoZonaFamiliaPrecio($campaignId)
     {
-        return VCampaignAreaStore::where('campaign_id',$campaignId)
-            ->select('country','zona',DB::raw('count(*) as totales'))
-            ->groupBy('country','zona')
+        return CampaignElemento::where('campaign_id',$campaignId)
+            ->select('zona','familia','precio',DB::raw('count(*) as totales'),DB::raw('SUM(unitxprop) as unidades'))
+            ->groupBy('zona','familia','precio')
             ->get();
+
     }
+
+    // static function getConteoZonaStores($campaignId) 
+    // {
+    //     return VCampaignAreaStore::where('campaign_id',$campaignId)
+    //         ->select('country','zona',DB::raw('count(*) as totales'))
+    //         ->groupBy('country','zona')
+    //         ->get();
+    // }
 }

@@ -38,6 +38,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/{id?}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
             Route::get('/{id?}/filtro', 'CampaignController@filtrar')->name('campaign.filtrar');
             Route::get('/{id?}/conteo', 'CampaignController@conteo')->name('campaign.conteo');
+            Route::get('/{id?}/eliminar', 'CampaignController@destroy')->name('campaign.eliminar');
+            // Route::delete('/{id?}/eliminar', 'CampaignController@destroy')->name('campaign.eliminar');
             //Elementos
             Route::group(['prefix' => 'elementos'], function () { 
                 Route::get('/{id}', 'CampaignElementoController@index')->name('campaign.elementos');
@@ -68,11 +70,18 @@ Route::group(['middleware' => ['auth']], function () {
                     Route::post('/store', 'CampaignPresupuestoDetalleController@store')->name('campaign.presupuesto.detalle.store');
                     Route::get('/delete/{detalleId}', 'CampaignPresupuestoDetalleController@destroy')->name('campaign.presupuesto.detalle.delete');
                 });
+                //presupuesto extras
+                Route::group(['prefix' => 'extra'], function () {
+                    Route::post('/update/{presupuestoextraId}', 'CampaignPresupuestoExtraController@update')->name('campaign.presupuesto.extra.update');
+                    Route::post('/store', 'CampaignPresupuestoExtraController@store')->name('campaign.presupuesto.extra.store');
+                    Route::get('/delete/{extraId}', 'CampaignPresupuestoExtraController@destroy')->name('campaign.presupuesto.extra.delete');
+                });
+
             });
             // albaran
             Route::group(['prefix' => 'albaran'], function () {
                 Route::get('/{campaignId}', 'CampaignAlbaranController@index')->name('campaign.albaranes');
-            });
+            }); 
 
         });
         // Tarifas

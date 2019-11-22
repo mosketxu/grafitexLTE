@@ -11,14 +11,13 @@ class CampaignPresupuesto extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['campaign_id','referencia','fecha','version','atencion','ambito','observaciones','estado'];
+    protected $fillable=['campaign_id','referencia','fecha','version','atencion','total','observaciones','estado'];
 
     public function scopeSearch($query, $busca)
     {
         return $query->where('referencia', 'LIKE', "%$busca%")
             ->orWhere('fecha', 'LIKE', "%$busca%")
             ->orWhere('atencion', 'LIKE', "%$busca%")
-            ->orWhere('ambito', 'LIKE', "%$busca%")
             ->orWhere('observaciones', 'LIKE', "%$busca%")
             ->orWhere('estado', 'LIKE', "%$busca%")
             ;
@@ -29,8 +28,8 @@ class CampaignPresupuesto extends Model
     return $this->belongsTo(Campaign::class);
     }
 
-    public function detalles(){
-        return $this->hasMany(CampaignPresupuestoDetalle::class);
+    public function extras(){
+        return $this->hasMany(CampaignPresupuestoExtra::class);
     }
 
 }

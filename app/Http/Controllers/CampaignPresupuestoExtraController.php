@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\{CampaignPresupuesto,CampaignPresupuestoDetalle};
+use App\{CampaignPresupuesto,CampaignPresupuestoExtra,CampaignPresupuestoDetalle};
 use Illuminate\Http\Request;
 
-
-class CampaignPresupuestoDetalleController extends Controller
+class CampaignPresupuestoExtraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,20 +40,29 @@ class CampaignPresupuestoDetalleController extends Controller
             'unidades' => 'required|numeric',
             'preciounidad' => 'required|numeric',
             ]);
-        // dd($request);
 
-        $detalle = new CampaignPresupuestoDetalle;
+        $extra = new CampaignPresupuestoExtra;
 
-        $detalle->presupuesto_id = $request->presupuesto_id;
-        $detalle->concepto = $request->concepto;
-        $detalle->tipo = $request->tipo;
-        $detalle->preciounidad = $request->preciounidad;
-        $detalle->uxprop=0;
-        $detalle->unidades = $request->unidades;
-        $detalle->total = $request->total;
-        $detalle->observaciones = $request->observaciones;
+        $extra->presupuesto_id = $request->presupuesto_id;
+        $extra->concepto = $request->concepto;
+        $extra->preciounidad = $request->preciounidad;
+        $extra->unidades = $request->unidades;
+        $extra->total = $request->total;
+        $extra->observaciones = $request->observaciones;
 
-        $detalle->save();
+        $extra->save();
+
+
+        $totalExtras = CampaignPresupuestoExtra::where('presupuesto_id',$request->presupuesto_id)
+            ->sum('total');
+        $totalMateriales=CampaignPresupuestoDetalle::where('presupuesto_id',$request->presupuesto_id)
+            ->sum('total');
+            
+        $campPresu=CampaignPresupuesto::where('id',$request->presupuesto_id)
+            ->first();
+        $campPresu->total=$totalExtras+$totalMateriales;
+            $campPresu->save();
+
 
         // return response()->json([
         //     "mensaje" => $request->all(),
@@ -99,47 +107,54 @@ class CampaignPresupuestoDetalleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
         $request->preciounidad=str_replace(',', '.', $request->preciounidad);
-
+        
         $request->validate([
-            'uxprop' => 'required|numeric',
+            'unidades' => 'required|numeric',
             'preciounidad' => 'required',
             ]);
-            
+
         if(!is_numeric($request->preciounidad))
             $request->validate(['preciounidad' => 'required|numeric']);
+            
+        $presupExtra = CampaignPresupuestoExtra::find($id);
+            $presupExtra->unidades = $request->unidades;
+            $presupExtra->preciounidad = $request->preciounidad;
+            $presupExtra->total = $request->total;
+            $presupExtra->observaciones = $request->observaciones;
+        $presupExtra->save();
+            
+        $totalExtras = CampaignPresupuestoExtra::where('presupuesto_id',$request->presupuesto_id)
+            ->sum('total');
 
-        $presup = CampaignPresupuestoDetalle::find($id);
-            $presup->uxprop = $request->uxprop;
-            $presup->preciounidad = $request->preciounidad;
-            $presup->total = $request->total;
-            $presup->observaciones = $request->observaciones;
-        $presup->save();
-
-        $totalDetalles = CampaignPresupuestoDetalle::where('presupuesto_id',$request->presupuesto_id)
-        ->where('tipo',$request->tipo)
-        ->sum('total');
-            // dd($totalMateriales);
-
+        $totalMateriales=CampaignPresupuestoDetalle::where('presupuesto_id',$request->presupuesto_id)
+            ->sum('total');
+            
+           
         $campPresu=CampaignPresupuesto::where('id',$request->presupuesto_id)
             ->first();
-        $campPresu->total=$totalDetalles;
+
+
+        $campPresu->total=$totalExtras+$totalMateriales;
         $campPresu->save();
 
-        $notification = array(
-            'message' => 'Línea actualizada satisfactoriamente!',
-            'alert-type' => 'success'
-        );
-            
-        return redirect()->back()->with($notification);
 
-        // return response()->json([
-        //     "mensaje" => $request->all(),
-        //     "tot"=>$totalDetalles,
-        //     'notification'=> '¡Línea actualizada satisfactoriamente!',
-        //     ]);
+        // $notification = array(
+        //     'message' => 'Línea actualizada satisfactoriamente!',
+        //     'alert-type' => 'success'
+        // );
+            
+        // return redirect()->back()->with($notification);
+
+        return response()->json([
+            "mensaje" => $request->all(),
+            "totExtra"=>$totalExtras,
+            "tot"=>$totalExtras+$totalMateriales,
+            'notification'=> '¡Línea actualizada satisfactoriamente!',
+            ]);
+
     }
 
     /**
@@ -150,7 +165,7 @@ class CampaignPresupuestoDetalleController extends Controller
      */
     public function destroy($id)
     {
-        CampaignPresupuestoDetalle::find($id)->delete();
+        CampaignPresupuestoExtra::find($id)->delete();
 
         $notification = array(
             'message' => '¡Concepto eliminado satisfactoriamente!',

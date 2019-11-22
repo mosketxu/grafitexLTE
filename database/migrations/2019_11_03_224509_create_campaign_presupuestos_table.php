@@ -21,7 +21,7 @@ class CreateCampaignPresupuestosTable extends Migration
             $table->date('fecha');
             $table->string('version',50)->nullable();
             $table->string('atencion',50)->nullable();
-            $table->string('ambito',50)->nullable();
+            $table->float('total')->default(0);
             $table->string('observaciones')->nullable();            
             $table->string('estado',10)->default('creado');
             $table->softDeletes();

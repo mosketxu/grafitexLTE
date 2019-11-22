@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoDetalle,CampaignPaisStore, VCampaignAreaStore, VCampaignGaleria};
+use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoDetalle, CampaignPresupuestoExtra,VCampaignPromedio, VCampaignResumenElemento, VCampaignAreaStore};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,8 +27,6 @@ class CampaignPresupuestoController extends Controller
             ->orderBy('fecha')
             ->paginate('50');
         
-        
-
         return view('campaign.presupuesto.index', compact('presupuestos','campaign','busqueda'));    
     }
 
@@ -59,52 +57,41 @@ class CampaignPresupuestoController extends Controller
             
         $campaign = Campaign::find($request->campaign_id);
 
+        // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
+        // calculo el total actual de los elementos para insertarlo y mostrarlo en el indice de prepuestos
+        // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
+        $totalpresupuesto= CampaignElemento::asignElementosPrecio($request->campaign_id);
+
+        
         $campPresu=CampaignPresupuesto::create($request->all());
+        $campPresu->total=$totalpresupuesto->total;
+        $campPresu->save();
 
-        //Recupero el conteo por material y lo inserto en la tabla campaign_presupuestos_detalles
-        $conteoMateriales=Campaign::getConteoMaterial($request->campaign_id);
-        foreach (array_chunk($conteoMateriales->toArray(),100) as $t){
-            $dataSet = [];
-            foreach ($t as $dato) {
-                $dataSet[] = [
-                    'presupuesto_id'  => $campPresu->id,
-                    'tipo'=>0,
-                    'concepto'  => $dato['material'],
-                    'medida'  => $dato['medida'],
-                    'materialmedida'  => $dato['medida'],
-                    'zona'=>$dato['zona'],
-                    'unidades'  => $dato['totales'],
-                    'uxprop'  => $dato['unidades'],
-                ];
+        // guardo los materiales en campaign_presupuestos_detalle para tener historico si se cambian los precios en una segunda versión del presupuesto
+        $materiales=VCampaignResumenElemento::where('campaign_id',$request->campaign_id)
+        ->get();
+        if($materiales->count()>0){
+            foreach (array_chunk($materiales->toArray(),1000) as $t){
+                $dataSet = [];
+                foreach ($t as $material) {
+                    $dataSet[] = [
+                        'presupuesto_id'  => $campPresu->id,
+                        'familia'  => $material['familia'],
+                        'precio'  => $material['precio'],
+                        'unidades'  => $material['unidades'],
+                        'total'  => $material['tot'],
+                    ];
+                }
+                DB::table('campaign_presupuesto_detalles')->insert($dataSet);
             }
-            DB::table('campaign_presupuesto_detalles')->insert($dataSet);
-        }
-
-        dd('llego');
-
-        //Recupero el conteo por area y lo inserto en la tabla campaign_presupuestos_detalles
-        $conteoAreas=Campaign::getConteoPaisStores($request->campaign_id);
-        foreach (array_chunk($conteoAreas->toArray(),100) as $t){
-            $dataSet = [];
-            foreach ($t as $dato) {
-                $dataSet[] = [
-                    'presupuesto_id'  => $campPresu->id,
-                    'tipo'=>3,
-                    'concepto'  => $dato['country'],
-                    'unidades'  => $dato['totales'],
-                    'uxprop'  => 0,
-                ];
-            }
-            DB::table('campaign_presupuesto_detalles')->insert($dataSet);
         }
         
         $notification = array(
-            'message' => '¡Presupuesto actualizado satisfactoriamente!',
+            'message' => '¡Presupuesto creado satisfactoriamente!',
             'alert-type' => 'success'
         );
 
         return redirect()->back()->with($notification);
-        // return redirect()->route('campaign.presupuesto',$campaign)->with($notification);
     }
     
 
@@ -127,7 +114,7 @@ class CampaignPresupuestoController extends Controller
      */
     public function edit($id)
     {
-        $campaignpresupuesto=CampaignPresupuesto::find($id);
+        $campaignpresupuesto=CampaignPresupuesto::find($id); 
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
         $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)->get();
         
@@ -138,51 +125,36 @@ class CampaignPresupuestoController extends Controller
     {
         $campaignpresupuesto=CampaignPresupuesto::find($id);
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
-        $materiales=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',0)
-        ->get(); 
-        $totalMateriales = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',0)
-        ->sum('total');
-
-        $zonaStores=Campaign::getConteoZonaStores($campaignpresupuesto->campaign_id); 
-        $totalZonaStores=VCampaignAreaStore::where('campaign_id',$campaignpresupuesto->campaign_id)->count();
         
-        // $totalMaterialeZona = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        // ->where('tipo',0)
-        // ->select('zona',DB::raw('SUM(total)'))
-        // ->sum('total');
-        // dd($totalZonaStores);
-
-        $promedios=VCampaignAreaStore::where('campaign_id',$campaignpresupuesto->campaign_id)
-        ->select('zona',DB::raw('count(*) as total'))
+        // Info de promedios
+        $promedios=VCampaignPromedio::where('campaign_id',$campaignpresupuesto->campaign_id)
+        ->select('zona',DB::raw('SUM(tot) as total'),DB::raw('count(*) as stores'))
         ->groupBy('zona')
         ->get(); 
-
-        $totalPromedios = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',1)
+        
+        $totalStores=VCampaignPromedio::where('campaign_id',$campaignpresupuesto->campaign_id)
+        ->count();
+        
+        // Info de materiales
+        $totalMateriales=CampaignPresupuestoDetalle::where('presupuesto_id',$id)
         ->sum('total');
+        
+        $materiales=VCampaignResumenElemento::where('campaign_id',$campaignpresupuesto->campaign_id)
+        ->get();
 
-        $extras=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',2)
+        $extras=CampaignPresupuestoExtra::where('presupuesto_id',$campaignpresupuesto->id)
         ->get(); 
-        $totalExtras = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',2)
+
+        $totalExtras = CampaignPresupuestoExtra::where('presupuesto_id',$campaignpresupuesto->id)
         ->sum('total');
 
-        $pickings=CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',3)
-        ->get(); 
-        // dd($pickings);s
-        $totalPickings = CampaignPresupuestoDetalle::where('presupuesto_id',$campaignpresupuesto->id)
-        ->where('tipo',3)
-        ->sum('total');
-
-
-
-        dd($AreaStores);
-        return view('campaign.presupuesto.cotizacion',compact('campaign','materiales','campaignpresupuesto','totalMateriales',
-            'paisStores','totalPaisStores','extras','totalExtras','promedios','totalPromedios','pickings','totalPickings'));
+        return view('campaign.presupuesto.cotizacion',
+            compact(
+                'campaign','campaignpresupuesto',
+                'promedios','totalMateriales','totalStores',
+                'materiales',
+                'extras','totalExtras'
+                ));
     }
 
     /**

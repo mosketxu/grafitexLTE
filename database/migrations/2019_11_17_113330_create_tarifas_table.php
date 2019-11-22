@@ -17,9 +17,9 @@ class CreateTarifasTable extends Migration
             $table->bigIncrements('id');
             $table->string('familia')->index();
             $table->integer('tramo1');
-            $table->float('tarifa1');
+            $table->decimal('tarifa1');
             $table->integer('tramo2');
-            $table->float('tarifa2');
+            $table->decimal('tarifa2',8,2);
             $table->integer('tramo3');
             $table->float('tarifa3');
             $table->timestamps();

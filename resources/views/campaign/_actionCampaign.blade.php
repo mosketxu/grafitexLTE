@@ -15,5 +15,5 @@
         <a href="{{route('campaign.presupuesto', $id ) }}" title="Presupuesto"><i class="fas fa-money-check-alt text-fuchsia fa-2x mr-1"></i></a>
         <a href="{{route('campaign.albaranes', $id ) }}" title="Albaranes"><i class="fas fa-truck text-orange fa-2x mr-1"></i></a>
         <a href="{{route('campaign.edit', $id )}}" title="Edit"><i class="far fa-edit text-primary fa-2x ml-1"></i></a>
-        <a href="{{route('campaign.destroy', $id )}}" title="Delete"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></a>
-</div>
+        <a href="{{route('campaign.eliminar', $id )}}" title="Delete"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></a>
+</div> 

@@ -34,7 +34,7 @@ class CreateCampaignElementosTable extends Migration
             $table->string('unitxprop')->nullable();
             $table->string('imagen')->nullable();
             $table->string('observaciones')->nullable();
-            $table->decimal('precio')->nullable();
+            $table->decimal('precio',8,2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

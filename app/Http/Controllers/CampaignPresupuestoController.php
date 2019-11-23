@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignElemento, CampaignPresupuesto, CampaignPresupuestoDetalle, CampaignPresupuestoExtra,VCampaignPromedio, VCampaignResumenElemento, VCampaignAreaStore};
+use App\{Campaign, CampaignElemento, 
+        CampaignPresupuesto, CampaignPresupuestoDetalle, CampaignPresupuestoExtra,
+    CampaignPresupuestoPickingtransporte,
+    Tarifa, 
+        VCampaignPromedio, VCampaignResumenElemento};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -55,16 +59,14 @@ class CampaignPresupuestoController extends Controller
             'estado' => 'required',
             ]);
             
-        $campaign = Campaign::find($request->campaign_id);
-
         // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
         // calculo el total actual de los elementos para insertarlo y mostrarlo en el indice de prepuestos
         // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
-        $totalpresupuesto= CampaignElemento::asignElementosPrecio($request->campaign_id);
+        $totalpresupuestoMat= CampaignElemento::asignElementosPrecio($request->campaign_id);
 
         
         $campPresu=CampaignPresupuesto::create($request->all());
-        $campPresu->total=$totalpresupuesto->total;
+        $campPresu->total=$totalpresupuestoMat->total;
         $campPresu->save();
 
         // guardo los materiales en campaign_presupuestos_detalle para tener historico si se cambian los precios en una segunda versión del presupuesto
@@ -85,7 +87,40 @@ class CampaignPresupuestoController extends Controller
                 DB::table('campaign_presupuesto_detalles')->insert($dataSet);
             }
         }
-        
+
+        // guardo picking y transporte en campaign_presupuestos_pickintransporte para tener historico si se cambian los precios en una segunda versión del presupuesto        
+        $stores=VCampaignPromedio::where('campaign_id',$request->campaign_id)
+        ->select('zona',DB::raw('count(store) as tiendas'),DB::raw('SUM(tot) as total'))
+        ->groupBy('zona')
+        ->get()
+        ->toArray();
+
+        $totalStores=VCampaignPromedio::where('campaign_id',$request->campaign_id)
+        ->count();
+        $dataSet=[];
+        foreach($stores as $store){
+            
+            $pick=Tarifa::where('tipo',1)
+                ->where('zona',$store['zona'])
+                ->first();
+            $transp=Tarifa::where('tipo',2)
+                ->where('zona',$store['zona'])
+                ->first();
+
+            $dataSet[]=[
+                'presupuesto_id'=>$campPresu->id,
+                'zona'=>$store['zona'],
+                'picking'=>$pick->tarifa1,
+                'transporte'=>$transp->tarifa1,
+                'stores'=>$store['tiendas'],
+                'totalstores'=>$totalStores,
+                'totalzona'=>$store['total'],
+                'total'=>$totalpresupuestoMat->total
+            ];
+        }
+        DB::table('campaign_presupuesto_pickingtransportes')->insert($dataSet);
+
+
         $notification = array(
             'message' => '¡Presupuesto creado satisfactoriamente!',
             'alert-type' => 'success'
@@ -131,7 +166,10 @@ class CampaignPresupuestoController extends Controller
         ->select('zona',DB::raw('SUM(tot) as total'),DB::raw('count(*) as stores'))
         ->groupBy('zona')
         ->get(); 
-        
+
+        $promedios=CampaignPresupuestoPickingtransporte::where('presupuesto_id',$id)
+        ->get();
+
         $totalStores=VCampaignPromedio::where('campaign_id',$campaignpresupuesto->campaign_id)
         ->count();
         
@@ -188,17 +226,21 @@ class CampaignPresupuestoController extends Controller
     public function refresh($campaignId,$presupuestoId)
     {
         
-        // elimino los detalles del presupuesto para poner nuevos precios
+        // elimino los detalles del presupuesto y de picking y trasnporte para poner nuevos precios
         $detallePresup=CampaignPresupuestoDetalle::where('presupuesto_id',$presupuestoId)->count();
         if ($detallePresup>0)
             CampaignPresupuestoDetalle::where('presupuesto_id',$presupuestoId)->delete();
+
+        $pickingtransp=CampaignPresupuestoPickingtransporte::where('presupuesto_id',$presupuestoId)->count();
+        if ($pickingtransp>0)
+            CampaignPresupuestoPickingtransporte::where('presupuesto_id',$presupuestoId)->delete();
 
         // $campaign = Campaign::find($campaignid);
 
         // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
         // calculo el total actual de los elementos para insertarlo y mostrarlo en el indice de prepuestos
         // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
-        $totalpresupuesto= CampaignElemento::asignElementosPrecio($campaignId);
+        $totalpresupuestoMat= CampaignElemento::asignElementosPrecio($campaignId);
         
         
 
@@ -217,10 +259,43 @@ class CampaignPresupuestoController extends Controller
                         'total'  => $material['tot'],
                     ];
                 }
+                
                 DB::table('campaign_presupuesto_detalles')->insert($dataSet);
             }
         }
-        
+
+        // guardo picking y transporte en campaign_presupuestos_pickintransporte para tener historico si se cambian los precios en una segunda versión del presupuesto        
+        $stores=VCampaignPromedio::where('campaign_id',$campaignId)
+        ->select('zona',DB::raw('count(store) as tiendas'))
+        ->groupBy('zona')
+        ->get()
+        ->toArray();
+
+        $totalStores=VCampaignPromedio::where('campaign_id',$campaignId)
+        ->count();
+        $dataSet=[];
+        foreach($stores as $store){
+            
+            $pick=Tarifa::where('tipo',1)
+                ->where('zona',$store['zona'])
+                ->first();
+            $transp=Tarifa::where('tipo',2)
+                ->where('zona',$store['zona'])
+                ->first();
+
+            $dataSet[]=[
+                'presupuesto_id'=>$presupuestoId,
+                'zona'=>$store['zona'],
+                'picking'=>$pick->tarifa1,
+                'transporte'=>$transp->tarifa1,
+                'stores'=>$store['tiendas'],
+                'totalstores'=>$totalStores,
+                'totalzona'=>$store['total'],
+                'total'=>$totalpresupuestoMat->total
+            ];
+        }
+        DB::table('campaign_presupuesto_pickingtransportes')->insert($dataSet);
+
         $notification = array(
             'message' => '¡Nuevos precios asociados satisfactoriamente!',
             'alert-type' => 'success'

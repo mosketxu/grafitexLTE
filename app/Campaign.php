@@ -73,12 +73,4 @@ class Campaign extends Model
             ->get();
 
     }
-
-    // static function getConteoZonaStores($campaignId) 
-    // {
-    //     return VCampaignAreaStore::where('campaign_id',$campaignId)
-    //         ->select('country','zona',DB::raw('count(*) as totales'))
-    //         ->groupBy('country','zona')
-    //         ->get();
-    // }
 }

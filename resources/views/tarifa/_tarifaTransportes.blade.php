@@ -20,12 +20,7 @@
                 <thead>
                     <tr>
                         <th>Ámbito</th>
-                        <th class="text-center">Tramo 1</th>
-                        <th class="bg-light text-center">Tarifa 1</th>
-                        <th class="text-center">Tramo 2</th>
-                        <th class="bg-light text-center">Tarifa 2</th>
-                        <th class="text-center">Tramo 3</th>
-                        <th class="bg-light text-center">Tarifa 3</th>
+                        <th class="bg-light text-center">Tarifa</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -33,12 +28,7 @@
                     @foreach ($tarifasTransportes as $tarifaTransporte)
                     <tr>
                         <td>{{$tarifaTransporte->familia}}</td>
-                        <td class="text-center">{{$tarifaTransporte->tramo1}} </td>
                         <td class="bg-light text-center">{{$tarifaTransporte->tarifa1}} €</td>
-                        <td class="text-center">{{$tarifaTransporte->tramo2}} </td>
-                        <td class="bg-light text-center">{{$tarifaTransporte->tarifa2}} €</td>
-                        <td class="text-center">{{$tarifaTransporte->tramo3}} </td>
-                        <td class="bg-light text-center">{{$tarifaTransporte->tarifa3}} €</td>
                         <td width="100px">
                             <a href="{{ route('tarifa.edit',$tarifaTransporte->id) }}" title="Edit">
                                 <i class="far fa-edit text-primary fa-2x mx-1"></i>

@@ -327,13 +327,13 @@ class CampaignController extends Controller
             $dataSet = [];
             foreach ($t as $gen) {
                 if ($gen['country']=='PT'){
-                    $zona='Portugal';
+                    $zona='PT';
                 }
                 else{
                     if($gen['area']=='Canarias')
-                        $zona='Canarias';
+                        $zona='CA';
                     else
-                        $zona='Nacional';
+                        $zona='ES';
                 }
                 // dd($gen['material']);
                 // busco a que familia pertenece el elemento para poder cotizar después                

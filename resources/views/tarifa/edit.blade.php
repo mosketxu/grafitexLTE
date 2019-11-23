@@ -57,42 +57,52 @@
 
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="familia">Tarifa</label>
-                                <input type="text" class="form-control form-control-sm" name="familia" value="{{ $tarifa->familia }}" readonly/>
+                        <input type="hidden" name="tipo" value="{{$tarifa->tipo}}">
+                        @if($tarifa->tipo!=0)
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="tarifa1">Tarifa</label>
+                                    <input type="number" step="0.01" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="tramo1">Tramo 1</label>
-                                <input type="number" class="form-control form-control-sm" id="tramo1" name="tramo1" value="{{ old('tramo1',$tarifa->tramo1) }}"/>
+                        @else
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="familia">Tarifa</label>
+                                    <input type="text" class="form-control form-control-sm" name="familia" value="{{ $tarifa->familia }}" readonly/>
+                                </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="tarifa1">Tarifa 1</label>
-                                <input type="number" step="0.01" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="tramo1">Tramo 1</label>
+                                    <input type="number" class="form-control form-control-sm" id="tramo1" name="tramo1" value="{{ old('tramo1',$tarifa->tramo1) }}"/>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="tarifa1">Tarifa 1</label>
+                                    <input type="number" step="0.01" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="tramo2">Tramo 2</label>
-                                <input type="number" class="form-control form-control-sm" id="tramo2" name="tramo2" value="{{ old('tramo2',$tarifa->tramo2) }}"/>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="tramo2">Tramo 2</label>
+                                    <input type="number" class="form-control form-control-sm" id="tramo2" name="tramo2" value="{{ old('tramo2',$tarifa->tramo2) }}"/>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="tarifa2">Tarifa 2</label>
+                                    <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa2" name="tarifa2" value="{{ old('tarifa2',$tarifa->tarifa2) }}"/>
+                                </div>
                             </div>
-                            <div class="form-group col">
-                                <label for="tarifa2">Tarifa 2</label>
-                                <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa2" name="tarifa2" value="{{ old('tarifa2',$tarifa->tarifa2) }}"/>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="tramo3">Tramo 3</label>
+                                    <input type="number" class="form-control form-control-sm" id="tramo3" name="tramo3" value="{{ old('tramo3',$tarifa->tramo3) }}"/>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="tarifa3">Tarifa 3</label>
+                                    <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa3" name="tarifa3" value="{{ old('tarifa3',$tarifa->tarifa3) }}"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col">
-                                <label for="tramo3">Tramo 3</label>
-                                <input type="number" class="form-control form-control-sm" id="tramo3" name="tramo3" value="{{ old('tramo3',$tarifa->tramo3) }}"/>
-                            </div>
-                            <div class="form-group col">
-                                <label for="tarifa3">Tarifa 3</label>
-                                <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa3" name="tarifa3" value="{{ old('tarifa3',$tarifa->tarifa3) }}"/>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">Actualizar</button>

@@ -101,47 +101,183 @@
                   </div>
                   <div class="card-body">
                      <div class="row">
-                        {{-- Promedios --}}
-                        <div class="col-3">
+                        <div class="col-6">
+                           <div class="col">
+                           {{-- Promedios --}}
                            <div class="card">
-                              <div class="card-header text-white bg-primary py-1">
-                                 <div class="row">
-                                    <div class="col-4 text-left">Zona</div>
-                                    <div class="col-4 text-right">
-                                       <span class="badge badge-primary badge-pill">{{$totalStores}} </span>
-                                    </div>
-                                    <div class="col-4 text-right">
-                                       <span class="badge badge-primary badge-pill">{{number_format($totalMateriales,2,',','.')}} €</span>
-                                    </div>
+                                 {{-- titulo card --}}
+                              <div class="card-header text-white bg-teal p-0" data-card-widget="collapse"
+                                 style="cursor: pointer">
+                                 <h3 class="card-title pl-3">Datos Presupuesto</h3>
+                                 <div class="card-tools pr-3">
+                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
                                  </div>
                               </div>
-                              <div class="card-body p-1">
-                                 @foreach ($promedios as $promedio)
-                                 <div class="row">
-                                    <div class="col-4 text-left">{{$promedio->zona}}</div>
-                                    <div class="col-4 text-right">
-                                       <span class="badge badge-primary badge-pill">{{$promedio->stores}}</span>
-                                    </div>
-                                    <div class="col-4 text-right ">
-                                       <span class="badge badge-primary badge-pill mr-3">{{number_format($promedio->total,2,',','.')}} €</span>
-                                    </div>
-                                 </div>
-                                 @endforeach
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-9">
-                           <div class="card">
-                              <div class="card-header">
-                                 header
-                              </div>
+                              {{-- tabla presupuesto materiales --}}
                               <div class="card-body">
-                                    body
+                                 <div class="table-responsive">
+                                    <table class="table table-hover table-sm small sortable"
+                                       cellspacing="0" width=100%>
+                                       <thead>
+                                          <tr>
+                                             <th class="text-center ">Zona</th>
+                                             <th class="text-center ">Nº Stores</th>
+                                             <th class="text-center">Totales</th>
+                                             <th class="text-center">Promedio<br/>Total</th>
+                                             <th class="text-center">Promedio<br/>Zona</th>
+                                             <th class="text-center">Pickin</th>
+                                             <th class="text-center">Transp.</th>
+                                          </tr>
+                                       </thead>
+                                       @if(count($promedios)>0)
+                                       <tbody>
+                                          @foreach($promedios as $promedio)
+                                          <tr>
+                                             <td class="text-left my-0 py-1">{{$promedio->zona}}</td>
+                                             <td class="text-left my-0 py-1">{{$promedio->stores}}</td>
+                                             <td class="text-right my-0 py-1">{{number_format($promedio->totalzona,2,',','.')}}</td>
+                                             <td class="text-right my-0 py-1">{{number_format($promedio->total / $promedio->totalstores,2,',','.')}}</td>
+                                             <td class="text-right my-0 py-1">{{number_format($promedio->totalzona / $promedio->totalstores,2,',','.')}}</td>
+                                             <td class="text-right my-0 py-1">{{number_format($promedio->picking,2,',','.')}}</td>
+                                             <td class="text-right my-0 py-1">{{number_format($promedio->transporte,2,',','.')}}</td>
+                                          </tr>
+                                          @endforeach
+                                       </tbody>
+                                       @endif
+                                    </table>
+                                 </div>
                               </div>
                            </div>
                         </div>
-                     </div>
-                     <div class="row">
+                        <div class="col">
+                              <div class="card">
+                                 <div class="card-header text-white bg-warning p-0" data-card-widget="collapse"
+                                       style="cursor: pointer">
+                                    <h3 class="card-title pl-3">Extras</h3><span class="sumTotExtra ml-3">
+                                       {{number_format($totalExtras,2,',','.')}}</span>
+                                    <div class="card-tools pr-3">
+                                       <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
+                                    </div>
+                                 </div>
+                                 <div class="card-body">
+                                    <div class="table-responsive">
+                                       <table id="tExtra" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
+                                          <thead>
+                                             <tr>
+                                                <th class="text-center">Extra</th>
+                                                <th class="text-center" width="10%">Uds</th>
+                                                <th class="text-center" width="10%">€/ud.</th>
+                                                <th class="text-center" width="10%">Total <br />
+                                                </th>
+                                                <th class="text-center">Obs.</th>
+                                                <th class="text-center" width="15%">Actions</th>
+                                             </tr>
+                                          </thead>
+                                          @if(count($extras)>0)
+                                          <tbody>
+                                             @foreach($extras as $extra)
+                                                <form id="form{{$extra->id}}" role="form" method="post"
+                                                         action="javascript:void(0)">
+                                                {{-- <form id="form{{$extra->id}}" role="form" method="post"
+                                                         action="{{ route('campaign.presupuesto.extra.update',$extra->id) }}" > --}}
+                                                         
+                                                   <input type="hidden" name="_tokenExtra{{$extra->id}}"
+                                                      value="{{ csrf_token()}}" id="tokenExtra{{$extra->id}}">
+                                                   @csrf
+                                                   <tr class="editarTr" id="{{$extra->id}}"><span class="d-none"
+                                                         id="sum{{$extra->id}}">sumTotExtra</span>
+                                                      <input type="hidden" name="presupuesto_id"
+                                                         value="{{$extra->presupuesto_id}}" readonly="readonly">
+                                                      <input type="hidden" name="tipo" value="2" readonly="readonly">
+                                                         <input type="checkbox" id="check{{$extra->id}}" style="display:none">
+                                                      <td class="my-0 py-1">
+                                                         <input type="text" id="concepto{{$extra->id}}"
+                                                            class="my-0 py-0 form-control-plaintext text-left input-sm" 
+                                                            name="concepto" value="{{$extra->concepto}}" readonly="readonly">
+                                                      </td>
+                                                      <td class="my-0 py-1">
+                                                         <input type="text" id="unidades{{$extra->id}}"
+                                                            class="my-0 py-0 px-2 form-control-plaintext  text-right input-sm"
+                                                            name="unidades" onchange="totalizar({{$extra->id}})"
+                                                            value="{{$extra->unidades}}" readonly="readonly">
+                                                      </td>
+                                                      <td class="my-0 py-1">
+                                                         <input type="text" id="preciounidad{{$extra->id}}"
+                                                            class="my-0 py-0 px-2 form-control-plaintext  text-right input-sm"
+                                                            name="preciounidad" onchange="totalizar({{$extra->id}})"
+                                                            value="{{number_format($extra->preciounidad,2,',','.')}}"
+                                                            readonly="readonly">
+                                                      </td>
+                                                      <td class="my-0 py-1">
+                                                         <input type="hidden" id="total{{$extra->id}}"
+                                                            class="my-0 py-0 px-2 form-control-plaintext item input-sm" name="total"
+                                                            value="{{$extra->total}}" readonly="readonly">
+                                                            <span id="totLabel{{$extra->id}}"
+                                                               class="my-0 py-0 px-2 form-control-plaintext text-right text-primary">
+                                                               {{number_format($extra->total,2,',','.')}}
+                                                            </span>
+                                                      </td>
+                                                      <td class="my-0 py-1">
+                                                         <input type="text" id="observaciones{{$extra->id}}"
+                                                            class="my-0 py-0 px-2 form-control-plaintext text-center input-sm"
+                                                            name="observaciones" value="{{$extra->observaciones}}"
+                                                            readonly="readonly">
+                                                      </td>
+                                                         {{-- acciones --}}
+                                                      <td class="my-0 py-1">
+                                                         <a class="editar" title="Editar">
+                                                            <i id="editar{{$extra->id}}" class="fas fa-edit text-primary fa-2x mx-1"></i>
+                                                         </a>
+                                                         <a href="{{ route('campaign.presupuesto.extra.delete',$extra->id) }}" title="Eliminar">
+                                                            <i class="far fa-trash-alt text-danger fa-2x ml-1"></i>
+                                                         </a>
+                                                         {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
+                                                      </td>
+                                                   </tr>
+                                                </form>
+                                             @endforeach
+                                          </tbody>
+                                          @endif
+                                          <tfoot>
+                                             {{-- <form id="formExtraNew" role="form" method="post" action="javascript:void(0)"> --}}
+                                             <form id="formExtraNew" role="form" method="post" action="{{ route('campaign.presupuesto.extra.store') }}">
+                                                <input type="hidden" name="_tokenExtraNew" value="{{ csrf_token()}}" id="tokenExtraNew">
+                                                @csrf
+                                                <tr class="my-0 py-0" id="tExtraNew">
+                                                   <input type="hidden" name="presupuesto_id" value="{{$campaignpresupuesto->id}}" readonly="readonly">
+                                                   <input type="hidden" name="tipo" value="2" readonly="readonly">
+                                                   <td class="my-0 py-1">
+                                                      <input type="text" id="extraNew" class="my-0 py-0 form-control text-left input-sm" name="concepto" value="">
+                                                   </td>
+                                                   <td class="my-0 py-1"><input type="text" id="unidadesExtraNew" class="my-0 py-0 px-2 form-control text-right  input-sm" name="unidades"
+                                                      onchange="totalizar('ExtraNew')" value="0">
+                                                   </td>
+                                                   <td class="my-0 py-1"><input type="text" id="preciounidadExtraNew" class="my-0 py-0 px-2 form-control text-right  input-sm"
+                                                      name="preciounidad" onchange="totalizar('ExtraNew')" value="0">
+                                                   </td>
+                                                   <td class="my-0 py-1"><input type="hidden" id="totalExtraNew" class="my-0 py-0 px-2 form-control  input-sm" name="total" value="0">
+                                                      <span id="totLabelExtraNew" class="my-0 py-0 px-2 pt-1 form-control"></span>
+                                                   </td>
+                                                   <td class="my-0 py-1"><input type="text" id="observacionesExtraNew"
+                                                      class="my-0 py-0 px-2 form-control text-center  input-sm"
+                                                      name="observaciones" value="">
+                                                   </td>
+                                                   <td class="my-0 py-1 text-center">
+                                                      <a href="#" title="Validar" onclick="document.getElementById('formExtraNew').submit()">
+                                                         <i class="fas fa-plus text-success fa-2x mx-1"></i>
+                                                      </a>
+                                                      {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
+                                                   </td>
+                                                </tr>
+                                             </form>
+                                          </tfoot>
+                                       </table>
+                                       {{-- <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar extras</button> --}}
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                         <div class="col-6">
                            <!-- Materiales todos-->
                            <div class="card">
@@ -184,134 +320,7 @@
                               </div>
                            </div>
                         </div>
-                        <div class="col-6">
-                           <div class="card">
-                              <div class="card-header text-white bg-warning p-0" data-card-widget="collapse"
-                                    style="cursor: pointer">
-                                 <h3 class="card-title pl-3">Extras</h3><span class="sumTotExtra ml-3">
-                                    {{number_format($totalExtras,2,',','.')}}</span>
-                                 <div class="card-tools pr-3">
-                                    <button type="button" class="btn btn-tool"><i class="fas fa-minus"></i></button>
-                                 </div>
-                              </div>
-                              <div class="card-body">
-                                 <div class="table-responsive">
-                                    <table id="tExtra" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
-                                       <thead>
-                                          <tr>
-                                             <th class="text-left px-2">Extra</th>
-                                             <th class="text-right px-2" width="10%">Unidades</th>
-                                             <th class="text-right px-2" width="10%">€ ud.</th>
-                                             <th class="text-right px-2" width="10%">Total <br />
-                                             </th>
-                                             <th class="text-center">Observaciones</th>
-                                             <th class="text-center" width="15%">Actions</th>
-                                          </tr>
-                                       </thead>
-                                       @if(count($extras)>0)
-                                       <tbody>
-                                          @foreach($extras as $extra)
-                                             <form id="form{{$extra->id}}" role="form" method="post"
-                                                      action="javascript:void(0)">
-                                             {{-- <form id="form{{$extra->id}}" role="form" method="post"
-                                                      action="{{ route('campaign.presupuesto.extra.update',$extra->id) }}" > --}}
-                                                      
-                                                <input type="hidden" name="_tokenExtra{{$extra->id}}"
-                                                   value="{{ csrf_token()}}" id="tokenExtra{{$extra->id}}">
-                                                @csrf
-                                                <tr class="editarTr" id="{{$extra->id}}"><span class="d-none"
-                                                      id="sum{{$extra->id}}">sumTotExtra</span>
-                                                   <input type="hidden" name="presupuesto_id"
-                                                      value="{{$extra->presupuesto_id}}" readonly="readonly">
-                                                   <input type="hidden" name="tipo" value="2" readonly="readonly">
-                                                      <input type="checkbox" id="check{{$extra->id}}" style="display:none">
-                                                   <td class="my-0 py-1">
-                                                      <input type="text" id="concepto{{$extra->id}}"
-                                                         class="my-0 py-0 form-control-plaintext item text-left"
-                                                         name="concepto" value="{{$extra->concepto}}" readonly="readonly">
-                                                   </td>
-                                                   <td class="my-0 py-1">
-                                                      <input type="text" id="unidades{{$extra->id}}"
-                                                         class="my-0 py-0 px-2 form-control-plaintext item text-right"
-                                                         name="unidades" onchange="totalizar({{$extra->id}})"
-                                                         value="{{$extra->unidades}}" readonly="readonly">
-                                                   </td>
-                                                   <td class="my-0 py-1">
-                                                      <input type="text" id="preciounidad{{$extra->id}}"
-                                                         class="my-0 py-0 px-2 form-control-plaintext item text-right"
-                                                         name="preciounidad" onchange="totalizar({{$extra->id}})"
-                                                         value="{{number_format($extra->preciounidad,2,',','.')}}"
-                                                         readonly="readonly">
-                                                   </td>
-                                                   <td class="my-0 py-1">
-                                                      <input type="hidden" id="total{{$extra->id}}"
-                                                         class="my-0 py-0 px-2 form-control-plaintext item" name="total"
-                                                         value="{{$extra->total}}" readonly="readonly">
-                                                         <span id="totLabel{{$extra->id}}"
-                                                            class="my-0 py-0 px-2 form-control-plaintext item text-right text-primary">
-                                                            {{number_format($extra->total,2,',','.')}}
-                                                         </span>
-                                                   </td>
-                                                   <td class="my-0 py-1">
-                                                      <input type="text" id="observaciones{{$extra->id}}"
-                                                         class="my-0 py-0 px-2 form-control-plaintext item text-center"
-                                                         name="observaciones" value="{{$extra->observaciones}}"
-                                                         readonly="readonly">
-                                                   </td>
-                                                      {{-- acciones --}}
-                                                   <td class="my-0 py-1">
-                                                      <a class="editar" title="Editar">
-                                                         <i id="editar{{$extra->id}}" class="fas fa-edit text-primary fa-2x mx-1"></i>
-                                                      </a>
-                                                      <a href="{{ route('campaign.presupuesto.extra.delete',$extra->id) }}" title="Eliminar">
-                                                         <i class="far fa-trash-alt text-danger fa-2x ml-1"></i>
-                                                      </a>
-                                                      {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
-                                                   </td>
-                                                </tr>
-                                             </form>
-                                          @endforeach
-                                       </tbody>
-                                       @endif
-                                       <tfoot>
-                                          {{-- <form id="formExtraNew" role="form" method="post" action="javascript:void(0)"> --}}
-                                          <form id="formExtraNew" role="form" method="post" action="{{ route('campaign.presupuesto.extra.store') }}">
-                                             <input type="hidden" name="_tokenExtraNew" value="{{ csrf_token()}}" id="tokenExtraNew">
-                                             @csrf
-                                             <tr class="" id="tExtraNew">
-                                                <input type="hidden" name="presupuesto_id" value="{{$campaignpresupuesto->id}}" readonly="readonly">
-                                                <input type="hidden" name="tipo" value="2" readonly="readonly">
-                                                <td class="my-0 py-1">
-                                                   <input type="text" id="extraNew" class="my-0 py-0 form-control item text-left" name="concepto" value="">
-                                                </td>
-                                                <td class="my-0 py-1"><input type="text" id="unidadesExtraNew" class="my-0 py-0 px-2 form-control item text-right" name="unidades"
-                                                   onchange="totalizar('ExtraNew')" value="0">
-                                                </td>
-                                                <td class="my-0 py-1"><input type="text" id="preciounidadExtraNew" class="my-0 py-0 px-2 form-control item text-right"
-                                                   name="preciounidad" onchange="totalizar('ExtraNew')" value="0">
-                                                </td>
-                                                <td class="my-0 py-1"><input type="hidden" id="totalExtraNew" class="my-0 py-0 px-2 form-control item" name="total" value="0">
-                                                   <span id="totLabelExtraNew" class="my-0 py-0 px-2 pt-1 form-control item"></span>
-                                                </td>
-                                                <td class="my-0 py-1"><input type="text" id="observacionesExtraNew"
-                                                   class="my-0 py-0 px-2 form-control item text-center"
-                                                   name="observaciones" value="">
-                                                </td>
-                                                <td class="my-0 py-1">
-                                                   <a href="#" title="Validar" onclick="document.getElementById('formExtraNew').submit()">
-                                                      <i class="fas fa-plus text-success fa-2x mx-1"></i>
-                                                   </a>
-                                                   {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></button> --}}
-                                                </td>
-                                             </tr>
-                                          </form>
-                                       </tfoot>
-                                    </table>
-                                    {{-- <button type="button" class="btn btn-default btn-block" name="Guardar">Guardar extras</button> --}}
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+                        
                      </div>
                   </div>
                </div>

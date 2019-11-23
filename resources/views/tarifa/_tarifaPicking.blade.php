@@ -11,7 +11,7 @@
          <div class="col-7 row">
             {{ $tarifasPicking->links() }}
          </div>
-         <div class="col-5 float-right mb-2">
+         <div class="col-5 float-right mb-2"> 
          </div>
       </div>
 
@@ -20,12 +20,7 @@
             <thead>
                <tr>
                   <th>Ámbito</th>
-                  <th class="text-center">Tramo 1</th>
-                  <th class="bg-light text-center">Tarifa 1</th>
-                  <th class="text-center">Tramo 2</th>
-                  <th class="bg-light text-center">Tarifa 2</th>
-                  <th class="text-center">Tramo 3</th>
-                  <th class="bg-light text-center">Tarifa 3</th>
+                  <th class="bg-light text-center">Tarifa</th>
                   <th class="text-center"></th>
                </tr>
             </thead>
@@ -33,12 +28,7 @@
                @foreach ($tarifasPicking as $tarifaPicking)
                <tr>
                   <td>{{$tarifaPicking->familia}}</td>
-                  <td class="text-center">{{$tarifaPicking->tramo1}} </td>
                   <td class="bg-light text-center">{{$tarifaPicking->tarifa1}} €</td>
-                  <td class="text-center">{{$tarifaPicking->tramo2}} </td>
-                  <td class="bg-light text-center">{{$tarifaPicking->tarifa2}} €</td>
-                  <td class="text-center">{{$tarifaPicking->tramo3}} </td>
-                  <td class="bg-light text-center">{{$tarifaPicking->tarifa3}} €</td>
                   <td>
                      <a href="{{ route('tarifa.edit',$tarifaPicking->id) }}" title="Edit">
                         <i class="far fa-edit text-primary fa-2x mx-1"></i>

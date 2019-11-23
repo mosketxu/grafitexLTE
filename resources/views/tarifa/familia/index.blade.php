@@ -61,7 +61,7 @@
                             </form>
                         </div>
                     </div>
-                    @foreach ($tarifafamilias as $tarifafamilia)
+                    @foreach ($tarifafamilias as $tarifafamilia) 
                     <div class="card collapsed-card">
                         {{-- card-header --}}
                         <div class="card-header text-white bg-{{$colors[rand(0,17)]}} p-0" data-card-widget="collapse" style="cursor: pointer">

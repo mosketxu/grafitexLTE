@@ -80,8 +80,9 @@ Route::group(['middleware' => ['auth']], function () {
 
             });
             // albaran
-            Route::group(['prefix' => 'albaran'], function () {
-                Route::get('/{campaignId}', 'CampaignAlbaranController@index')->name('campaign.albaranes');
+            Route::group(['prefix' => 'reporting'], function () {
+                Route::get('/etiquetas/pdf/{campaignId}', 'CampaignReportingController@pdf')->name('campaign.etiquetas.pdf');
+                Route::get('/etiquetas/{campaignId}', 'CampaignReportingController@index')->name('campaign.etiquetas.index');
             }); 
 
         });

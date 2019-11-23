@@ -16,11 +16,7 @@ use App\{
     CampaignCountry,
     CampaignElemento,
     CampaignGaleria,
-    CampaignPaisStore,
-    CampaignPresupuesto,
-    CampaignAlbaran,
     VCampaignGaleria,
-    Tarifa,
     TarifaFamilia,
 };
 use App\Exports\CampaignExport;
@@ -59,21 +55,7 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        // $request['slug'] = Str::slug($request->campaign_name);
-
         $campaign = Campaign::create($request->all());
-
-        $cont = 0;
-
-        // if ($campaignstores = $request->campaign_storeId) {
-        //     while ($campaignstores && $cont  < count($campaignstores)) {
-        //         $campaignstore = new CampaignStore();
-        //         $campaignstore->campaign_id = $campaign->id;
-        //         $campaignstore->store_id = $campaignstores[$cont];
-        //         $campaignstore->save();
-        //         $cont = $cont + 1;
-        //     }
-        // }
 
         return redirect()->route('campaign.index');
     }
@@ -180,15 +162,7 @@ class CampaignController extends Controller
             'campaign_state' => 'required',
         ]);
 
-        // $campaign=Campaign::find($request->id);
         Campaign::find($id)->update($request->all());
-        
-        // $campaign->campaign_name = $request->campaign_name;
-        // $campaign->campaign_initdate = $request->campaign_initdate;
-        // $campaign->campaign_enddate = $request->campaign_enddate;
-        // $campaign->campaign_state = $request->campaign_state;
-
-        // DB::table('campaigns')->insert($campaign);
 
         return redirect()->route('campaign.index')->with('success','Registro actualizado satisfactoriamente');
     }
@@ -335,12 +309,15 @@ class CampaignController extends Controller
                     else
                         $zona='ES';
                 }
-                // dd($gen['material']);
+                // recupero el id de campaignStore que me hace falta para entre otras cosas la relacion stores elementos para la etiquetas
+                $campStoreId=CampaignStore::getStore($id,$gen['store']);
+
                 // busco a que familia pertenece el elemento para poder cotizar después                
                 $familia=TarifaFamilia::getFamilia($gen['material'],$gen['medida']);
 
                 $dataSet[] = [
                     'campaign_id'  => $id,
+                    'store_id'  => $campStoreId->id,
                     'store'  => $gen['store'],
                     'name'  => $gen['name'],
                     'country'  => $gen['country'],

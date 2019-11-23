@@ -17,7 +17,12 @@ class CampaignElemento extends Model
    
     public function campaign()
     {
-        return $this->belongsTo(Campaign::class);
+        return $this->belongsTo(Campaign::class,'campaign_id'); //no hace falta porque ya busca este campo, pero asi me acuerdo como es
+    }
+
+    public function campaignstore()
+    {
+        return $this->belongsTo(CampaignStore::class,'store_id');
     }
 
     public function tarifa()

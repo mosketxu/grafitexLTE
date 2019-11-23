@@ -13,9 +13,22 @@ class CampaignStore extends Model
         return $this->belongsTo(Campaign::class);
     }
 
-    public function store(Type $var = null)
+    public function store()
     {
         return $this->belongsTo(Store::class);
+    }
+
+    public function campaignelementos()
+    {
+        return $this->hasMany(CampaignElemento::class,'store_id');
+    }
+
+    static function getStore($campaignId,$store)
+    {
+        return CampaignStore::where('campaign_id',$campaignId)
+            ->where('store_id',$store)
+            ->first();
+
     }
 
 }

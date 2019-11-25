@@ -33,5 +33,30 @@ class Maestro extends Model
             'maestros.unitxprop','maestros.observaciones', DB::raw($campaign.' as campaign_id'));
     }
 
+    static function insertStores()
+    {
+        $stores=Maestro::select('store','name','country','area','segmento','storeconcept')
+        ->groupBy('store','name','country','area','segmento','storeconcept')
+        ->get();
+
+        // dd($stores);
+        foreach (array_chunk($stores->toArray(),1000) as $t){
+            $dataSet = [];
+            // foreach ($stores as $store) {
+            foreach ($t as $store) {
+                $dataSet[] = [
+                    'id'  => $store['store'],
+                    'name'  => $store['name'],
+                    'country'=>$store['country'],
+                    'area'=>$store['area'],
+                    'segmento'=>$store['segmento'],
+                    'concept'=>$store['storeconcept']
+                ];
+            }
+            DB::table('stores')->insert($dataSet);
+        }
+        return true;
+    }
+
     
 }

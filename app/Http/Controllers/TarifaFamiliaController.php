@@ -20,14 +20,19 @@ class TarifaFamiliaController extends Controller
             $busqueda = '';
         } 
         $tarifafamilias = Tarifa::search($request->busca)
-        ->paginate(8);
+        ->where('tipo',0)
+        ->paginate(25);
+        
+        $familias = Tarifa::where('tipo',0)
+        ->orderBy('familia')
+        ->get();
 
 
         $colors = array('primary','secondary','info','success', 'danger', 'warning',
             'black', 'gray', 'indigo', 'navy', 'purple', 'fuchsia',
             'pink', 'maroon', 'orange', 'lime', 'teal', 'olive');
         shuffle($colors);
-        return view('tarifa.familia.index', compact('tarifafamilias','busqueda','colors'));
+        return view('tarifa.familia.index', compact('tarifafamilias','familias','busqueda','colors'));
     }
 
     /**

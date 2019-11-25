@@ -20,21 +20,20 @@ class MaestrosImport implements ToModel, WithHeadingRow, WithChunkReading
     public function model(array $row)
     {
         return new Maestro([
-            'store' => $row['store'],
-            'country' => $row['country'], 
-            'name' => $row['name'], 
-            'area' => $row['area'], 
-            'segment2018' => $row['segment2018'], 
-            'segmento' => $row['segment2019'], 
-            'storeconcept' => $row['concept'], 
-            'ubicacion' => $row['ubicacion'], 
-            'mobiliario' => $row['mobiliario'], 
-            'propxelemento' => $row['propxelemento'], 
-            'carteleria' => $row['carteleria'], 
-            'medida' => $row['medida'], 
-            'material' => $row['material'], 
-            'unitxprop' =>$row['unitxprop'], 
-            'observaciones' =>$row['observaciones'], 
+            'store' => trim($row['store_code']),
+            'country' => trim($row['country']), 
+            'name' => trim($row['store_name']), 
+            'area' => trim($row['area']), 
+            // 'segment2018' => is_null($row['segment2018'] ? '' : trim($row['segment2018']) ), 
+            'segmento' => trim($row['segment_2019']), 
+            'storeconcept' => trim($row['store_concept']), 
+            'ubicacion' => trim($row['ubicacion']), 
+            'mobiliario' => trim($row['mobiliario']), 
+            'propxelemento' => trim($row['prop_elemento']), 
+            'carteleria' => trim($row['carteleria']), 
+            'medida' => trim($row['medida']), 
+            'material' => trim($row['material']), 
+            'unitxprop' =>trim($row['unit_x_prop']), 
         ]);
     }
 

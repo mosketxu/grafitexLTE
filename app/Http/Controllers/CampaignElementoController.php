@@ -23,16 +23,19 @@ class CampaignElementoController extends Controller
 
         $campaign = Campaign::find($campaignId);
 
+
         $elementos= CampaignElemento::search($request->busca)
         ->where('campaign_id',$campaignId)
         ->select('id','store','name','country','area','segmento','storeconcept',
             'ubicacion','mobiliario','propxelemento','carteleria','medida',
             'material','familia','precio','unitxprop','imagen','observaciones')
         ->orderBy('store')
-        ->paginate('50');
-        // ->get();
+        ->paginate('25');
 
-        $totalElementos=CampaignElemento::where('campaign_id',$campaignId)->count();
+
+        $totalElementos=CampaignElemento::search($request->busca)
+            ->where('campaign_id',$campaignId)
+            ->count();
 
         return view('campaign.elementos.index', compact('campaign','elementos','totalElementos','busqueda'));    
     }

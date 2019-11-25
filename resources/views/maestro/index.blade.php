@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-auto mr-auto">
                         <a href="" role="button" data-toggle="modal" data-target="#importMaestro">
-                            <i class="fas fa-plus-circle fa-lg text-primary mt-2"></i>
+                            <i class="fas fa-plus-circle fa-2x text-primary mt-2"></i>
                         </a>
                     </div>
                     <div class="col-sm-6">
@@ -106,7 +106,27 @@
 @push('scriptchosen')
 
 <script>
-    @include('_partials._errortemplate')
+    // @include('_partials._errortemplate')
+    <script>
+    @if(Session::has('message'))
+        toastr.options={
+                progressBar:true,
+                positionClass:"toast-top-center"
+            };
+        toastr.success("{{ Session::get('message') }}");
+    @endif
+    @if(session('error'))
+        toastr.options={
+                closeButton: true,
+                progressBar:true,
+                positionClass:"toast-top-center",
+                showDuration: "300",
+                hideDuration: "1000",
+                timeOut: 0,
+        };
+        toastr.error("{{ Session::get('error') }}");
+    @endif
+</script>
 </script>
         
     

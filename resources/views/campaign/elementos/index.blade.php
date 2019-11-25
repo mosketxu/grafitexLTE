@@ -85,14 +85,14 @@
                             </div>
                         </div>
                         
-                        <div class="table-responsive" style="height: 500px">
+                        <div class="table-responsive" style="height: 700px">
                             <table id="tcampaignElementos" class="table table-hover table-sm small sortable" cellspacing="0" width=100%>
                                 <thead>
                                     <tr>
                                         <th class="d-none">#</th>
                                         <th id="tStore">Store</th>
                                         <th id="tName">Name</th>
-                                        <th id="tCountry">Country</th>
+                                        <th id="tCountry" class="text-center">Country</th>
                                         <th id="tArea">Area</th>
                                         <th id="tSegmento">Segmento</th>
                                         <th id="tStore">Store Concept</th>
@@ -102,9 +102,9 @@
                                         <th id="tCarteleria">Carteleria</th>
                                         <th id="tMedida">Medida</th>
                                         <th id="tMaterial">Material</th>
-                                        <th id="tTarifa">Tarifa</th>
-                                        <th id="tPrecio">€/ud</th>
-                                        <th id="tUnit">Unit x Prop</th>
+                                        {{-- <th id="tTarifa">Tarifa</th> --}}
+                                        {{-- <th id="tPrecio">€/ud</th> --}}
+                                        <th id="tUnit" class="text-center">Unit x Prop</th>
                                         <th id="tObservaciones">Observaciones</th>
                                         <th width="100px">Imagen </th>
                                         <th width="100px" class="text-center"><span class="ml-1">Acción</th>
@@ -114,13 +114,13 @@
                                    @foreach ($elementos as $elemento)
                                    <tr>
                                     <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}">
-                                    {{-- <form id="" role="form" method="post" action="{{ route('campaign.elementos.updateimagenindex') }}" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}"> --}}
+                                    {{-- comentado <form id="" role="form" method="post" action="{{ route('campaign.elementos.updateimagenindex') }}" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}"> --}}
                                         @csrf
                                         <input type="text" class="d-none" id="elementoId" name="elementoId" value="{{$elemento->id}}">
                                         <td class="d-none">{{$elemento->id}}</td>
                                         <td>{{$elemento->store}}</td>
                                         <td>{{$elemento->name}}</td>
-                                        <td>{{$elemento->country}}</td>
+                                        <td class="text-center">{{$elemento->country}}</td>
                                         <td>{{$elemento->area}}</td>
                                         <td>{{$elemento->segmento}}</td>
                                         <td>{{$elemento->storeconcept}}</td>
@@ -130,9 +130,13 @@
                                         <td>{{$elemento->carteleria}}</td>
                                         <td>{{$elemento->medida}}</td>
                                         <td>{{$elemento->material}}</td>
-                                        <td>{{$elemento->familia}}-{{$elemento->tarifa->familia}}</td>
-                                        <td>{{$elemento->precio}}</td>
-                                        <td>{{$elemento->unitxprop}}</td>
+                                        {{-- <td>{{$elemento->familia}}-
+                                            @isset({{$elemento->tarifa->familia}})
+                                                {{$elemento->tarifa->familia}}
+                                            @endisset
+                                        </td> --}}
+                                        {{-- <td>{{$elemento->precio}}</td> --}}
+                                        <td class="text-center">{{$elemento->unitxprop}}</td>
                                         <td>{{$elemento->observaciones}}</td>
                                         <td>
                                             <div class="">
@@ -148,16 +152,16 @@
                                                         style="width: 100px;cursor:pointer"
                                                         onclick='document.getElementById("inputFile{{$elemento->id}}").click()'/>
                                                 @endif                                        
-                                                {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
-                                                </div>
-                                            </td>
-                                            <td width="100px">
-                                                <div class="text-center">
-                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$elemento->id}}','{{$elemento->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
-                                                <a href="{{ route('campaign.elemento.editelemento',[$campaign->id,$elemento->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
-                                                {{-- <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a> --}}
+                                                {{-- comentado <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
                                             </div>
-                                       </td>
+                                        </td>
+                                        <td width="100px">
+                                            <div class="text-center">
+                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$elemento->id}}','{{$elemento->id}}')"><i class="fas fa-upload text-primary fa-2x mx-1"></i></a>
+                                                <a href="{{ route('campaign.elemento.editelemento',[$campaign->id,$elemento->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-2x mx-1"></i></a>
+                                                {{-- comentado <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a> --}}
+                                            </div>
+                                        </td>
                                     </form>
                                    </tr>
                                    @endforeach

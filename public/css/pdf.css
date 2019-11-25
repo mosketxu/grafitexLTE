@@ -1,8 +1,77 @@
-html {
-	margin: 50pt 15pt;
-}
-
 body {
    font-family: DejaVu Sans;
-   font-size: x-small;
+   font-size: xx-small;
+   text-align: center;
 }
+
+@page {
+   margin: 100px 25px;
+}
+
+header {
+   position: fixed;
+   top: -60px;
+   left: 0px;
+   right: 0px;
+   height: 50px;
+
+   /** Extra personal styles **/
+   background-color: #03a9f4;
+   color: white;
+   text-align: center;
+   /* line-height: 35px; */
+}
+
+footer {
+   position: fixed; 
+   bottom: -60px; 
+   left: 0px; 
+   right: 0px;
+   height: 10px; 
+
+   /** Extra personal styles **/
+   background-color: #03a9f4;
+   color: white;
+   text-align: center;
+   /* line-height: 35px; */
+}
+
+.img{
+   max-width: 180px; 
+   height: 100px;
+}
+
+.celda{
+   border: rgb(0, 0, 0) 1px solid;
+   text-align: center;
+   font-size: 8px;
+}
+
+.etiquetas{
+   margin-top:10px;
+}
+.img-thumbnail {
+   padding: 0.25rem;
+   background-color: #ffffff;
+   border: 1px solid #dee2e6;
+   border-radius: 0.25rem;
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075);
+   max-width: 130px; 
+   height: 80px;
+   margin-bottom: 3px;
+ }
+
+ .titulo{
+   text-align: center; 
+   color:#FFFFFF; 
+   font-size:small;
+ }
+ 
+ .platinum{
+   text-align: center; 
+   color:rgb(90, 117, 156); 
+   font-size:medium;
+   /* medium, xx-small, x-small, small, large, x-large, xx-large*/
+ }
+
+ 

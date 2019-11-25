@@ -96,7 +96,7 @@
                                                 <td>
                                                     <select name="tarifa_id" id="tarifa_id" class="form-control-plaintext my-0 py-0">
                                                         <option value="{{$familia->tarifa_id}}" selected>{{$tarifafamilia->familia}}</option>
-                                                        @foreach($tarifafamilias as $tarifa)
+                                                        @foreach($familias as $tarifa)
                                                         <option value="{{$tarifa->id}}">{{$tarifa->familia}}</option>                                
                                                         @endforeach
                                                     </select>

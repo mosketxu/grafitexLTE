@@ -1,63 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+        <style>
+            /** Define the margins of your page **/
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Etiquetas</title>
+        </style>
+        <link rel="stylesheet" href="{{ asset('css/pdf.css')}}">
+    </head>
+    <body>
+        <!-- Define header and footer blocks before your content -->
+        <header>
+            <table width="100%" cellspacing="0">
+                <thead>
+                    <tr style="background-color: #139cdc;">
+                        <th style="text-align: right;" width="25%">
+                            <img src="{{asset('storage/grafitexLogo.png')}}" width="50px"></th>
+                        <th class="titulo"  width="50%">
+                            MATERIAL INTERNO <br>
+                            CAMPAÑA {{$campaign->campaign_name}}<br>
+                            Grafitex Servicios Digitales, S.A.
+                        </th>
+                        <th style="color:#ffffff;text-align:center;"  width="25%">
+                            Fecha prevista: {{$campaign->campaign_enddate}}
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </header>
+        <footer>
+            {{now()}} 
+        </footer>
 
-    <!-- Styles -->
-    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"> --}}
-    {{-- <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}"> --}}
-    <link rel="stylesheet" href="{{ asset('css/pdf.css')}}">
-    
-    <style>
-        body {
-            font-family: DejaVu Sans;
-        }
-    </style>
-</head>
 
-<body>
-    {{$today}}
-    <div class="container">
-        @foreach($etiquetas as $store)            
-        {{$store->store_id}} {{$store->store}}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Store</th>
-                            <th>Mobiliario</th>
-                            <th>Propxelemento</th>
-                            <th>Carteleria</th>
-                            <th>Medida</th>
-                            <th>Material</th>
-                            <th>Unit x Prop</th>
-                            <th>Imagen</th>
-                            <th>Observaciones</th>
-                        </tr>
-                    </thead>
-                   <tbody>
-                        @foreach($store->campaignelementos as $etiqueta)
-                        <tr>
-                            <td>{{$etiqueta['store'] }}</td>
-                            <td>{{$etiqueta['mobiliario'] }}</td>
-                            <td>{{$etiqueta['propxelemento'] }}</td>
-                            <td>{{$etiqueta['carteleria'] }}</td>
-                            <td>{{$etiqueta['medida'] }}</td>
-                            <td>{{$etiqueta['material'] }}</td>
-                            <td>{{$etiqueta['unitxprop'] }}</td>
-                            <td>{{$etiqueta['imagen'] }}</td>
-                            <td>{{$etiqueta['observaciones'] }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            <div style="page-break-after:always;"></div>
-        @endforeach
-    </div>
-</body>
-
+        <!-- Wrap the content of your PDF inside a main tag -->
+        <main>
+            <div class="">
+                @foreach($etiquetas as $store)        
+                    <div class="etiquetas">
+                        <table width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;" width="25%">
+                                        {{$store->store_id}} <br>
+                                        {{$store->store}} Segmento
+                                    </th>
+                                    <th class="titulo2"  width="50%">
+                                        {{$store->store}}
+                                    </th>
+                                    <th style="text-align:center;"  width="25%">
+                                        <img src="{{asset('storage/SGH.jpg')}}" height="25px">
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>    
+                    {{$store->store}}
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="20%"></th>
+                                    <th width="20%"></th>
+                                    <th width="20%"></th>
+                                    <th width="20%"></th>
+                                    <th width="20%"></th>
+                                </tr>
+                            </thead>
+        
+                        <tbody>
+                                @foreach($store->campaignelementos->chunk(5) as $chunk)
+                                <tr>
+                                    @foreach($chunk as $etiqueta)
+                                    <td class="celda">
+                                        Nombre: {{$etiqueta['carteleria'] }}<br>
+                                        Mobiliario: {{$etiqueta['mobiliario'] }}<br>
+                                        Material: {{$etiqueta['material'] }}<br>
+                                        Medida: {{$etiqueta['medida'] }}<br>
+                                        Cantidad: {{$etiqueta['unitxprop'] }}<br>
+                                        <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$etiqueta['imagen'])}}" 
+                                            class="img-thumbnail"/>
+                                    </td>
+                                    @endforeach
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    <div style="page-break-after:always;"><br>
+                        <br>
+                        <br>
+                        <br>
+                        <br></div>
+        
+                @endforeach
+            </div>
+        </main>
+    </body>
 </html>

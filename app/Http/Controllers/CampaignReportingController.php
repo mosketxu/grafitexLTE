@@ -29,9 +29,6 @@ class CampaignReportingController extends Controller
         $today=Carbon::now()->format('d/m/Y');
         $campaign=Campaign::find($campaignId);
 
-        // $etiquetas=CampaignStore::where('campaign_id',$campaignId)
-        //     ->with('campaignelementos')
-        //     ->get();
         $etiquetas=CampaignStore::where('campaign_id',$campaignId)
             ->get();
 

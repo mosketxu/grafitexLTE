@@ -37,6 +37,9 @@ class TarifaFamilia extends Model
         $familia=Tarifa::where('id',$tarifa['tarifa_id'])
         ->first();
       
+      if(is_null($familia))
+        $familia=Tarifa::where('id',0)->first();
+    
       return $familia;
     }
 }

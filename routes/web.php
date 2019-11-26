@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
                 });
 
             });
-            // albaran
+            // Repoting
             Route::group(['prefix' => 'reporting'], function () {
                 Route::get('/etiquetas/pdf/{campaignId}', 'CampaignReportingController@pdf')->name('campaign.etiquetas.pdf');
                 Route::get('/etiquetas/{campaignId}', 'CampaignReportingController@index')->name('campaign.etiquetas.index');

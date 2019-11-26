@@ -17,7 +17,7 @@ class CreateCampaignCountriesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('country')->index();
+            $table->string('country',2)->index();
             $table->timestamps();
         });
     }

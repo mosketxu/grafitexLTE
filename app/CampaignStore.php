@@ -13,15 +13,15 @@ class CampaignStore extends Model
         return $this->belongsTo(Campaign::class);
     }
 
-    public function store()
+    public function tienda() 
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(Store::class,'store_id');
     }
 
-    public function campaignelementos()
-    {
-        return $this->hasMany(CampaignElemento::class,'store_id');
-    }
+    // public function campaignelementos()
+    // {
+    //     return $this->hasMany(CampaignElemento::class,'store_id');
+    // }
 
     static function getStore($campaignId,$store)
     {

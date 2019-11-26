@@ -26,10 +26,10 @@ class CampaignElementoController extends Controller
 
         $elementos= CampaignElemento::search($request->busca)
         ->where('campaign_id',$campaignId)
-        ->select('id','store','name','country','area','segmento','storeconcept',
+        ->select('id','store_id','name','country','area','segmento','storeconcept',
             'ubicacion','mobiliario','propxelemento','carteleria','medida',
             'material','familia','precio','unitxprop','imagen','observaciones')
-        ->orderBy('store')
+        ->orderBy('store_id')
         ->paginate('25');
 
 
@@ -115,7 +115,7 @@ class CampaignElementoController extends Controller
 
         $campaign=Campaign::find($campaignelem->campaign_id);
         $elementos=CampaignElemento::where('campaign_id',$campaignelem->campaign_id)
-        ->orderBy('store')
+        ->orderBy('store_id')
         ->paginate('5');
 
         return view('campaign.elementos.index',compact('campaign','elementos'));

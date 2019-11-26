@@ -15,7 +15,7 @@ class CreateTarifaFamiliasTable extends Migration
     {
         Schema::create('tarifa_familias', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('tarifa_id')->default(0);
+            $table->unsignedBigInteger('tarifa_id')->default(1);
             $table->foreign('tarifa_id')->references('id')->on('tarifas');
             $table->string('material','100')->index();
             $table->string('medida','100')->index();

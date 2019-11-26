@@ -9,17 +9,16 @@ class Store extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['id','store','country','area','segment','concept','address_id'];
-    protected $dates = ['deleted_at'];
+    protected $fillable=['id','name','country','area','segmento','concept'];
 
-    // public function address()
+    // public function campaignstores()  
     // {
-    //     return $this->hasOne(Address::class);
+    //     return $this->hasMany(CampaignStore::class);
     // }
 
-    public function campaignstores()
+    public function campaignelementos()  
     {
-        return $this->hasMany(CampaignStore::class);
+        return $this->hasMany(CampaignElemento::class);
     }
 
     public function storeElement(){

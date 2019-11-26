@@ -17,7 +17,7 @@ class CreateCampaignMedidasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('medida')->index();
+            $table->string('medida',100)->index();
             $table->timestamps();
         });
     }

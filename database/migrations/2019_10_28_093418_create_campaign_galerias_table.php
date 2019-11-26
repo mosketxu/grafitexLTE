@@ -17,11 +17,11 @@ class CreateCampaignGaleriasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('mobiliario');
-            $table->string('carteleria')->default('pordefecto.jpg');
-            $table->string('medida')->default('pordefecto.jpg');
+            $table->string('mobiliario',100);
+            $table->string('carteleria',50);
+            $table->string('medida',50);
             $table->string('elemento')->index();
-            $table->string('eci',3)->nullable();
+            $table->string('ECI',3)->nullable();
             $table->string('imagen')->default('pordefecto.jpg');
             $table->string('observaciones')->nullable();
             $table->timestamps();

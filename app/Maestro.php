@@ -39,10 +39,8 @@ class Maestro extends Model
         ->groupBy('store','name','country','area','segmento','storeconcept')
         ->get();
 
-        // dd($stores);
-        foreach (array_chunk($stores->toArray(),1000) as $t){
+        foreach (array_chunk($stores->toArray(),100) as $t){
             $dataSet = [];
-            // foreach ($stores as $store) {
             foreach ($t as $store) {
                 $dataSet[] = [
                     'id'  => $store['store'],

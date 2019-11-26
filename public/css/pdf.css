@@ -27,7 +27,7 @@ footer {
    bottom: -60px; 
    left: 0px; 
    right: 0px;
-   height: 10px; 
+   height: 25px; 
 
    /** Extra personal styles **/
    background-color: #03a9f4;
@@ -42,6 +42,7 @@ footer {
 }
 
 .celda{
+   font-family: DejaVu Sans;
    border: rgb(0, 0, 0) 1px solid;
    text-align: center;
    font-size: 8px;
@@ -61,17 +62,35 @@ footer {
    margin-bottom: 3px;
  }
 
- .titulo{
-   text-align: center; 
-   color:#FFFFFF; 
-   font-size:small;
- }
- 
  .platinum{
+   font-family: DejaVu Sans;
    text-align: center; 
-   color:rgb(90, 117, 156); 
+   background-color: #E5E4E2; 
    font-size:medium;
-   /* medium, xx-small, x-small, small, large, x-large, xx-large*/
+ }
+ .gold{
+   font-family: DejaVu Sans;
+   text-align: center; 
+   background-color:#D4AF37; 
+   font-size:medium;
+ }
+ .outlet{
+   font-family: DejaVu Sans;
+   text-align: center; 
+   background-color:#DEA5A4; 
+   font-size:medium;
+ }
+ .silver{
+   font-family: DejaVu Sans;
+   text-align: center; 
+   background-color:#C0C0C0; 
+   font-size:medium;
+ }
+
+ .idioma{
+   font-family: DejaVu Sans;
+   text-align: center; 
+   font-size: large;
  }
 
  

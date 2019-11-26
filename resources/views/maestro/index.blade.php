@@ -61,7 +61,6 @@
                                         <th>Medida</th>
                                         <th>Material</th>
                                         <th>Unitxprop</th>
-                                        <th>Observaciones</th>
                                     </tr>
                                 </thead>
                                 <tbody class="">
@@ -151,7 +150,6 @@
                 { 'data': 'medida'},
                 { 'data': 'material'},
                 { 'data': 'unitxprop'},
-                { 'data': 'observaciones'}
             ],
             'processing': true,
             'serverSide': true,

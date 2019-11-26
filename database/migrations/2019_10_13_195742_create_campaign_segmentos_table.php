@@ -17,7 +17,7 @@ class CreateCampaignSegmentosTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('segmento')->index();
+            $table->string('segmento',20)->index();
             $table->timestamps();
         });
     }

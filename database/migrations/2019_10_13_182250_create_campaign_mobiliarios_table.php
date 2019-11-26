@@ -17,7 +17,7 @@ class CreateCampaignMobiliariosTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('mobiliario')->index();
+            $table->string('mobiliario',100)->index();
             $table->timestamps();
         });
     }

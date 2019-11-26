@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Campaign, CampaignElemento, CampaignStore, VCampaignEtiquetaStore};
+use App\{Campaign, Store, CampaignStore};
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -16,11 +16,12 @@ class CampaignReportingController extends Controller
         $today=Carbon::now()->format('d/m/Y');
         $campaign=Campaign::find($campaignId);
 
-        // $etiquetas=CampaignStore::where('campaign_id',$campaignId)
-        //     ->with('campaignelementos')
-        //     ->get();
-        $etiquetas=CampaignStore::where('campaign_id',$campaignId)
-            ->get();
+        $etiquetas=Store::whereIn('id', function($q){
+            $q->select('store_id')->from('campaign_elementos');})
+        ->with(['campaignelementos' => function ($query) use($campaignId){
+            $query->where('campaign_id',$campaignId);
+            }])
+        ->get();
 
         return view('campaign.reporting.etiquetas',compact('campaign','etiquetas','today'));
     }
@@ -29,9 +30,13 @@ class CampaignReportingController extends Controller
         $today=Carbon::now()->format('d/m/Y');
         $campaign=Campaign::find($campaignId);
 
-        $etiquetas=CampaignStore::where('campaign_id',$campaignId)
-            ->get();
-
+        $etiquetas=Store::whereIn('id', function($q){
+            $q->select('store_id')->from('campaign_elementos');})
+        ->with(['campaignelementos' => function ($query) use($campaignId){
+            $query->where('campaign_id',$campaignId);
+            }])
+        ->get();
+        
         $pdf = \PDF::loadView('campaign.reporting.etiquetas',compact('campaign','etiquetas','today'));
         // $pdf->setPaper('a4','landscape');
         $pdf->setPaper('a4','portrait');

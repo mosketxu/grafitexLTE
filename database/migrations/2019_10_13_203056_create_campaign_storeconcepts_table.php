@@ -17,7 +17,7 @@ class CreateCampaignStoreconceptsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('storeconcept')->index();
+            $table->string('storeconcept',50)->index();
             $table->timestamps();
         });
     }

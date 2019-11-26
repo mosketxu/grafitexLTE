@@ -15,20 +15,20 @@ class CreateMaestrosTable extends Migration
     {
         Schema::create('maestros', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('store')->index();
-            $table->string('country');
-            $table->string('name')->index();
-            $table->string('area');
-            $table->string('segment2018')->nullable();
-            $table->string('segmento')->index();
-            $table->string('storeconcept');
-            $table->string('ubicacion');
-            $table->string('mobiliario')->index();
-            $table->string('propxelemento')->index();
-            $table->string('carteleria');
-            $table->string('medida')->index();
-            $table->string('material');
-            $table->string('unitxprop')->nullable();
+            $table->string('store',4)->index();
+            $table->string('country',2);
+            $table->string('name',50)->index();
+            $table->string('area',20);
+            $table->string('segment2018',20)->nullable();
+            $table->string('segmento',20)->index();
+            $table->string('storeconcept',50);
+            $table->string('ubicacion',20);
+            $table->string('mobiliario',100)->index();
+            $table->string('propxelemento',50)->index();
+            $table->string('carteleria',50);
+            $table->string('medida',50)->index();
+            $table->string('material',50)->index();
+            $table->string('unitxprop',20)->nullable();
             $table->string('observaciones')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -20,18 +20,18 @@ class MaestroController extends Controller
 
 
     public function import(Request $request){
-        // $request->validate([
-        //     'maestro' => 'required|mimes:xls,xlsx',
-        //     ]);
+
+        $request->validate([
+            'maestro' => 'required|mimes:xls,xlsx',
+            ]);
             
-        //     DB::table('maestros')->delete();
-            
-        // // (new MaestrosImport)->import('MaestroLimpioSin.xlsx');
-        // try{
-        //     (new MaestrosImport)->import(request()->file('maestro'));   
-        // }catch(\ErrorException $ex){
-        //     return back()->withError($ex->getMessage());
-        // }
+        DB::table('maestros')->delete();
+
+        try{
+            (new MaestrosImport)->import(request()->file('maestro'));   
+        }catch(\ErrorException $ex){
+            return back()->withError($ex->getMessage());
+        }
 
 
         DB::table('stores')->delete();

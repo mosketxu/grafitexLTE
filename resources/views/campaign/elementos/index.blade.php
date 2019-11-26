@@ -118,7 +118,7 @@
                                         @csrf
                                         <input type="text" class="d-none" id="elementoId" name="elementoId" value="{{$elemento->id}}">
                                         <td class="d-none">{{$elemento->id}}</td>
-                                        <td>{{$elemento->store}}</td>
+                                        <td>{{$elemento->store_id}}</td>
                                         <td>{{$elemento->name}}</td>
                                         <td class="text-center">{{$elemento->country}}</td>
                                         <td>{{$elemento->area}}</td>

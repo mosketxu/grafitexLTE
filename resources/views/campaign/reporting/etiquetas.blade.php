@@ -2,7 +2,6 @@
     <head>
         <style>
             /** Define the margins of your page **/
-
         </style>
         <link rel="stylesheet" href="{{ asset('css/pdf.css')}}">
     </head>
@@ -36,24 +35,27 @@
             <div class="">
                 @foreach($etiquetas as $store)        
                     <div class="etiquetas">
-                        <table width="100%" cellspacing="0">
+                        <table width="100%" cellspacing="0" border="1">
                             <thead>
                                 <tr>
                                     <th style="text-align: center;" width="25%">
-                                        {{$store->store_id}} <br>
-                                        {{$store->store}} Segmento
+                                        {{$store->id}} <br>
+                                        {{$store->segmento}}
                                     </th>
-                                    <th class="titulo2"  width="50%">
-                                        {{$store->store}}
+                                    <th class="{{trim(strtolower($store->segmento))}}"  width="50%" >
+                                        {{$store->name}}
                                     </th>
                                     <th style="text-align:center;"  width="25%">
                                         <img src="{{asset('storage/SGH.jpg')}}" height="25px">
                                     </th>
                                 </tr>
                             </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
                         </table>
                     </div>    
-                    {{$store->store}}
                         <table width="100%">
                             <thead>
                                 <tr>
@@ -64,8 +66,7 @@
                                     <th width="20%"></th>
                                 </tr>
                             </thead>
-        
-                        <tbody>
+                            <tbody>
                                 @foreach($store->campaignelementos->chunk(5) as $chunk)
                                 <tr>
                                     @foreach($chunk as $etiqueta)
@@ -75,19 +76,23 @@
                                         Material: {{$etiqueta['material'] }}<br>
                                         Medida: {{$etiqueta['medida'] }}<br>
                                         Cantidad: {{$etiqueta['unitxprop'] }}<br>
-                                        <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$etiqueta['imagen'])}}" 
-                                            class="img-thumbnail"/>
+                                        @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$etiqueta['imagen'] ))
+                                            <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$etiqueta['imagen'])}}" class="img-thumbnail"/>
+                                        @else
+                                            <img src="{{asset('storage/galeria/pordefecto.jpg')}}" class="img-thumbnail"/>
+                                        @endif                                        
+                                        {{-- <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$etiqueta['imagen'])}}" class="img-thumbnail"/> --}}
                                     </td>
                                     @endforeach
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    <div style="page-break-after:always;"><br>
-                        <br>
-                        <br>
-                        <br>
-                        <br></div>
+                        <div class="idioma">
+                            Idioma:{{$store->country}}
+                            
+                        </div>
+                    <div style="page-break-after:always;"></div>
         
                 @endforeach
             </div>

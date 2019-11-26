@@ -17,7 +17,7 @@ class CreateCampaignUbicacionsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
-            $table->string('ubicacion')->index();
+            $table->string('ubicacion',20)->index();
             $table->timestamps();
         });
     }

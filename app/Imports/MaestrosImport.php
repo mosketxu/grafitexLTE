@@ -19,6 +19,7 @@ class MaestrosImport implements ToModel, WithHeadingRow, WithChunkReading
     */
     public function model(array $row)
     {
+        // dd($row);
         return new Maestro([
             'store' => trim($row['store_code']),
             'country' => trim($row['country']), 
@@ -39,6 +40,6 @@ class MaestrosImport implements ToModel, WithHeadingRow, WithChunkReading
 
     public function chunkSize(): int
     {
-        return 500;
+        return 300;
     }
 }

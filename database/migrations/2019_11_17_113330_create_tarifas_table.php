@@ -16,14 +16,14 @@ class CreateTarifasTable extends Migration
         Schema::create('tarifas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('zona',2)->nullable();
-            $table->string('familia')->index();
+            $table->string('familia',50)->index();
             $table->integer('tipo')->default(0);
-            $table->integer('tramo1');
-            $table->decimal('tarifa1');
-            $table->integer('tramo2');
-            $table->decimal('tarifa2',8,2);
-            $table->integer('tramo3');
-            $table->float('tarifa3');
+            $table->integer('tramo1')->default(1);
+            $table->decimal('tarifa1')->default(0);
+            $table->integer('tramo2')->default(0);
+            $table->decimal('tarifa2',8,2)->default(0);
+            $table->integer('tramo3')->default(0);
+            $table->float('tarifa3')->default(0);
             $table->timestamps();
         });
     }

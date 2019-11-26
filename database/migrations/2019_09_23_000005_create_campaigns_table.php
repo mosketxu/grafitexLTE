@@ -15,7 +15,7 @@ class CreateCampaignsTable extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('campaign_name')->unique();
+            $table->string('campaign_name',100)->unique();
             $table->date('campaign_initdate');
             $table->date('campaign_enddate');
             $table->string('campaign_state')->default('Creada');

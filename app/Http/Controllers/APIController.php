@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class APIController extends Controller
 {
     public function getMaestros(){
-        $query=Maestro::select('store','country','name','area','segmento','storeconcept','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop','observaciones');
+        $query=Maestro::select('store','country','name','area','segmento','storeconcept','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop');
         
         return datatables($query)
         ->make(true);

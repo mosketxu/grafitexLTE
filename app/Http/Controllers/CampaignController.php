@@ -295,8 +295,10 @@ class CampaignController extends Controller
             }
         }
 
+        
         //recupero todos los elementos elegidos y los inserto
         $generar=Maestro::CampaignStore($id)->get();
+
         foreach (array_chunk($generar->toArray(),100) as $t){
             $dataSet = [];
             foreach ($t as $gen) {
@@ -310,15 +312,20 @@ class CampaignController extends Controller
                         $zona='ES';
                 }
                 // recupero el id de campaignStore que me hace falta para entre otras cosas la relacion stores elementos para la etiquetas
-                $campStoreId=CampaignStore::getStore($id,$gen['store']);
+                // $campStoreId=CampaignStore::getStore($id,$gen['store']);
 
                 // busco a que familia pertenece el elemento para poder cotizar después                
                 $familia=TarifaFamilia::getFamilia($gen['material'],$gen['medida']);
+                $fam=$familia['id'];
+                
+                if (is_null($fam))
+                    $fam=1;
+                
 
                 $dataSet[] = [
                     'campaign_id'  => $id,
-                    'store_id'  => $campStoreId->id,
-                    'store'  => $gen['store'],
+                    // 'store_id'  => $campStoreId->id,
+                    'store_id'  => $gen['store'],
                     'name'  => $gen['name'],
                     'country'  => $gen['country'],
                     'area'  => $gen['area'],
@@ -331,14 +338,22 @@ class CampaignController extends Controller
                     'carteleria'  => $gen['carteleria'],
                     'medida'  => $gen['medida'],
                     'material'  => $gen['material'],
-                    'familia'=>$familia['id'],
+                    'familia'=>$fam,
                     'unitxprop'  => $gen['unitxprop'],
                     'imagen'  => str_replace('.','',str_replace(')','',str_replace('(','',str_replace('-','',str_replace(' ','',$gen['mobiliario'].'-'.$gen['carteleria'].'-'.$gen['medida']))))).'.jpg',
                 ];
             }
+
+            // print_r($dataSet);die(); //luego View Source
             DB::table('campaign_elementos')->insert($dataSet);
         }
 
+        //busco los campaign_stores que no tienen ningun elementoy los borro. Esto se da porque puedo haber añadido alguna store que no cumpla con ningun filtro y queda feo en las etiquetas
+        // $borrar=CampaignStore::where('campaign_id',$id)
+        // ->whereNotIn('store_id', function($q){
+        //     $q->select('store')->from('campaign_elementos');
+        // })->delete();
+        
         //relleno la tabla imagenes
         $imagenes=VCampaignGaleria::getGaleria($id);
         foreach (array_chunk($imagenes->toArray(),1000) as $t){
@@ -370,7 +385,7 @@ class CampaignController extends Controller
     
         $campaign = Campaign::find($campaignId);
         $total=CampaignElemento::where('campaign_id',$campaignId)->count();
-        $totalstores=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)->count('store');
+        $totalstores=CampaignElemento::distinct('store_id')->where('campaign_id',$campaignId)->count('store_id');
         
         $conteodetallado=CampaignElemento::search($request->busca)
             ->where('campaign_id',$campaignId)
@@ -380,7 +395,7 @@ class CampaignController extends Controller
 
         // $totalElementos=CampaignElemento::where('campaign_id',$campaignId)->count();
 
-        $conteostoresAreaCountry=CampaignElemento::distinct('store')->where('campaign_id',$campaignId)
+        $conteostoresAreaCountry=CampaignElemento::distinct('store_id')->where('campaign_id',$campaignId)
         ->select('country','area',DB::raw('count(*) as totales'))
         ->groupBy('country','area')
         ->get();

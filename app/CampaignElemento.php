@@ -10,7 +10,7 @@ class CampaignElemento extends Model
 {
     public $timestamps = true;
 
-    protected $fillable=['campaign_id', 'store','country','name','area','segmento','storeconcept','ubicacion','mobiliario',
+    protected $fillable=['campaign_id', 'store_id','country','name','area','segmento','storeconcept','ubicacion','mobiliario',
         'propxlemento','carteleria','medida','material','unitxprop','imagen','observaciones','precio'
     ];
 
@@ -20,9 +20,14 @@ class CampaignElemento extends Model
         return $this->belongsTo(Campaign::class,'campaign_id'); //no hace falta porque ya busca este campo, pero asi me acuerdo como es
     }
 
-    public function campaignstore()
+    // public function campaignstore()
+    // {
+    //     return $this->belongsTo(CampaignStore::class,'store_id');
+    // }
+
+    public function tienda()
     {
-        return $this->belongsTo(CampaignStore::class,'store_id');
+        return $this->belongsTo(Store::class,'store_id');
     }
 
     public function tarifa()
@@ -32,7 +37,7 @@ class CampaignElemento extends Model
 
     public function scopeSearch($query, $busca)
     {
-      return $query->where('store', 'LIKE', "%$busca%")
+      return $query->where('store_id', 'LIKE', "%$busca%")
       ->orWhere('name', 'LIKE', "%$busca%")
       ->orWhere('country', 'LIKE', "%$busca%")
       ->orWhere('area', 'LIKE', "%$busca%")

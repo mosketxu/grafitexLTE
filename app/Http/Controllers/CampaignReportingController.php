@@ -23,7 +23,7 @@ class CampaignReportingController extends Controller
             }])
         ->get();
 
-        return view('campaign.reporting.etiquetas',compact('campaign','etiquetas','today'));
+        return view('reporting.etiquetas',compact('campaign','etiquetas','today'));
     }
 
     public function pdf($campaignId){
@@ -37,7 +37,7 @@ class CampaignReportingController extends Controller
             }])
         ->get();
         
-        $pdf = \PDF::loadView('campaign.reporting.etiquetas',compact('campaign','etiquetas','today'));
+        $pdf = \PDF::loadView('reporting.etiquetas',compact('campaign','etiquetas','today'));
         // $pdf->setPaper('a4','landscape');
         $pdf->setPaper('a4','portrait');
         // return $pdf->download('etiquetas.pdf'); así lo descarga

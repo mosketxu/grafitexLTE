@@ -311,13 +311,11 @@ class CampaignController extends Controller
                     else
                         $zona='ES';
                 }
-                // recupero el id de campaignStore que me hace falta para entre otras cosas la relacion stores elementos para la etiquetas
-                // $campStoreId=CampaignStore::getStore($id,$gen['store']);
 
                 // busco a que familia pertenece el elemento para poder cotizar después                
                 $familia=TarifaFamilia::getFamilia($gen['material'],$gen['medida']);
                 $fam=$familia['id'];
-                
+
                 if (is_null($fam))
                     $fam=1;
                 

@@ -59,13 +59,15 @@ class CampaignElemento extends Model
         $elementos=CampaignElemento::where('campaign_id',$campaignId)
         ->get();
     
+    
         foreach ($elementos as $elemento){
             $conteo=CampaignElemento::where('campaign_id',$campaignId)
                 ->where('familia',$elemento->familia)
                 ->count();
 
+            // dd($conteo);
             $fam=Tarifa::where('id',$elemento->familia)->first();
-
+                
             if($conteo<$fam->tramo2)
                 $elemento->precio=$fam->tarifa1;
             elseif($conteo>$fam->tramo3)

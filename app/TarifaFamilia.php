@@ -24,6 +24,7 @@ class TarifaFamilia extends Model
     {
       $mat=trim($material);
       $med=trim($medida);
+
       $tarifa=TarifaFamilia::where('material',$mat)
       ->where('medida',$med)
       ->first();
@@ -31,15 +32,25 @@ class TarifaFamilia extends Model
       $familia=Tarifa::where('id',$tarifa['tarifa_id'])
       ->first();
 
+      // dd(is_null($familia));
+
       if (is_null($tarifa)) 
         $familia=Tarifa::where('id',0)->first();
       else
         $familia=Tarifa::where('id',$tarifa['tarifa_id'])
         ->first();
       
-      if(is_null($familia))
-        $familia=Tarifa::where('id',0)->first();
+        // dd($familia);
+      // if(is_null($familia)){
+      //   dd('entro');
+      //   $familia=Tarifa::where('id',0)->first();}
     
       return $familia;
     }
+
+    static function actualizaFamilia($material,$tarifa_id){
+      TarifaFamilia::where('material', 'like', '%' .$material . '%')
+            ->update(['tarifa_id' => $tarifa_id]);
+    }
+    
 }

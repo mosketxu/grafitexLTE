@@ -64,7 +64,6 @@ class CampaignPresupuestoController extends Controller
         // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
         $totalpresupuestoMat= CampaignElemento::asignElementosPrecio($request->campaign_id);
 
-        
         $campPresu=CampaignPresupuesto::create($request->all());
         $campPresu->total=$totalpresupuestoMat->total;
         $campPresu->save();
@@ -90,7 +89,7 @@ class CampaignPresupuestoController extends Controller
 
         // guardo picking y transporte en campaign_presupuestos_pickintransporte para tener historico si se cambian los precios en una segunda versión del presupuesto        
         $stores=VCampaignPromedio::where('campaign_id',$request->campaign_id)
-        ->select('zona',DB::raw('count(store) as tiendas'),DB::raw('SUM(tot) as total'))
+        ->select('zona',DB::raw('count(store_id) as tiendas'),DB::raw('SUM(tot) as total'))
         ->groupBy('zona')
         ->get()
         ->toArray();
@@ -110,8 +109,8 @@ class CampaignPresupuestoController extends Controller
             $dataSet[]=[
                 'presupuesto_id'=>$campPresu->id,
                 'zona'=>$store['zona'],
-                'picking'=>$pick->tarifa1,
-                'transporte'=>$transp->tarifa1,
+                'picking'=>$pick['tarifa1'],
+                'transporte'=>$transp['tarifa1'],
                 'stores'=>$store['tiendas'],
                 'totalstores'=>$totalStores,
                 'totalzona'=>$store['total'],
@@ -266,7 +265,7 @@ class CampaignPresupuestoController extends Controller
 
         // guardo picking y transporte en campaign_presupuestos_pickintransporte para tener historico si se cambian los precios en una segunda versión del presupuesto        
         $stores=VCampaignPromedio::where('campaign_id',$campaignId)
-        ->select('zona',DB::raw('count(store) as tiendas'))
+        ->select('zona',DB::raw('count(store_id) as tiendas'))
         ->groupBy('zona')
         ->get()
         ->toArray();

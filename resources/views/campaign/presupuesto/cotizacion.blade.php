@@ -133,13 +133,13 @@
                                        <tbody>
                                           @foreach($promedios as $promedio)
                                           <tr>
-                                             <td class="text-left my-0 py-1">{{$promedio->zona}}</td>
-                                             <td class="text-left my-0 py-1">{{$promedio->stores}}</td>
-                                             <td class="text-right my-0 py-1">{{number_format($promedio->totalzona,2,',','.')}}</td>
-                                             <td class="text-right my-0 py-1">{{number_format($promedio->total / $promedio->totalstores,2,',','.')}}</td>
-                                             <td class="text-right my-0 py-1">{{number_format($promedio->totalzona / $promedio->totalstores,2,',','.')}}</td>
-                                             <td class="text-right my-0 py-1">{{number_format($promedio->picking,2,',','.')}}</td>
-                                             <td class="text-right my-0 py-1">{{number_format($promedio->transporte,2,',','.')}}</td>
+                                             <td class="text-center my-0 py-1">{{$promedio->zona}}</td>
+                                             <td class="text-center my-0 py-1">{{$promedio->stores}}</td>
+                                             <td class="text-center my-0 py-1">{{number_format($promedio->totalzona,2,',','.')}}</td>
+                                             <td class="text-center my-0 py-1">{{number_format($promedio->total / $promedio->totalstores,2,',','.')}}</td>
+                                             <td class="text-center my-0 py-1">{{number_format($promedio->totalzona / $promedio->totalstores,2,',','.')}}</td>
+                                             <td class="text-center my-0 py-1">{{number_format($promedio->picking,2,',','.')}}</td>
+                                             <td class="text-center my-0 py-1">{{number_format($promedio->transporte,2,',','.')}}</td>
                                           </tr>
                                           @endforeach
                                        </tbody>

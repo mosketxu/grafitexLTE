@@ -18,12 +18,12 @@ class CreateCampaignPromediosView extends Migration
                 as select 
                     campaign_id,
                     zona,
-                    store,
+                    store_id,
                     SUM(unitxprop * precio) as tot
                 from campaign_elementos 
                 group by 
                     campaign_id, 
-                    store,
+                    store_id,
                     zona
                 ;"
             );

@@ -79,10 +79,14 @@ Route::group(['middleware' => ['auth']], function () {
                 });
 
             });
-            // Repoting
+            // Reporting
             Route::group(['prefix' => 'reporting'], function () {
+                // etiquetas
                 Route::get('/etiquetas/pdf/{campaignId}', 'CampaignReportingController@pdf')->name('campaign.etiquetas.pdf');
                 Route::get('/etiquetas/{campaignId}', 'CampaignReportingController@index')->name('campaign.etiquetas.index');
+                // presupuesto
+                Route::get('/presupuesto/pdf/{presupuestoId}', 'CampaignReportingController@pdfPresupuesto')->name('campaign.presupuesto.pdfPresupuesto');
+                Route::get('/presupuesto/preview/{presupuestoId}', 'CampaignReportingController@previewPresupuesto')->name('campaign.presupuesto.previewPresupuesto');
             }); 
 
         });

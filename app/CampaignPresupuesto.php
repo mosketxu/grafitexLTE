@@ -13,6 +13,8 @@ class CampaignPresupuesto extends Model
 
     protected $fillable=['campaign_id','referencia','fecha','version','atencion','total','observaciones','estado'];
 
+    protected $dates = ['fecha'];
+
     public function scopeSearch($query, $busca)
     {
         return $query->where('referencia', 'LIKE', "%$busca%")

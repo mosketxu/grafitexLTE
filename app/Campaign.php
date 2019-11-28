@@ -52,6 +52,10 @@ class Campaign extends Model
         return $this->hasMany(CampaignElemento::class);
     }
 
+    public function campaignPresupuestos(){
+        return $this->hasMany(CampaignPresupuesto::class);
+    }
+
     public function campaignPromedios(){
         return $this->hasMany(VCampaignPromedio::class);
     }

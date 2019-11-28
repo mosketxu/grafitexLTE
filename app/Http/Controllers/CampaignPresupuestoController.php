@@ -94,7 +94,7 @@ class CampaignPresupuestoController extends Controller
         ->get()
         ->toArray();
 
-        $totalStores=VCampaignPromedio::where('campaign_id',$request->campaign_id)
+        $totalStores=VCampaignPromedio::where('campaign_id',$request->campaign_id) 
         ->count();
         $dataSet=[];
         foreach($stores as $store){
@@ -161,10 +161,10 @@ class CampaignPresupuestoController extends Controller
         $campaign=Campaign::find($campaignpresupuesto->campaign_id);
         
         // Info de promedios
-        $promedios=VCampaignPromedio::where('campaign_id',$campaignpresupuesto->campaign_id)
-        ->select('zona',DB::raw('SUM(tot) as total'),DB::raw('count(*) as stores'))
-        ->groupBy('zona')
-        ->get(); 
+        // $promedios=VCampaignPromedio::where('campaign_id',$campaignpresupuesto->campaign_id)
+        // ->select('zona',DB::raw('SUM(tot) as total'),DB::raw('count(*) as stores'))
+        // ->groupBy('zona')
+        // ->get(); 
 
         $promedios=CampaignPresupuestoPickingtransporte::where('presupuesto_id',$id)
         ->get();

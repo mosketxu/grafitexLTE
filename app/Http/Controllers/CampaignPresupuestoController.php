@@ -83,7 +83,7 @@ class CampaignPresupuestoController extends Controller
                         'total'  => $material['tot'],
                     ];
                 }
-                DB::table('campaign_presupuesto_detalles')->insert($dataSet);
+                DB::table('campaign_presupuesto_detalles')->insert($dataSet); 
             }
         }
 

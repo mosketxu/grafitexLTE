@@ -17,6 +17,7 @@ class CreateCampaignPresupuestoExtrasTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('presupuesto_id');
             $table->foreign('presupuesto_id')->references('id')->on('campaign_presupuestos')->onDelete('cascade');
+            $table->string('zona',2);
             $table->string('concepto',50);
             $table->decimal('preciounidad',8,2)->default(0);
             $table->integer('unidades')->default(0);

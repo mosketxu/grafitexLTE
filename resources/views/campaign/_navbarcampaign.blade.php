@@ -26,9 +26,9 @@
     <li class="nav-item d-none d-sm-inline-block">
         <a  href="{{route('campaign.etiquetas.pdf',$campaign->id) }}" class="nav-link" title="Etiquetas"><span id="navetiquetas" class="px-1">Etiquetas</span></a>
     </li>
-    <li class="nav-item d-none d-sm-inline-block">
+    {{-- <li class="nav-item d-none d-sm-inline-block">
         <a  href="{{route('campaign.etiquetas.index',$campaign->id) }}" class="nav-link" title="Etiquetas"><span id="navetiquetas" class="px-1">Etiquetas Preview</span></a>
-    </li>
+    </li> --}}
   </ul>
 
   <!-- SEARCH FORM -->

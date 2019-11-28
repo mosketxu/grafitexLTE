@@ -114,7 +114,7 @@
             <tfoot>
                <tr>
                      <th></th>
-                     <th style="text-align: right;padding-right:10px;background-color:#CEE9F5;border:1px solid" colspan="2">Total Materiales.</th>
+                     <th style="text-align: right;padding-right:10px;background-color:#CEE9F5;border:1px solid" colspan="2">Total Materiales</th>
                      <th style="text-align: right;padding-right:10px;background-color:#CEE9F5;border:1px solid">{{number_format($totalMateriales,2,',','.')}} <span style="font-family: sans-serif;">€</span></th>
                </tr>
                <tr>>
@@ -128,12 +128,12 @@
 @endif
 <br>
 {{-- tabla presupuesto extras --}}
-@if(count($extras)>0)
+@if($totalExtrasEs>0)
    <div>
          <table width="100%" style="margin:0 auto" cellspacing="0">
             <thead>
                <tr>
-                     <th width="49%" style="text-align: left;padding-left:10px;border:1px solid">Concepto</th>
+                     <th width="49%" style="text-align: left;padding-left:10px;border:1px solid">Extras</th>
                      <th width="17%" style="text-align: right;padding-right:10px;border:1px solid">Unidades</th>
                      <th width="17%" style="text-align: right;padding-right:10px;border:1px solid"><span style="font-family: sans-serif;">€</span>/Unidad</th>
                      <th width="17%" style="text-align: right;padding-right:10px;border:1px solid">Total</th>
@@ -141,19 +141,21 @@
             </thead>
             <tbody>
                @foreach($extras as $extra)
-               <tr>
-                     <td style="text-align: left;padding-left:10px;border:1px solid">{{$extra->concepto}}</td>
-                     <td style="text-align: right;padding-right:10px;border:1px solid">{{$extra->unidades}}</td>
-                     <td style="text-align: left;padding-left:10px;border:1px solid">{{number_format($extra->preciounidad,2,',','.')}} </td>
-                     <td style="text-align: right;padding-right:10px;border:1px solid">{{number_format($extra->total,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
-               </tr>
+                  @if($extra->zona!="PT")
+                     <tr>
+                           <td style="text-align: left;padding-left:10px;border:1px solid">{{$extra->concepto}}</td>
+                           <td style="text-align: right;padding-right:10px;border:1px solid">{{$extra->unidades}}</td>
+                           <td style="text-align: right;padding-right:10px;border:1px solid">{{number_format($extra->preciounidad,2,',','.')}} </td>
+                           <td style="text-align: right;padding-right:10px;border:1px solid">{{number_format($extra->unidades * $extra->preciounidad,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
+                     </tr>
+                  @endif
                @endforeach
             </tbody>
             <tfoot>
                <tr>
                      <td></td>
                      <th style="text-align: right;padding-right:10px;background-color:#03a9f4;border:1px solid" colspan="2">Total Extras</th>
-                     <th style="text-align: right;padding-right:10px;background-color:#03a9f4;border:1px solid">{{number_format($totalExtras,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
+                     <th style="text-align: right;padding-right:10px;background-color:#03a9f4;border:1px solid">{{number_format($totalExtrasEs,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
                </tr>
             </tfoot>
          </table>
@@ -200,13 +202,13 @@
          <tbody>
             @foreach($promedios as $picking)
                @if($picking->zona!="PT")
-               <tr>
+                  <tr>
                      <td style="text-align: left;padding-left:10px;border:1px solid">{{$picking->zona=="ES"?"Nacional":"Canarias"}}</td>
                      <td style="text-align: right;padding-right:10px;border:1px solid">{{$picking->stores}}</td>
                      <td style="text-align: right;padding-right:10px;border:1px solid">{{number_format($picking->picking,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
                      <td style="text-align: right;padding-right:10px;border:1px solid">{{number_format($picking->transporte,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
                      <td style="text-align: right;padding-right:10px;border:1px solid">{{number_format($picking->picking * $picking->stores + $picking->transporte * $picking->stores ,2,',','.')}} <span style="font-family: sans-serif;">€</span></td>
-               </tr>
+                  </tr>
                @endif
             @endforeach
          </tbody>
@@ -259,7 +261,7 @@
          <tr>
             <th width="49%"></th>
             <th width="25.5%" style="text-align: left;padding-left:10px;border:1px solid">Extras</th>
-            <th width="25.5%" style="text-align: right;padding-right:10px;border:1px solid">{{number_format($totalExtras,2,',','.')}} <span style="font-family: sans-serif;">€</span></th>
+            <th width="25.5%" style="text-align: right;padding-right:10px;border:1px solid">{{number_format($totalExtrasEs,2,',','.')}} <span style="font-family: sans-serif;">€</span></th>
          </tr>
          <tr>
             <th width="49%"></th>
@@ -269,7 +271,11 @@
          <tr>
             <th width="49%"></th>
             <th width="25.5%" style="text-align: left;padding-left:10px;border:1px solid;background-color: #03a9f4;"><span style="font-size:medium">Total</span></th>
-            <th width="25.5%" style="text-align: right;padding-right:10px;border:1px solid;background-color: #03a9f4"><span style="font-size: medium">{{number_format($picking->picking + $picking->transporte + $totalExtras +$totalMaterialesEs,2,',','.')}} <span style="font-family: sans-serif;">€</span></span></th>
+            <th width="25.5%" style="text-align: right;padding-right:10px;border:1px solid;background-color: #03a9f4">
+               <span style="font-size: medium">
+                  {{number_format($totalPickingEs->picking + $totalPickingEs->transporte + $totalExtrasEs +$totalMaterialesEs,2,',','.')}} <span style="font-family: sans-serif;">€</span>
+               </span>
+            </th>
          </tr>
       </thead>
    </table>

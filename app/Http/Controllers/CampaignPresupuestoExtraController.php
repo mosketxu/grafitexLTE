@@ -37,6 +37,7 @@ class CampaignPresupuestoExtraController extends Controller
     {
         $request->validate([
             'concepto' => 'required',
+            'zona' => 'required',
             'unidades' => 'required|numeric',
             'preciounidad' => 'required|numeric',
             ]);
@@ -45,6 +46,7 @@ class CampaignPresupuestoExtraController extends Controller
 
         $extra->presupuesto_id = $request->presupuesto_id;
         $extra->concepto = $request->concepto;
+        $extra->zona = $request->zona;
         $extra->preciounidad = $request->preciounidad;
         $extra->unidades = $request->unidades;
         $extra->total = $request->total;
@@ -112,6 +114,7 @@ class CampaignPresupuestoExtraController extends Controller
         $request->preciounidad=str_replace(',', '.', $request->preciounidad);
         
         $request->validate([
+            'zona' => 'required',
             'unidades' => 'required|numeric',
             'preciounidad' => 'required',
             ]);

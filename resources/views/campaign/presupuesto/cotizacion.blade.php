@@ -24,21 +24,19 @@
                <span class="hidden" id="campaign_id"></span>
             </div>
             <div class="col-auto mr-auto">
-               <a href="{{route('campaign.presupuesto.refresh',[$campaignpresupuesto->campaign_id,$campaignpresupuesto->id])}}" role="button">
+               <a href="{{route('campaign.presupuesto.refresh',[$campaignpresupuesto->campaign_id,$campaignpresupuesto->id])}}" role="button" title="Refrescar tarifas">
                   <i class="fas fa-sync-alt fa-lg text-primary mt-2"></i>
                </a>
             </div>
             <div class="col-sm-6">
                <ol class="breadcrumb float-sm-right">
-                  @yield('breadcrumbs')
-               </ol>
-               <ol>
-                  <a href="{{route('campaign.presupuesto.pdfPresupuesto',$campaignpresupuesto->id)}}" role="button">
+                  {{-- @yield('breadcrumbs') --}}
+                  <a href="{{route('campaign.presupuesto.pdfPresupuesto',$campaignpresupuesto->id)}}" role="button" title="Imprimir Presupuesto">
                      <i class="far fa-file-pdf fa-2x text-danger mt-2"></i>
                   </a>
-                  <a href="{{route('campaign.presupuesto.previewPresupuesto',$campaignpresupuesto->id)}}" role="button">
+                  {{-- <a href="{{route('campaign.presupuesto.previewPresupuesto',$campaignpresupuesto->id)}}" role="button">
                      <i class="far fa-file-alt fa-2x text-primary mt-2"></i>
-                  </a>
+                  </a> --}}
                </ol>
             </div>
          </div>
@@ -173,6 +171,7 @@
                                           <thead>
                                              <tr>
                                                 <th class="text-center">Extra</th>
+                                                <th class="text-center" width="10%">Zona</th>
                                                 <th class="text-center" width="10%">Uds</th>
                                                 <th class="text-center" width="10%">€/ud.</th>
                                                 <th class="text-center" width="10%">Total <br />
@@ -198,17 +197,27 @@
                                                          value="{{$extra->presupuesto_id}}" readonly="readonly">
                                                       <input type="hidden" name="tipo" value="2" readonly="readonly">
                                                          <input type="checkbox" id="check{{$extra->id}}" style="display:none">
+                                                      {{-- concepto --}}
                                                       <td class="my-0 py-1">
                                                          <input type="text" id="concepto{{$extra->id}}"
-                                                            class="my-0 py-0 form-control-plaintext text-left input-sm" 
+                                                            class="my-0 px-1 py-0 form-control-plaintext text-left input-sm" 
                                                             name="concepto" value="{{$extra->concepto}}" readonly="readonly">
                                                       </td>
+                                                      {{-- zona --}}
+                                                      <td class="my-0 py-1">
+                                                         <span id="totLabel{{$extra->id}}"
+                                                            class="my-0 py-0 px-2 form-control-plaintext text-centar text-primary">
+                                                            {{$extra->zona}}
+                                                         </span>
+                                                      </td>
+                                                      {{-- uds --}}
                                                       <td class="my-0 py-1">
                                                          <input type="text" id="unidades{{$extra->id}}"
-                                                            class="my-0 py-0 px-2 form-control-plaintext  text-right input-sm"
+                                                            class="my-0 py-0 px-2 form-control-plaintext  text-center input-sm"
                                                             name="unidades" onchange="totalizar({{$extra->id}})"
                                                             value="{{$extra->unidades}}" readonly="readonly">
                                                       </td>
+                                                      {{-- €/ud --}}
                                                       <td class="my-0 py-1">
                                                          <input type="text" id="preciounidad{{$extra->id}}"
                                                             class="my-0 py-0 px-2 form-control-plaintext  text-right input-sm"
@@ -216,6 +225,7 @@
                                                             value="{{number_format($extra->preciounidad,2,',','.')}}"
                                                             readonly="readonly">
                                                       </td>
+                                                      {{-- total --}}
                                                       <td class="my-0 py-1">
                                                          <input type="hidden" id="total{{$extra->id}}"
                                                             class="my-0 py-0 px-2 form-control-plaintext item input-sm" name="total"
@@ -225,13 +235,14 @@
                                                                {{number_format($extra->total,2,',','.')}}
                                                             </span>
                                                       </td>
+                                                      {{-- obs --}}
                                                       <td class="my-0 py-1">
                                                          <input type="text" id="observaciones{{$extra->id}}"
                                                             class="my-0 py-0 px-2 form-control-plaintext text-center input-sm"
                                                             name="observaciones" value="{{$extra->observaciones}}"
                                                             readonly="readonly">
                                                       </td>
-                                                         {{-- acciones --}}
+                                                      {{-- acciones --}}
                                                       <td class="my-0 py-1">
                                                          <a class="editar" title="Editar">
                                                             <i id="editar{{$extra->id}}" class="fas fa-edit text-primary fa-2x mx-1"></i>
@@ -251,26 +262,44 @@
                                              <form id="formExtraNew" role="form" method="post" action="{{ route('campaign.presupuesto.extra.store') }}">
                                                 <input type="hidden" name="_tokenExtraNew" value="{{ csrf_token()}}" id="tokenExtraNew">
                                                 @csrf
-                                                <tr class="my-0 py-0" id="tExtraNew">
-                                                   <input type="hidden" name="presupuesto_id" value="{{$campaignpresupuesto->id}}" readonly="readonly">
-                                                   <input type="hidden" name="tipo" value="2" readonly="readonly">
-                                                   <td class="my-0 py-1">
-                                                      <input type="text" id="extraNew" class="my-0 py-0 form-control text-left input-sm" name="concepto" value="">
+                                                <tr class="" id="tExtraNew">
+                                                   <input type="hidden" name="presupuesto_id" value="{{$campaignpresupuesto->id}}"">
+                                                   <input type="hidden" name="tipo" value="2">
+                                                   <td class="mx-1 px-1">
+                                                      <input type="text" id="extraNew" name="concepto"
+                                                         class="mx-1 px-1 form-control form-control-sm text-left "
+                                                         value="">
                                                    </td>
-                                                   <td class="my-0 py-1"><input type="text" id="unidadesExtraNew" class="my-0 py-0 px-2 form-control text-right  input-sm" name="unidades"
+                                                   <td class="mx-1 px-1">
+                                                         <select name="zona"
+                                                            class="mx-1 px-1 form-control form-control-sm">
+                                                            <option value="ES">ES</option>
+                                                            <option value="CA">CA</option>
+                                                            <option value="PT">PT</option>
+                                                         </select>
+                                                      </td>
+                                                   <td class="mx-1 px-1">
+                                                      <input type="text" id="unidadesExtraNew" name="unidades"
+                                                         class="mx-1 px-1 form-control form-control-sm text-right" 
                                                       onchange="totalizar('ExtraNew')" value="0">
                                                    </td>
-                                                   <td class="my-0 py-1"><input type="text" id="preciounidadExtraNew" class="my-0 py-0 px-2 form-control text-right  input-sm"
-                                                      name="preciounidad" onchange="totalizar('ExtraNew')" value="0">
+                                                   <td class="mx-1 px-1">
+                                                      <input type="text" id="preciounidadExtraNew" name="preciounidad"
+                                                      class="mx-1 px-1 form-control form-control-sm text-right"
+                                                      onchange="totalizar('ExtraNew')" value="0">
                                                    </td>
-                                                   <td class="my-0 py-1"><input type="hidden" id="totalExtraNew" class="my-0 py-0 px-2 form-control  input-sm" name="total" value="0">
-                                                      <span id="totLabelExtraNew" class="my-0 py-0 px-2 pt-1 form-control"></span>
+                                                   <td class="mx-1 px-1">
+                                                      <input type="hidden" id="totalExtraNew" name="total"
+                                                      class="mx-1 px-1 form-control form-control-sm" 
+                                                      value="0">
+                                                      <span id="totLabelExtraNew" class="pt-1 form-control form-control-sm"></span>
                                                    </td>
-                                                   <td class="my-0 py-1"><input type="text" id="observacionesExtraNew"
-                                                      class="my-0 py-0 px-2 form-control text-center  input-sm"
-                                                      name="observaciones" value="">
+                                                   <td class="mx-1 px-1">
+                                                      <input type="text" id="observacionesExtraNew" name="observaciones"
+                                                      class="mx-1 px-1 form-control form-control-sm text-center"
+                                                      value="">
                                                    </td>
-                                                   <td class="my-0 py-1 text-center">
+                                                   <td class="text-center">
                                                       <a href="#" title="Validar" onclick="document.getElementById('formExtraNew').submit()">
                                                          <i class="fas fa-plus text-success fa-2x mx-1"></i>
                                                       </a>

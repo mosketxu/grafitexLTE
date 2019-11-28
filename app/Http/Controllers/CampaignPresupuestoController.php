@@ -246,8 +246,9 @@ class CampaignPresupuestoController extends Controller
         // guardo los materiales en campaign_presupuestos_detalle para tener historico si se cambian los precios en una segunda versión del presupuesto
         $materiales=VCampaignResumenElemento::where('campaign_id',$campaignId)
         ->get();
+
         if($materiales->count()>0){
-            foreach (array_chunk($materiales->toArray(),1000) as $t){
+            foreach (array_chunk($materiales->toArray(),500) as $t){
                 $dataSet = [];
                 foreach ($t as $material) {
                     $dataSet[] = [
@@ -258,23 +259,23 @@ class CampaignPresupuestoController extends Controller
                         'total'  => $material['tot'],
                     ];
                 }
-                
                 DB::table('campaign_presupuesto_detalles')->insert($dataSet);
             }
         }
 
         // guardo picking y transporte en campaign_presupuestos_pickintransporte para tener historico si se cambian los precios en una segunda versión del presupuesto        
         $stores=VCampaignPromedio::where('campaign_id',$campaignId)
-        ->select('zona',DB::raw('count(store_id) as tiendas'))
+        ->select('zona',DB::raw('count(store_id) as tiendas'),DB::raw('SUM(tot) as total'))
         ->groupBy('zona')
         ->get()
         ->toArray();
-
+        
         $totalStores=VCampaignPromedio::where('campaign_id',$campaignId)
         ->count();
         $dataSet=[];
+
         foreach($stores as $store){
-            
+            // dd($store);
             $pick=Tarifa::where('tipo',1)
                 ->where('zona',$store['zona'])
                 ->first();
@@ -292,7 +293,9 @@ class CampaignPresupuestoController extends Controller
                 'totalzona'=>$store['total'],
                 'total'=>$totalpresupuestoMat->total
             ];
+            // print_r($dataSet);die();
         }
+
         DB::table('campaign_presupuesto_pickingtransportes')->insert($dataSet);
 
         $notification = array(

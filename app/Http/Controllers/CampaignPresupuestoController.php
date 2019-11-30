@@ -234,15 +234,14 @@ class CampaignPresupuestoController extends Controller
         if ($pickingtransp>0)
             CampaignPresupuestoPickingtransporte::where('presupuesto_id',$presupuestoId)->delete();
 
-        // $campaign = Campaign::find($campaignid);
-
-        // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
-        // calculo el total actual de los elementos para insertarlo y mostrarlo en el indice de prepuestos
-        // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
+            // $campaign = Campaign::find($campaignid);
+            
+            // recupero la lista de elementos creada y asigno el precio en función de cuántos hay
+            // calculo el total actual de los elementos para insertarlo y mostrarlo en el indice de prepuestos
+            // Lo hago cada vez que genero un presupuesto para tener siempre el último precio
+        
         $totalpresupuestoMat= CampaignElemento::asignElementosPrecio($campaignId);
-        
-        
-
+            
         // guardo los materiales en campaign_presupuestos_detalle para tener historico si se cambian los precios en una segunda versión del presupuesto
         $materiales=VCampaignResumenElemento::where('campaign_id',$campaignId)
         ->get();

@@ -16,7 +16,7 @@ class CreateCampaignMobiliariosTable extends Migration
         Schema::create('campaign_mobiliarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
-            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');;
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
             $table->string('mobiliario',100)->index();
             $table->timestamps();
         });

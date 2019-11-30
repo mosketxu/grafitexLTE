@@ -22,6 +22,7 @@ class CreateMaestrosTable extends Migration
             $table->string('segment2018',20)->nullable();
             $table->string('segmento',20)->index();
             $table->string('storeconcept',50);
+            $table->string('elementificador',400);
             $table->string('ubicacion',20);
             $table->string('mobiliario',100)->index();
             $table->string('propxelemento',50)->index();

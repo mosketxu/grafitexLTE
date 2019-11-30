@@ -11,10 +11,10 @@ class Store extends Model
 
     protected $fillable=['id','name','country','area','segmento','concept'];
 
-    // public function campaignstores()  
-    // {
-    //     return $this->hasMany(CampaignStore::class);
-    // }
+    public function storeelementos()  
+    {
+        return $this->hasMany(StoreElemento::class);
+    }
 
     public function campaignelementos()  
     {

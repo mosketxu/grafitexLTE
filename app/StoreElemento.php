@@ -4,14 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StoreElement extends Model
+class StoreElemento extends Model
 {
 
-    protected $fillable=['id','element_id','store:id'];
+    protected $fillable=['id','elemento_id','store_id','elementificador'];
 
-    protected $dates = ['deleted_at'];
 
-    public function element()
+    public function elemento()
     {
         return $this->belongsTo(Element::class);
     }

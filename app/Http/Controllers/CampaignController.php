@@ -319,7 +319,6 @@ class CampaignController extends Controller
                 if (is_null($fam))
                     $fam=1;
                 
-
                 $dataSet[] = [
                     'campaign_id'  => $id,
                     // 'store_id'  => $campStoreId->id,
@@ -345,12 +344,6 @@ class CampaignController extends Controller
             // print_r($dataSet);die(); //luego View Source
             DB::table('campaign_elementos')->insert($dataSet);
         }
-
-        //busco los campaign_stores que no tienen ningun elementoy los borro. Esto se da porque puedo haber añadido alguna store que no cumpla con ningun filtro y queda feo en las etiquetas
-        // $borrar=CampaignStore::where('campaign_id',$id)
-        // ->whereNotIn('store_id', function($q){
-        //     $q->select('store')->from('campaign_elementos');
-        // })->delete();
         
         //relleno la tabla imagenes
         $imagenes=VCampaignGaleria::getGaleria($id);

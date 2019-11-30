@@ -5,16 +5,16 @@
         nonSelectedListLabel: 'No Seleccionadas',
         selectedListLabel: 'Seleccionadas',
         selectorMinimalHeight:300,
-      //   preserveSelectionOnMove: 'moved',
-      //   moveOnSelect: false,
+        preserveSelectionOnMove: 'moved',
+        moveOnSelect: false,
         filterPlaceHolder:'Filtros...',
     });
     //Duallistbox Sin filtro
     var duallist = $('.duallistboxSinFiltro').bootstrapDualListbox({
         nonSelectedListLabel: 'No Seleccionadas',
         selectedListLabel: 'Seleccionadas',
-      //   preserveSelectionOnMove: 'moved',
-      //   moveOnSelect: false,
+        preserveSelectionOnMove: 'moved',
+        moveOnSelect: false,
         filterPlaceHolder:'Filtros...',
         showFilterInputs:false,
     });

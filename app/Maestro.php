@@ -5,13 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-
+use App\{Ubicacion,Carteleria,Material,Medida, Mobiliario,Propxelemento};
 
 class Maestro extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['store','country','name','area','segmento','storeconcept','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop'];
+    protected $fillable=['store','country','name','area','segmento','storeconcept','elementificador','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop'];
 
     // protected $guarded = [];
 
@@ -56,5 +56,59 @@ class Maestro extends Model
         return true;
     }
 
-    
+    static function insertElementos()
+    {
+        $elementos=Maestro::select(
+            'elementificador','ubicacion','mobiliario',
+            'propxelemento','carteleria','medida','material',
+            'unitxprop')
+            ->distinct('elementificador')
+            ->get();
+
+        foreach (array_chunk($elementos->toArray(),100) as $t){
+            $dataSet = [];
+            foreach ($t as $elemento) {
+                $dataSet[] = [
+                    'elementificador'=>$elemento['elementificador'],
+                    'ubicacion_id'=>Ubicacion::where('ubicacion',$elemento['ubicacion'])->first()['id'],
+                    'ubicacion'=>$elemento['ubicacion'],
+                    'mobiliario_id'=>Mobiliario::where('mobiliario',$elemento['mobiliario'])->first()['id'],
+                    'mobiliario'=>$elemento['mobiliario'],
+                    'propxelemento_id'=>Propxelemento::where('propxelemento',$elemento['propxelemento'])->first()['id'],
+                    'propxelemento'=>$elemento['propxelemento'],
+                    'carteleria_id'=>Carteleria::where('carteleria',$elemento['carteleria'])->first()['id'],
+                    'carteleria'=>$elemento['carteleria'],
+                    'medida_id'=>Medida::where('medida',$elemento['medida'])->first()['id'],
+                    'medida'=>$elemento['medida'],
+                    'material_id'=>Material::where('material',$elemento['material'])->first()['id'],
+                    'material'=>$elemento['material'],
+                    'unitxprop'=>$elemento['unitxprop'],
+                ];
+            }
+            DB::table('elementos')->insert($dataSet);
+        }
+        return true;
+    }
+
+    static function insertStoreElementos()
+    {
+        $storeElementos=Maestro::select('store','elementificador')
+            ->groupBy('store','elementificador')
+            ->get();
+
+        foreach (array_chunk($storeElementos->toArray(),100) as $t){
+            $dataSet = [];
+            foreach ($t as $elemento) {
+                $dataSet[] = [
+                    'store_id'=>$elemento['store'],
+                    'elemento_id'=>Elemento::where('elementificador',$elemento['elementificador'])->first()['id'],
+                    'elementificador'=>$elemento['elementificador'],
+                ];
+            }
+            DB::table('store_elementos')->insert($dataSet);
+        }
+        return true;
+    }
+
+
 }

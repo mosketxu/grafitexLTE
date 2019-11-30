@@ -37,6 +37,6 @@ class CreateCampaignResumenElementosView extends Migration
      */
     public function down()
     {
-        DB::statement("DROP VIEW v_campaign_promedios");
+        DB::statement("DROP VIEW v_campaign_resumen_elementos");
     }
 }

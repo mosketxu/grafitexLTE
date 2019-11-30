@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(AreasTableSeeder::class);
         // $this->call(CountriesTableSeeder::class);
         // $this->call(TarifaSeeder::class);
-        // $this->call(TarifaFamiliasSeeder::class);
         // $this->call(MaterialMedidasSeeder::class);
+        $this->call(TarifaFamiliasSeeder::class);
     }
 }

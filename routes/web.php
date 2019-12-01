@@ -29,7 +29,22 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/maestro/import', 'MaestroController@import')->name('maestro.import');;
     //Store
     Route::resource('store', 'StoreController');//->middleware('admin');
-    Route::resource('address', 'AddressController');//->middleware('admin');
+    //Mantenimiento
+    
+    Route::group(['prefix'=>'auxiliares'],function(){
+        Route::view('/', 'auxiliares.index')->name('auxiliares');//->middleware('admin');
+        Route::resource('/country','CountryController');
+        Route::resource('/area','AreaController');
+        Route::resource('/segmento','SegmentoController');
+        Route::resource('/storeconcept','StoreconceptController');
+        Route::resource('/ubicacion','UbicacionController');
+        Route::resource('/mobiliario','MobiliarioController');
+        Route::resource('/propxelemento','PropxelementoController');
+        Route::resource('/carteleria','CarteleriaController');
+        Route::resource('/medida','MedidaController');
+        Route::resource('/material','MaterialController');
+    });
+    //Campañas
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
         Route::group(['prefix' => 'campaign'], function () {
             //Campaign

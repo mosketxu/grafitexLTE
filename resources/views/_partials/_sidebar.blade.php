@@ -46,9 +46,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" id="menumateriales" class="nav-link">
+                            <a href="{{route('auxiliares')}}" id="menuauxiliares" class="nav-link">
                                 <i class="nav-icon fas fa-cube"></i>
-                                <p>Materiales</p>
+                                <p>Auxiliares</p>
                             </a>
                         </li>
                         <li class="nav-item">

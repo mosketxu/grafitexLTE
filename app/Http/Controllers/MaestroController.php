@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\MaestrosImport;
-use App\{Maestro,Ubicacion,Area, Carteleria, Country, Medida, Mobiliario, Segmento, Storeconcept,Propxelemento};
+use App\{Maestro,Ubicacion,Area, Carteleria, Country, Material, Medida, Mobiliario, Segmento, Storeconcept,Propxelemento};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -37,6 +37,7 @@ class MaestroController extends Controller
         DB::table('segmentos')->delete();
         DB::table('propxelementos')->delete();
         DB::table('storeconcepts')->delete();
+        DB::table('materiales')->delete();
  
         try{
             (new MaestrosImport)->import(request()->file('maestro'));   
@@ -56,9 +57,12 @@ class MaestroController extends Controller
         Segmento::insert(Maestro::select('segmento')->distinct('segmento')->get()->toArray());
         Storeconcept::insert(Maestro::select('storeconcept')->distinct('storeconcept')->get()->toArray());
         
-        Maestro::insertElementos();
 
+        Material::insert(Maestro::select('material')->distinct('material')->get()->toArray());
+        Maestro::insertElementos();
+        
         Maestro::insertStoreElementos();
+        
 
         $notification = array(
             'message' => '¡Maestro y tablas principales importados satisfactoriamente!',

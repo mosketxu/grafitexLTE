@@ -32,7 +32,8 @@ Route::group(['middleware' => ['auth']], function () {
     //Mantenimiento
     
     Route::group(['prefix'=>'auxiliares'],function(){
-        Route::view('/', 'auxiliares.index')->name('auxiliares');//->middleware('admin');
+        Route::view('/', 'auxiliares.index')->name('auxiliares');
+
         Route::resource('/country','CountryController');
         Route::resource('/area','AreaController');
         Route::resource('/segmento','SegmentoController');

@@ -60,8 +60,8 @@
                                         <table id="tCountry" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Country</th>
-                                                    <th class="text-right"><a href="{{route('country.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-2x mx-3"></i></a></th>
+                                                    <th>Country<a href="{{route('country.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
+                                                    <th class="text-right"></th>
                                                 </tr>
                                             </thead>
                                             <tbody class="">
@@ -85,7 +85,7 @@
                                         <table id="tArea" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Area</th>
+                                                    <th>Area<a href="{{route('area.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -110,7 +110,7 @@
                                         <table id="tSegmento" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Segmento</th>
+                                                    <th>Segmento<a href="{{route('segmento.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -137,7 +137,7 @@
                                         <table id="tStoreconcept" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Store Concept</th>
+                                                    <th>Store Concept<a href="{{route('storeconcept.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -162,7 +162,7 @@
                                         <table id="tUbicacion" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Ubicación</th>
+                                                    <th>Ubicación<a href="{{route('ubicacion.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -187,7 +187,7 @@
                                         <table id="tMobiliario" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Mobiliario</th>
+                                                    <th>Mobiliario<a href="{{route('mobiliario.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -214,7 +214,7 @@
                                         <table id="tPropxelemento" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Prop x Elemento</th>
+                                                    <th>Prop x Elemento<a href="{{route('propxelemento.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -239,7 +239,7 @@
                                         <table id="tCarteleria" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Carteleria</th>
+                                                    <th>Carteleria<a href="{{route('carteleria.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -264,7 +264,7 @@
                                         <table id="tMedida" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Medida</th>
+                                                    <th>Medida<a href="{{route('medida.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -291,7 +291,7 @@
                                         <table id="tMaterial" class="table table-hover table-sm small" cellspacing="0" width=100%>
                                             <thead>
                                                 <tr>
-                                                    <th>Material</th>
+                                                    <th>Material<a href="{{route('material.create') }}" title="Nuevo"><i class="fas fa-plus-circle text-primary fa-lg mx-3"></i></a></th>
                                                     <th>&nbsp;</th>
                                                 </tr>
                                             </thead>
@@ -333,6 +333,7 @@
                 },
             ],
             'buttons':boton,
+            'keys': false,
             'info':false,
             'searching':busqueda,
             'paging':paginas,
@@ -340,7 +341,7 @@
         });
 
     }
-    $(document).ready( function () {
+
         datasT('#tCountry','country','country',false,[],false,'lfBrtipT');
         datasT('#tArea','area','area',false,[],false,'lfBrtipT');
         datasT('#tSegmento','segmento','segmento',false,[],false,'lfBrtipT');
@@ -351,9 +352,12 @@
         datasT('#tCarteleria','carteleria','carteleria',true,['excel'],true,'fBrtipT');
         datasT('#tMedida','medida','medida',true,['excel'],true,'fBrtipT');
         datasT('#tMaterial','material','material',true,['excel'],true,'fBrtipT');
+    
+    $(document).ready( function () {
     });
 
-    $('#menuauxiliares').addClass('active');
+    $('#menumantenimiento').addClass('active');
     // $('#navestadisticas').toggleClass('activo');
 </script>
+<script>@include('_partials._errortemplate')</script>
 @endpush

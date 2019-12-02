@@ -17,7 +17,7 @@
 <div class="content-wrapper">
         {{-- content header --}}
         <div class="content-header">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <div class="col-auto ">
                         <span class="h3 m-0 text-dark">@yield('titlePag')</span>
@@ -35,8 +35,8 @@
         </div>
         {{-- main content  --}}
         <section class="content">
-            <div class="container-fluid">
-                <div class="card">
+            <div class="container">
+                <div class="card"  style="width:65%;">
                     <div class="card-header">
                         <div class="row">
                         </div>
@@ -45,8 +45,6 @@
                         <form id="formelemento" role="form" method="POST" action="{{ route($route) }}">
                                 @csrf
                                 <div class="card-body">
-                                <input type="text" class="d-none" id="id" name="id"
-                                    value="{{$datos->id}}">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label col-form-label-sm" for="store">{{ucfirst($campo)}}</label>
                                     <div class="col-sm-9">
@@ -56,6 +54,7 @@
                             </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Crear</button>
+                                <a class="btn btn-default" href="{{route('auxiliares')}}" title="Ir la página anterior">Volver</a>                                
                             </div>
                         </form>
                     </div>
@@ -68,8 +67,9 @@
 @push('scriptchosen')
 
 <script>
-    $('#menucampaign').addClass('active');
-    $('#navelemento').toggleClass('activo');
+    $('#menumantenimiento').addClass('active');
+    // $('#navelemento').toggleClass('activo'); 
 </script>
+<script>@include('_partials._errortemplate')</script>
 
 @endpush

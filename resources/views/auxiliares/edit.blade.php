@@ -17,7 +17,7 @@
 <div class="content-wrapper">
         {{-- content header --}}
         <div class="content-header">
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <div class="col-auto ">
                         <span class="h3 m-0 text-dark">@yield('titlePag')</span>
@@ -35,22 +35,22 @@
         </div>
         {{-- main content  --}}
         <section class="content">
-            <div class="container-fluid">
-                <div class="card">
+            <div class="container">
+                <div class="card"  style="width:65%;">
                     <div class="card-header">
                         <div class="row">
                         </div>
                     </div>
                     <div class="card-body">
                         <form id="formelemento" role="form" method="POST" action="{{ route($route,$datos->id) }}">
-                                @csrf
-                                @method('PATCH')
-                                <div class="card-body">
+                            @csrf
+                            @method('PATCH')
+                            <div class="card-body">
                                 <input type="text" class="d-none" id="id" name="id"
                                     value="{{$datos->id}}">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label col-form-label-sm" for="store">{{ucfirst($campo)}}</label>
-                                    <div class="col-sm-9">
+                                <div class="form-group row justify-content-md-center">
+                                    <label class="col-sm-2 col-form-label col-form-label-sm" for="store">{{ucfirst($campo)}}</label>
+                                    <div class="col-sm-10">
                                         <input type="text" class="form-control-sm form-control" id={{$campo}} name={{$campo}} value="{{$datos->$campo}}">
                                     </div>
                                 </div>
@@ -70,8 +70,8 @@
 @push('scriptchosen')
 
 <script>
-    $('#menucampaign').addClass('active');
-    $('#navelemento').toggleClass('activo');
+    $('#menumantenimiento').addClass('active');
+    // $('#navelemento').toggleClass('activo'); 
 </script>
-
+<script>@include('_partials._errortemplate')</script>
 @endpush

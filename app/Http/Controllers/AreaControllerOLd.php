@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AreaController extends Controller
 {
@@ -25,9 +24,9 @@ class AreaController extends Controller
      */
     public function create()
     {
-        // $campo='area';
-        // $update='area.update';
-        // return view('auxiliares.edit',compact('datos','campo','route'));
+        $campo='area';
+        $route='area.store';
+        return view('auxiliares.create',compact('campo','route'));
     }
 
     /**
@@ -38,15 +37,18 @@ class AreaController extends Controller
      */
     public function store(Request $request)
     {
-        // Area::create($request->all());
+        $request->validate([
+            'area'=>'required|unique:areas'
+        ]);
 
-        // $notification = array(
-        //     'message' => '¡Area creada satisfactoriamente!',
-        //     'alert-type' => 'success'
-        // );
+        Area::create($request->all());
 
-        // return redirect('auxiliares')->with($notification);
+        $notification = array(
+            'message' => 'Area creado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
 
+        return redirect('auxiliares')->with($notification);
     }
 
     /**
@@ -68,10 +70,11 @@ class AreaController extends Controller
      */
     public function edit($id)
     {
-        // $datos=Area::find($id);
-        // $campo='area';
-        // $route='area.update';
-        // return view('auxiliares.edit',compact('datos','campo','route'));
+        $datos=Area::find($id);
+        $campo='area';
+        $route='area.update';
+        return view('auxiliares.edit',compact('datos','campo','route'));
+
     }
 
     /**
@@ -83,19 +86,18 @@ class AreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'area'=>'requiered|unique'
-        // ]);
+        $request->validate([
+            'area'=>'required|unique:areas'
+        ]);
 
-        // Area::where('id',$id)->update(['area'=>$request->area]);
+        Area::where('id',$id)->update(['area'=>$request->area]);
 
-        // $notification = array(
-        //     'message' => '¡Area actualizada satisfactoriamente!',
-        //     'alert-type' => 'success'
-        // );
+        $notification = array(
+            'message' => 'Area actualizado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
 
-        // return redirect('auxiliares')->with($notification);
-
+        return redirect('auxiliares')->with($notification);
     }
 
     /**
@@ -108,7 +110,12 @@ class AreaController extends Controller
     {
         Area::destroy($id);
 
-        
+        $notification = array(
+            'message' => 'Area eliminada satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
 
     }
 }

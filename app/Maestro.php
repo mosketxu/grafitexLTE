@@ -11,7 +11,7 @@ class Maestro extends Model
 {
     use SoftDeletes;
 
-    protected $fillable=['store','country','name','area','segmento','storeconcept','elementificador','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop'];
+    protected $fillable=['store','country','name','area','segmento','storeconcept','elementificador','ubicacion','mobiliario','propxelemento','carteleria','medida','material','unitxprop','observaciones'];
 
     // protected $guarded = [];
 
@@ -61,7 +61,7 @@ class Maestro extends Model
         $elementos=Maestro::select(
             'elementificador','ubicacion','mobiliario',
             'propxelemento','carteleria','medida','material',
-            'unitxprop')
+            'unitxprop','observaciones')
             ->distinct('elementificador')
             ->get();
 
@@ -83,6 +83,7 @@ class Maestro extends Model
                     'material_id'=>Material::where('material',$elemento['material'])->first()['id'],
                     'material'=>$elemento['material'],
                     'unitxprop'=>$elemento['unitxprop'],
+                    'observaciones'=>$elemento['observaciones'],
                 ];
             }
             DB::table('elementos')->insert($dataSet);
@@ -95,8 +96,8 @@ class Maestro extends Model
         $storeElementos=Maestro::select('store','elementificador')
             ->groupBy('store','elementificador')
             ->get();
-
-        foreach (array_chunk($storeElementos->toArray(),100) as $t){
+    $cont=0;
+        foreach (array_chunk($storeElementos->toArray(),50) as $t){
             $dataSet = [];
             foreach ($t as $elemento) {
                 $dataSet[] = [
@@ -104,9 +105,14 @@ class Maestro extends Model
                     'elemento_id'=>Elemento::where('elementificador',$elemento['elementificador'])->first()['id'],
                     'elementificador'=>$elemento['elementificador'],
                 ];
+                $cont++;
             }
             DB::table('store_elementos')->insert($dataSet);
+
+            if($cont>5300)
+                dd($cont);
         }
+        // dd('llego');
         return true;
     }
 

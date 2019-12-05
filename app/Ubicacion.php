@@ -8,4 +8,9 @@ class Ubicacion extends Model
 {
     public $timestamps = false;
     protected $fillable=['ubicacion'];
+
+    public function elementos()  
+    {
+        return $this->hasMany(Elemento::class);
+    }
 }

@@ -20,6 +20,13 @@ class MaestrosImport implements ToModel, WithHeadingRow, WithChunkReading
     public function model(array $row)
     {
         $e= str_replace(" ","",$row['ubicacion'].$row['mobiliario'].$row['prop_elemento'].$row['carteleria'].$row['medida'].$row['material'].$row['unit_x_prop']);
+        $observaciones="";
+        $udxprop=trim($row['unit_x_prop']);
+        if(!is_numeric($udxprop)){
+            $observaciones=$udxprop;
+            $udxprop=0;
+        }
+        // dd($observaciones);
         return new Maestro([
             'store' => trim($row['store_code']),
             'country' => trim($row['country']), 
@@ -35,7 +42,8 @@ class MaestrosImport implements ToModel, WithHeadingRow, WithChunkReading
             'carteleria' => trim($row['carteleria']), 
             'medida' => trim($row['medida']), 
             'material' => trim($row['material']), 
-            'unitxprop' =>trim($row['unit_x_prop']), 
+            'unitxprop' =>$udxprop, 
+            'observaciones'=>$observaciones,
         ]);
     }
 

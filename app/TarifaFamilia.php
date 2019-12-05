@@ -13,6 +13,12 @@ class TarifaFamilia extends Model
         return $this->belongsTo(Tarifa::class);
     }
 
+    public function elementos()  
+    {
+        return $this->hasMany(Elemento::class);
+    }
+
+
     public function scopeSearch($query, $busca)
     {
       return $query->where('material', 'LIKE', "%$busca%")

@@ -9,4 +9,12 @@ class Material extends Model
     public $timestamps = false;
     protected $table = "materiales";
     protected $fillable=['material'];
+
+    
+    public function elementos()  
+    {
+        return $this->hasMany(Elemento::class);
+    }
+
+
 }

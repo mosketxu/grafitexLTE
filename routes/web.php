@@ -29,8 +29,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/maestro/import', 'MaestroController@import')->name('maestro.import');;
     //Store
     Route::resource('store', 'StoreController');//->middleware('admin');
-    //Mantenimiento
-    
+    // Elemento
+    Route::resource('elemento', 'ElementoController');    
+    //Auxiliares
     Route::group(['prefix'=>'auxiliares'],function(){
         Route::view('/', 'auxiliares.index')->name('auxiliares');
 
@@ -47,8 +48,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
     //Campañas
     Route::resource('campaign', 'CampaignController');//->middleware('admin');
+    //Campaign
         Route::group(['prefix' => 'campaign'], function () {
-            //Campaign
             Route::post('/asociar', 'CampaignController@asociar');
             Route::post('/asociarstore', 'CampaignController@asociarstore');
             Route::get('/{id?}/generarcampaign', 'CampaignController@generarcampaign')->name('campaign.generar');
@@ -110,8 +111,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('tarifa', 'TarifaController');//->middleware('admin');
         Route::resource('tarifafamilia', 'TarifaFamiliaController');//->middleware('admin');
         Route::get('tarifafamilia/actualizar/{id}', 'TarifaFamiliaController@actualizar')->name('tarifafamilia.actualizar');//->middleware('admin');
-        Route::resource('element', 'ElementController');//->middleware('admin');
-
 
 });
 

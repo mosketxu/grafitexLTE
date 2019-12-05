@@ -40,7 +40,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" id="menuelementos" class="nav-link">
+                            <a href="{{route('elemento.index') }}" id="menuelementos" class="nav-link">
                                 <i class="nav-icon far fas fa-cubes"></i>
                                 <p>Elementos</p>
                             </a>

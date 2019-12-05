@@ -19,15 +19,18 @@ class MaestroController extends Controller
     }
 
 
-    public function import(Request $request){
+    public function import(Request $request)
+    {
 
         $request->validate([
             'maestro' => 'required|mimes:xls,xlsx',
             ]);
             
+        DB::table('store_elementos')->delete();
+        DB::table('elementos')->delete();
+
         DB::table('maestros')->delete();
         DB::table('stores')->delete();
-        DB::table('elementos')->delete();
         DB::table('ubicacions')->delete();
         DB::table('areas')->delete();
         DB::table('cartelerias')->delete();
@@ -38,13 +41,13 @@ class MaestroController extends Controller
         DB::table('propxelementos')->delete();
         DB::table('storeconcepts')->delete();
         DB::table('materiales')->delete();
- 
+
         try{
             (new MaestrosImport)->import(request()->file('maestro'));   
         }catch(\ErrorException $ex){
             return back()->withError($ex->getMessage());
         }
-        
+
         Maestro::insertStores();
 
         Ubicacion::insert(Maestro::select('ubicacion')->distinct('ubicacion')->get()->toArray());
@@ -56,13 +59,12 @@ class MaestroController extends Controller
         Propxelemento::insert(Maestro::select('propxelemento')->distinct('propxelemento')->get()->toArray());
         Segmento::insert(Maestro::select('segmento')->distinct('segmento')->get()->toArray());
         Storeconcept::insert(Maestro::select('storeconcept')->distinct('storeconcept')->get()->toArray());
-        
-
         Material::insert(Maestro::select('material')->distinct('material')->get()->toArray());
+
         Maestro::insertElementos();
-        
+
         Maestro::insertStoreElementos();
-        
+       
 
         $notification = array(
             'message' => '¡Maestro y tablas principales importados satisfactoriamente!',

@@ -15,7 +15,7 @@
         selectedListLabel: 'Seleccionadas',
         preserveSelectionOnMove: 'moved',
         moveOnSelect: false,
-        filterPlaceHolder:'Filtros...',
+        filterPlaceHolder:'Filtros...', 
         showFilterInputs:false,
     });
 

@@ -3,128 +3,146 @@
 @section('styles')
 @endsection
 
-@section('title','Grafitex-Tarifa Editar')
-@section('titlePag','Edición de la tarifa')
+@section('title','Editar Elemento')
+@section('titlePag','Editar Elemento')
 @section('navbar')
-{{-- @include('campaign._navbarcampaign') --}}
+    @include('_partials._navbar')
+@endsection
+@section('breadcrumbs')
+{{-- {{ Breadcrumbs::render('campaignElementos') }} --}}
 @endsection
 
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    {{-- content header --}}
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-auto ">
-                    <span class="h3 m-0 text-dark">@yield('titlePag')</span>
-                    <span class="hidden" id="campaign_id"></span>
-                </div>
-                <div class="col-auto mr-auto">
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        @yield('breadcrumbs')
-                    </ol>
+        {{-- content header --}}
+        <div class="content-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-auto ">
+                        <span class="h3 m-0 text-dark">@yield('titlePag')</span>
+                        <span class="hidden" id="campaign_id"></span>
+                    </div>
+                    <div class="col-auto mr-auto">
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            @yield('breadcrumbs')
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {{-- main content  --}}
-    <section class="content">
-        <div class="container-fluid">
-                @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <strong>Error!</strong> Revise los campos obligatorios.<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-                @if(Session::has('success'))
-                <div class="alert alert-info">
-                    {{Session::get('success')}}
-                </div>
-                @endif
-            <div class="card">
-                <form id="formcampaign" role="form" method="POST" action="{{ route('tarifa.update',$tarifa->id) }}">
-                    @csrf
-                    <input name="_method" type="hidden" value="PATCH">
+        {{-- main content  --}}
+        <section class="content">
+            <div class="container">
+                <div class="card">
                     <div class="card-header">
-                        <h5>Tarifa {{$tarifa->tipo===0 ? 'Materiales' : $tarifa->tipo===1 ? 'Picking' : 'Transportes'}}</h3> 
-
+                        <div class="row">
+                        </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="tipo" value="{{$tarifa->tipo}}">
-                        @if($tarifa->tipo!=0)
+                        <form method="post" action="{{ route('elemento.store') }}">
+                            @csrf
                             <div class="row">
-                                <div class="form-group col">
-                                    <label for="tarifa1">Tarifa</label>
-                                    <input type="number" step="0.01" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
+                                <div class="form-group col-2">
+                                    <label for="ubicacion_id">Ubicación</label>
+                                    <select class="form-control form-control-sm" id="ubicacion_id" name="ubicacion_id">
+                                        <option value={{$elemento->ubicacion_id}}>{{$elemento->ubi->ubicacion}}</option>
+                                        @foreach($ubicaciones as $ubicacion )
+                                        <option value="{{$ubicacion->id}}" {{old('ubicacion_id')==$ubicacion->id ? 'selected' : ''}}>{{$ubicacion->ubicacion}}</option>
+                                        
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group  col-4">
+                                    <label for="mobiliario_id">Mobiliario</label>
+                                    <select class="form-control form-control-sm" id="mobiliario_id" name="mobiliario_id" >
+                                        <option value="">Selecciona</option>
+                                        @foreach($mobiliarios as $mobiliario )
+                                        <option value="{{$mobiliario->id}}" {{old('mobiliario_id')==$mobiliario->id ? 'selected' : ''}}>{{$mobiliario->mobiliario}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-3">
+                                    <label for="propxelemento_id">Prop x Elemento</label>
+                                    <select class="form-control form-control-sm" id="propxelemento_id" name="propxelemento_id" >
+                                        <option value="">Selecciona</option>
+                                        @foreach($propxelementos as $propxelemento )
+                                        <option value="{{$propxelemento->id}}" {{old('propxelemento_id')==$propxelemento->id ? 'selected' : ''}}>{{$propxelemento->propxelemento}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group  col-3">
+                                    <label for="carteleria_id">Carteleria</label>
+                                    <select class="form-control form-control-sm" id="carteleria_id" name="carteleria_id" >
+                                        <option value="">Selecciona</option>
+                                        @foreach($cartelerias as $carteleria )
+                                        <option value="{{$carteleria->id}}" {{old('carteleria_id')==$carteleria->id ? 'selected' : ''}}>{{$carteleria->carteleria}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                        @else
                             <div class="row">
-                                <div class="form-group col">
-                                    <label for="familia">Tarifa</label>
-                                    <input type="text" class="form-control form-control-sm" name="familia" value="{{ $tarifa->familia }}" readonly/>
+                                <div class="form-group col-4">
+                                    <label for="medida_id">Medida</label>
+                                    <select class="form-control form-control-sm" id="medida_id" name="medida_id" >
+                                        <option value="">Selecciona</option>
+                                        @foreach($medidas as $medida )
+                                        <option value="{{$medida->id}}" {{old('medida_id')==$medida->id ? 'selected' : ''}}>{{$medida->medida}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group  col-4">
+                                    <label for="material_id">Material</label>
+                                    <select class="form-control form-control-sm" id="material_id" name="material_id" >
+                                        <option value="">Selecciona</option>
+                                        @foreach($materiales as $material )
+                                        <option value="{{$material->id}}" {{old('material_id')==$material->id ? 'selected' : ''}}>{{$material->material}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group  col-1">
+                                    <label for="unitxprop">Uds</label>
+                                    <select class="form-control form-control-sm" id="unitxprop" name="unitxprop" >
+                                        <option value="">Selecciona</option>
+                                        @for($i = 1; $i<20; $i++)
+                                        <option value="{{$i}}" {{old('unitxprop')==$i ? 'selected' : ''}}>{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="form-group  col-3">
+                                    <label for="material_id">Familia</label>
+                                    <select class="form-control form-control-sm" id="familia_id" name="familia_id" >
+                                        <option value="">Selecciona</option>
+                                        @foreach($familias as $familia )
+                                        <option value="{{$familia->id}}" {{old('familia_id')==$familia->id ? 'selected' : ''}}>{{$familia->familia}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label for="tramo1">Tramo 1</label>
-                                    <input type="number" class="form-control form-control-sm" id="tramo1" name="tramo1" value="{{ old('tramo1',$tarifa->tramo1) }}"/>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="tarifa1">Tarifa 1</label>
-                                    <input type="number" step="0.01" class="form-control form-control-sm" id="tarifa1" name="tarifa1" value="{{ old('tarifa1',$tarifa->tarifa1) }}"/>
-                                </div>
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones</label>
+                                <input  type="text" class="form-control form-control-sm" id="observaciones" name="observaciones" value="{{old('observaciones')}}">
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label for="tramo2">Tramo 2</label>
-                                    <input type="number" class="form-control form-control-sm" id="tramo2" name="tramo2" value="{{ old('tramo2',$tarifa->tramo2) }}"/>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="tarifa2">Tarifa 2</label>
-                                    <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa2" name="tarifa2" value="{{ old('tarifa2',$tarifa->tarifa2) }}"/>
-                                </div>
+                            <div class="footer">
+                                <a type="button" class="btn btn-default" href="{{route('elemento.index')}}">Volver</a>
+                                <input class="btn btn-primary" type="submit" value="Guardar">
                             </div>
-                            <div class="row">
-                                <div class="form-group col">
-                                    <label for="tramo3">Tramo 3</label>
-                                    <input type="number" class="form-control form-control-sm" id="tramo3" name="tramo3" value="{{ old('tramo3',$tarifa->tramo3) }}"/>
-                                </div>
-                                <div class="form-group col">
-                                    <label for="tarifa3">Tarifa 3</label>
-                                    <input type="number"  step="0.01" class="form-control form-control-sm" id="tarifa3" name="tarifa3" value="{{ old('tarifa3',$tarifa->tarifa3) }}"/>
-                                </div>
-                            </div>
-                        @endif
+                        </form>
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
-                        <input type ='button' class="btn btn-default" onclick="javascript:history.back()" value="Volver"/>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 @endsection
 
 @push('scriptchosen')
-{{-- <script src="{{ asset('js/campaignElementos.js')}}"></script> --}}
 
 <script>
-
+    $('#menumantenimiento').addClass('active');
+    // $('#navelemento').toggleClass('activo'); 
 </script>
-
-<script>
-    $('#menucampaign').addClass('active');
-    $('#navcampaignedit').toggleClass('activo');
-</script>
+<script>@include('_partials._errortemplate')</script>
 
 @endpush

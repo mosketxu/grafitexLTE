@@ -113,7 +113,8 @@
                                 <tbody>
                                    @foreach ($elementos as $elemento)
                                    <tr>
-                                    <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}">
+                                    <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data">
+                                    {{-- <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}"> --}}
                                     {{-- comentado <form id="" role="form" method="post" action="{{ route('campaign.elementos.updateimagenindex') }}" enctype="multipart/form-data" id="uploadimage{{$elemento->id}}"> --}}
                                         @csrf
                                         <input type="text" class="d-none" id="elementoId" name="elementoId" value="{{$elemento->id}}">

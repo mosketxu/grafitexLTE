@@ -8,4 +8,10 @@ class Mobiliario extends Model
 {
     public $timestamps = false;
     protected $fillable=['mobiliario'];
+
+    public function elementos()  
+    {
+        return $this->hasMany(Elemento::class);
+    }
+
 }

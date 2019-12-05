@@ -8,4 +8,9 @@ class Storeconcept extends Model
 {
     public $timestamps = false;
     protected $fillable=['storeconcept'];
+
+    public function stores()  
+    {
+        return $this->hasMany(Store::class);
+    }
 }

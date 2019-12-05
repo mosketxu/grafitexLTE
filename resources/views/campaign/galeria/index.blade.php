@@ -104,7 +104,7 @@
                                 <tbody>
                                    @foreach ($campaigngaleria as $imagen)
                                    <tr>
-                                    <form id="form{{$imagen->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data" id="uploadimage{{$imagen->id}}">
+                                    <form id="form{{$imagen->id}}" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data"">
                                     {{-- <form id="" role="form" method="post" action="{{ route('campaign.galeria.updateindex') }}" enctype="multipart/form-data" id="uploadimage{{$imagen->id}}"> --}}
                                         @csrf
                                         <input type="text" class="d-none" id="imagenId" name="imagenId" value="{{$imagen->id}}">
@@ -131,10 +131,10 @@
                                                         onclick='document.getElementById("inputFile{{$imagen->id}}").click()'/>
                                                 @endif                                        
                                                 {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
-                                                </div>
-                                            </td>
-                                            <td width="100px">
-                                                <div class="text-center">
+                                            </div>
+                                        </td>
+                                        <td width="100px">
+                                            <div class="text-center">
                                                 <a href="#" name="Upload" onclick="subirImagenIndex('form{{$imagen->id}}','{{$imagen->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
                                                 <a href="{{ route('campaign.galeria.editgaleria',[$campaign->id,$imagen->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
                                                 {{-- <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a> --}}

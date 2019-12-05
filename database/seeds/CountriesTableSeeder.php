@@ -14,8 +14,8 @@ class CountriesTableSeeder extends Seeder
         DB::table('countries')->delete();
 
         DB::table('countries')->insert([
-            ['country'=>'ES'],
-            ['country'=>'PT'],
+            ['id'=>'ES','country'=>'ES'],
+            ['id'=>'PT','country'=>'PT'],
         ]);
     }
 }

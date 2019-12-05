@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use App\{Ubicacion,Carteleria,Material,Medida, Mobiliario,Propxelemento};
+use App\{Ubicacion,Carteleria,Material,Medida, Mobiliario,Propxelemento,Area,Storeconcept};
 
 class Maestro extends Model
 {
@@ -42,13 +42,27 @@ class Maestro extends Model
         foreach (array_chunk($stores->toArray(),100) as $t){
             $dataSet = [];
             foreach ($t as $store) {
+                if ($store['country']=='PT'){
+                    $zona='PT';
+                }
+                else{
+                    if($store['area']=='Canarias')
+                        $zona='CA';
+                    else
+                        $zona='ES';
+                }
+                $conceptoId=Storeconcept::where('storeconcept',$store['storeconcept'])->first();
+                $areaId=Area::where('area',$store['area'])->first();
                 $dataSet[] = [
                     'id'  => $store['store'],
-                    'name'  => $store['name'],
+                    'name'=>$store['name'],
                     'country'=>$store['country'],
+                    'zona'=>$zona,
+                    'area_id'=>$areaId->id,
                     'area'=>$store['area'],
                     'segmento'=>$store['segmento'],
-                    'concept'=>$store['storeconcept']
+                    'concepto_id'=>$conceptoId->id,
+                    'concepto'=>$store['storeconcept']
                 ];
             }
             DB::table('stores')->insert($dataSet);

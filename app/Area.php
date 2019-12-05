@@ -8,4 +8,9 @@ class Area extends Model
 {
     public $timestamps = false;
     protected $fillable=['area'];
+
+    public function stores()  
+    {
+        return $this->hasMany(Store::class);
+    }
 }

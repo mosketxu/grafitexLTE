@@ -8,10 +8,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Store extends Model
 {
     use SoftDeletes;
-    protected $fillable=[
-        'id','name','country',
-        'zona','area_id','area','segmento',
-        'concepto_id','concepto','observaciones','imagen'];
+
+    protected $fillable=['id','name','country','zona','area','segmento','concept','observaciones','imagen'];
+
+    public function storeelementos()  
+    {
+        return $this->hasMany(StoreElemento::class);
+    }
+
+    public function campaignelementos()  
+    {
+        return $this->hasMany(CampaignElemento::class);
+    }
+
+    public function storeElement(){
+        return $this->hasMany(StoreElemento::class);
+    }
 
     public function scopeSearch($query, $busca)
     {
@@ -21,23 +33,10 @@ class Store extends Model
       ->orWhere('zona', 'LIKE', "%$busca%")
       ->orWhere('area', 'LIKE', "%$busca%")
       ->orWhere('segmento', 'LIKE', "%$busca%")
-      ->orWhere('concepto', 'LIKE', "%$busca%")
+      ->orWhere('concept', 'LIKE', "%$busca%")
       ->orWhere('observaciones', 'LIKE', "%$busca%")
       ->orWhere('imagen', 'LIKE', "%$busca%")
       ;
     }
-
-    public function are()  
-    {
-        return $this->belongsTo(Area::class,'area_id');
-    }
-
-
-    public function concep()  
-    {
-        return $this->belongsTo(Storeconcept::class,'concepto_id');
-    }
-
-
 
 }

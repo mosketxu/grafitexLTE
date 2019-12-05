@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/maestro/import', 'MaestroController@import')->name('maestro.import');;
     //Store
     Route::resource('store', 'StoreController');//->middleware('admin');
+    Route::post('store/updateimagenindex', 'StoreController@updateimagenindex')->name('store.updateimagenindex');
     // Elemento
     Route::resource('elemento', 'ElementoController');    
     //Auxiliares

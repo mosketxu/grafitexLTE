@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(SegmentosTableSeeder::class);
         // $this->call(StoreconceptsTableSeeder::class);
         // $this->call(AreasTableSeeder::class);
-        // $this->call(CountriesTableSeeder::class);
+        $this->call(CountriesTableSeeder::class);
         $this->call(TarifaSeeder::class);
         $this->call(MaterialMedidasSeeder::class);
         $this->call(TarifaFamiliasSeeder::class);

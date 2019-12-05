@@ -18,9 +18,14 @@ class CreateStoresTable extends Migration
             $table->primary('id');
             $table->string('name',50)->index();
             $table->string('country',2)->index();
+            $table->string('zona',2)->index();
+            $table->bigInteger('area_id')->index();
             $table->string('area',20)->index();
             $table->string('segmento',20)->index();
-            $table->string('concept',50)->index();
+            $table->bigInteger('concepto_id')->index();
+            $table->string('concepto',50)->index();
+            $table->string('observaciones',50)->nullable();
+            $table->string('imagen',100)->default('SGH.jpg');
             $table->softDeletes();
             $table->timestamps();
         });

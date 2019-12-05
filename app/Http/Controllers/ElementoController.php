@@ -226,8 +226,13 @@ class ElementoController extends Controller
     public function destroy($id, Request $request)
     {
 
-        $resultado=Elemento::destroy($id);
+        try{
+            Elemento::destroy($id);;   
+        }catch(\ErrorException $ex){
+            return back()->withError($ex->getMessage());
+        }
 
+        // no funcionan los mensajes ni try catch!
 
         $notification = array(
             'message' => 'Elemento eliminado satisfactoriamente!',

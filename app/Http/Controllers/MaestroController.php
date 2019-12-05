@@ -28,13 +28,11 @@ class MaestroController extends Controller
             
         DB::table('store_elementos')->delete();
         DB::table('elementos')->delete();
-
         DB::table('maestros')->delete();
         DB::table('stores')->delete();
         DB::table('ubicacions')->delete();
         DB::table('areas')->delete();
         DB::table('cartelerias')->delete();
-        DB::table('countries')->delete();
         DB::table('medidas')->delete();
         DB::table('mobiliarios')->delete();
         DB::table('segmentos')->delete();
@@ -48,12 +46,10 @@ class MaestroController extends Controller
             return back()->withError($ex->getMessage());
         }
 
-        Maestro::insertStores();
 
         Ubicacion::insert(Maestro::select('ubicacion')->distinct('ubicacion')->get()->toArray());
         Area::insert(Maestro::select('area')->distinct('area')->get()->toArray());
         Carteleria::insert(Maestro::select('carteleria')->distinct('carteleria')->get()->toArray());
-        Country::insert(Maestro::select('country')->distinct('country')->get()->toArray());
         Medida::insert(Maestro::select('medida')->distinct('medida')->get()->toArray());
         Mobiliario::insert(Maestro::select('mobiliario')->distinct('mobiliario')->get()->toArray());
         Propxelemento::insert(Maestro::select('propxelemento')->distinct('propxelemento')->get()->toArray());
@@ -61,10 +57,10 @@ class MaestroController extends Controller
         Storeconcept::insert(Maestro::select('storeconcept')->distinct('storeconcept')->get()->toArray());
         Material::insert(Maestro::select('material')->distinct('material')->get()->toArray());
 
+        Maestro::insertStores();
+        
         Maestro::insertElementos();
-
         Maestro::insertStoreElementos();
-       
 
         $notification = array(
             'message' => '¡Maestro y tablas principales importados satisfactoriamente!',

@@ -82,32 +82,28 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($elementos as $elemento)
-                                    <tr>
-                                        <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)">
-                                             @csrf
-                                             <input type="text" class="d-none" id="id" name="id" value="{{$elemento->id}}">
-                                             <input type="text" class="d-none" id="elementificador" name="elementificador" value="{{$elemento->elementificador}}">
-                                             <td>{{$elemento->id}}</td>
-                                             <td>{{$elemento->ubica->ubicacion}}</td>
-                                             <td>{{$elemento->mobi->mobiliario}}</td>
-                                             <td>{{$elemento->propx->propxelemento}}</td>
-                                             <td>{{$elemento->carte->carteleria}}</td>
-                                             <td>{{$elemento->medi->medida}}</td>
-                                             <td>{{$elemento->mater->material}}</td>
-                                             <td>{{$elemento->famil->familia}}</td>
-                                             <td>{{$elemento->unitxprop}}</td>
-                                             <td>{{$elemento->observaciones}}</td>
-                                             <td width="100px">
+                                    <tr data-id="{{$elemento->id}}">
+                                        {{-- <form id="form{{$elemento->id}}" role="form" method="post" action="javascript:void(0)">
+                                            @csrf
+                                            <input type="text" class="d-none" id="id" name="id" value="{{$elemento->id}}">
+                                            <input type="text" class="d-none" id="elementificador" name="elementificador" value="{{$elemento->elementificador}}"> --}}
+                                            <td>{{$elemento->id}}</td>
+                                            <td>{{$elemento->ubica->ubicacion}}</td>
+                                            <td>{{$elemento->mobi->mobiliario}}</td>
+                                            <td>{{$elemento->propx->propxelemento}}</td>
+                                            <td>{{$elemento->carte->carteleria}}</td>
+                                            <td>{{$elemento->medi->medida}}</td>
+                                            <td>{{$elemento->mater->material}}</td>
+                                            <td>{{$elemento->famil->familia}}</td>
+                                            <td>{{$elemento->unitxprop}}</td>
+                                            <td>{{$elemento->observaciones}}</td>
+                                            <td  width="100px">
                                                 <div class="text-center">
                                                     <a href="{{route('elemento.edit',$elemento->id)}}" title="Editar"><i class="far fa-edit text-primary fa-2x ml-1"></i></a>
-                                                    <form action="{{route('elemento.destroy',$elemento->id)}}" method="POST" style="display:inline">
-                                                        <input type="hidden" name="_method" value="DELETE" />
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                                        <button type="submit" class="enlace"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></button>
-                                                    </form>
+                                                    <a href="#!" class="btn-delete " title="Eliminar"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></a>
                                                 </div>
                                              </td>
-                                         </form>
+                                         {{-- </form> --}}
                                         </tr>
                                         @endforeach
                                 </tbody>
@@ -221,6 +217,12 @@
             </div>
         </section>
     </div>
+    <form id="formDelete" action="{{route('elemento.destroy',':ELEMENTO_ID')}}" method="POST" style="display:inline">
+            <input type="hidden" name="_method" value="DELETE" />
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+            {{-- <button type="submit" class="enlace"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></button> --}}
+    </form>
+
 @endsection
 
 @push('scriptchosen')
@@ -231,6 +233,40 @@
     
 <script>
     $(document).ready( function () {
+        $('.btn-delete ').click(function(){
+           
+            $confirmacion=confirm('¿Seguro que lo quieres eliminar?');
+
+            if($confirmacion){
+                var row= $(this).parents('tr');
+                var id=row.data('id');
+                var form=$('#formDelete');
+                var url=form.attr('action').replace(':ELEMENTO_ID',id);
+                var data=form.serialize();
+
+                $.post(url,data,function(result){
+                    toastr.options={
+                        progressBar:true,
+                        positionClass:"toast-top-center"
+                    };
+                    toastr.success('Elemento eliminado con exito');
+                    row.fadeOut();
+                }).fail(function(){
+                    toastr.options={
+                        closeButton: true,
+                        progressBar:true,
+                        positionClass:"toast-top-center",
+                        showDuration: "300",
+                        hideDuration: "1000",
+                        timeOut: 0,
+                    };
+                    toastr.error("Este elemento está en Stores. No se puede eliminar.");
+
+
+
+                });
+            }
+        });
     });
 
     $('#menuelementos').addClass('active');

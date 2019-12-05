@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\{Elemento,Ubicacion,Mobiliario,Propxelemento,Carteleria,Medida,Material, Tarifa};
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -222,8 +223,27 @@ class ElementoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+
+        $resultado=Elemento::destroy($id);
+
+
+        $notification = array(
+            'message' => 'Elemento eliminado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+
+        // $notification="Elemento eliminado satisfactoriamente!";
+
+        if($request->ajax()){
+            return response()->json([
+                'id'=>$id,
+                'notificacion'=>$notification,
+            ]);
+        }
+        // Session::flash('message',$this->elemento->id, 'ha sido eliminado');
+        // return redirect()->back()
+        // $request->session()->flash('key', $value);
     }
 }

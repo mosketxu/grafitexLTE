@@ -34,10 +34,6 @@ class StoreController extends Controller
         $segmentos=Segmento::orderBy('segmento')->get();
         $conceptos=Storeconcept::orderBy('storeconcept')->get();
 
-        // $stores=Store::with('StoreElement')
-        //     ->orderBy('id','asc')
-        //     ->paginate(10);
-
         return view('stores.index',compact('stores','totalStores','busqueda','countries','areas','segmentos','conceptos'));
     }
 
@@ -66,15 +62,21 @@ class StoreController extends Controller
             'area_id'=>'required',
             'segmento'=>'required',
             'concepto_id'=>'required',
-        ]);
-        
+            'imagen' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            
+            
         $a=Area::find($request->area_id)->area;
         $c=Storeconcept::find($request->concepto_id)->storeconcept;
         if($request->area=="Canarias")
-            $z="CA";
+        $z="CA";
         else
-            $z=$request->country;
+        $z=$request->country;
 
+        $imagen="SGH.jpg";
+        if(!is_null($request->imagen))
+            $imagen = Store::subirImagen($request->id,$request->file('imagen'));
+        
         DB::table('stores')->insert([
             'id'=>$request->id,
             'name'=>$request->name,
@@ -85,6 +87,7 @@ class StoreController extends Controller
             'segmento'=>$request->segmento,
             'concepto_id'=>$request->concepto_id,
             'concepto'=>$c,
+            'imagen'=>$imagen,
             'observaciones'=>$request->observaciones,
              ]
         );
@@ -94,7 +97,6 @@ class StoreController extends Controller
             'alert-type' => 'success'
         );
         return redirect('store')->with($notification);
-
     }
 
     /**
@@ -116,17 +118,14 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        $storeEdit = Store::find($id);
+        $store = Store::find($id);
 
-        $elementosDisponibles = Elemento::whereNotIn('id', function ($query) use ($id) {
-            $query->select('store_id')->from('store_elements')->where('store_id', '=', $id);
-            })->get();
-        $storesAsociadas = Elemento::whereIn('id', function ($query) use ($id) {
-            $query->select('store_id')->from('store_elements')->where('store_id', '=', $id);
-        })->get();
+        $countries=Country::get();
+        $areas=Area::orderBy('area')->get();
+        $segmentos=Segmento::orderBy('segmento')->get();
+        $conceptos=Storeconcept::orderBy('storeconcept')->get();
 
-        return view('store.edit', compact('storeEdit', 'elementosDisponibles', 'storesAsociadas'));
-
+        return view('stores.edit', compact('store','countries','areas','segmentos','conceptos'));
     }
 
     /**
@@ -138,7 +137,49 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        $request->validate([
+            'name'=>'required',
+            'country'=>'required',
+            'area_id'=>'required',
+            'segmento'=>'required',
+            'concepto_id'=>'required',
+            'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            
+        $a=Area::find($request->area_id)->area;
+        $c=Storeconcept::find($request->concepto_id)->storeconcept;
+        if($request->area=="Canarias")
+        $z="CA";
+        else
+        $z=$request->country;
+
+        $imagen=$request->imagen;
+        // dd($request->file('photo'));
+        if($request->file('photo'))
+            $imagen = Store::subirImagen($request->id,$request->file('photo'));
+
+        DB::table('stores')->where('id',$id)->update([
+            'name'=>$request->name,
+            'country'=>$request->country,
+            'zona'=>$z,
+            'area_id'=>$request->area_id,
+            'area'=>$a,
+            'segmento'=>$request->segmento,
+            'concepto_id'=>$request->concepto_id,
+            'concepto'=>$c,
+            'imagen'=>$imagen,
+            'observaciones'=>$request->observaciones,
+             ]
+        );
+
+        $notification = array(
+            'message' => 'Elemento actualizado satisfactoriamente!',
+            'alert-type' => 'success'
+        );
+        return redirect('store')->with($notification);
+
     }
 
     public function updateimagenindex(Request $request)
@@ -148,61 +189,11 @@ class StoreController extends Controller
         ]);
             
         $store=Store::find($request->id);
-        // json_decode($request->campaigngaleria);
-
-        
-        //Por si me interesa estos datos de la imagen
-        $extension=$request->file('imagen')->getClientOriginalExtension();
-        $tipo=$request->file('imagen')->getClientMimeType();
-        $nombre=$request->file('imagen')->getClientOriginalName();
-        $tamayo=$request->file('imagen')->getClientSize();
-        
-        // Genero el nombre que le pondré a la imagen
-        $file_name=$store->id.'.jpg'; 
-
-        // Si no existe la carpeta la creo
-        $ruta = public_path().'/storage/store';
-        if (!file_exists($ruta)) {
-            mkdir($ruta, 0777, true);
-            mkdir($ruta.'/thumbnails', 0777, true);
-        }
-        
-        // verifico si existe la imagen y la borro si existe. Busco el nombre que debería tener.
-        $mi_imagen = $ruta.'/'.$file_name;
-        $mi_imagenthumb = $ruta.'/thumbails/'.$file_name;
-
-
-        if (@getimagesize($mi_imagen)) {
-            unlink($mi_imagen);
-        }
-        if (@getimagesize($mi_imagenthumb)) {
-            unlink($mi_imagenthumb);
-        }
-        
-        
-
-        // verifico que realmente llega un fichero
-        if($files=$request->file('imagen')){
-            // for save the original image
-            $imageUpload=Image::make($files)->encode('jpg');
-            $originalPath='storage/store/';
-            $imageUpload->save($originalPath.$file_name);
-        }
-
-        Image::make($request->file('imagen'))
-            ->resize(144,144)
-            ->encode('jpg')
-            ->save('storage/store/thumbnails/thumb-'.$file_name);
-
-
-        $store->imagen = $file_name;
+        $store->imagen = Store::subirImagen($store->id,$request->file('imagen'));
         $store->save();
 
-        // $image = CampaignGaleria::latest()->first(['imagen_name']);
         return Response()->json($store);
 
-        // return back()
-        //     ->with('success', 'You have successfully upload image.');
     }
 
 
@@ -217,3 +208,4 @@ class StoreController extends Controller
         //
     }
 }
+

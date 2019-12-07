@@ -41,10 +41,10 @@
                         <div class="row">
                         </div>
                     </div>
-                    <div class="card-body">
-                        <form role="form" method="POST" action="{{ route('elemento.update',$elemento->id) }}">
-                            @csrf
-                            @method('PATCH')
+                    <form role="form" method="POST" action="{{ route('elemento.update',$elemento->id) }}">
+                        @csrf
+                        @method('PATCH')
+                        <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-2">
                                     <label for="ubicacion_id">Ubicación</label>
@@ -118,12 +118,12 @@
                                 <label for="observaciones">Observaciones</label>
                                 <input  type="text" class="form-control form-control-sm" id="observaciones" name="observaciones" value="{{old('observaciones',$elemento->observaciones)}}">
                             </div>
-                            <div class="footer">
-                                <a href="{{route('elemento.index')}}" type="button" class="btn btn-default">Volver</a>
-                                <input class="btn btn-primary" type="submit" value="Actualizar">
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{route('elemento.index')}}" type="button" class="btn btn-default">Volver</a>
+                            <input class="btn btn-primary" type="submit" value="Actualizar">
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>

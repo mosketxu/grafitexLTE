@@ -135,8 +135,8 @@
                                         </td>
                                         <td width="100px">
                                             <div class="text-center">
-                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$imagen->id}}','{{$imagen->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
-                                                <a href="{{ route('campaign.galeria.editgaleria',[$campaign->id,$imagen->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-lg mx-1"></i></a>
+                                                <a href="#" name="Upload" onclick="subirImagenIndex('form{{$imagen->id}}','{{$imagen->id}}')"><i class="fas fa-upload text-primary fa-2x mx-1"></i></a>
+                                                <a href="{{ route('campaign.galeria.editgaleria',[$campaign->id,$imagen->id]) }}" title="Edit"><i class="far fa-edit text-primary fa-2x mx-1"></i></a>
                                                 {{-- <a href="" title="Delete"><i class="far fa-trash-alt text-danger fa-lg ml-1"></i></a> --}}
                                             </div>
                                        </td>

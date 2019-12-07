@@ -138,77 +138,82 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <form method="post" action="{{ route('store.store') }}">
-                                    @csrf
-                                    <input  type="hidden" class="form-control form-control-sm" id="pais" name="pais" value="si no lo pongo da error ¿¿?? algun resto de memoria">
-                                    <div class="row">
-                                        <div class="form-group col-2">
-                                            <label for="id">Store</label>
-                                            <input  type="text" class="form-control form-control-sm" id="id" name="id" value="{{old('id')}}">
-                                        </div>
-                                        <div class="form-group  col-4">
-                                            <label for="name">Nombre</label>
-                                            <input  type="text" class="form-control form-control-sm" id="name" name="name" value="{{old('name')}}">
-                                        </div>
-                                        <div class="form-group col-3">
-                                            <label for="country">Country</label>
-                                            <select class="form-control form-control-sm" id="country" name="country" >
-                                                <option value="">Selecciona</option>
-                                                <option value="ES">ES</option>
-                                                <option value="PT">PT</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-3">
-                                            <label for="area">Area</label>
-                                            <select class="form-control form-control-sm" id="area_id" name="area_id" >
-                                                <option value="">Selecciona</option>
-                                                @foreach($areas as $area )
-                                                <option value="{{$area->id}}" {{old('area_id')==$area->id ? 'selected' : ''}}>{{$area->area}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-3">
-                                            <label for="segmento">Segmento</label>
-                                            <select class="form-control form-control-sm" id="segmento" name="segmento" >
-                                                <option value="">Selecciona</option>
-                                                @foreach($segmentos as $segmento )
-                                                <option value="{{$segmento->id}}" {{old('segmento')==$segmento->id ? 'selected' : ''}}>{{$segmento->segmento}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-3">
-                                            <label for="concepto">Concepto</label>
-                                            <select class="form-control form-control-sm" id="concepto_id" name="concepto_id" >
-                                                <option value="">Selecciona</option>
-                                                @foreach($conceptos as $concepto )
-                                                <option value="{{$concepto->id}}" {{old('concepto_id')==$concepto->id ? 'selected' : ''}}>{{$concepto->storeconcept}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    <div class="form-group">
-                                        <label for="observaciones">Observaciones</label>
+                        <form method="post" action="{{ route('store.store') }}"  enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                {{-- <input  type="hidden" class="form-control form-control-sm" id="pais" name="pais" value="si no lo pongo da error ¿¿?? algun resto de memoria"> --}}
+                                <div class="row">
+                                    <div class="form-group col-2">
+                                        <label for="id">Store</label>
+                                        <input  type="text" class="form-control form-control-sm" id="id" name="id" value="{{old('id')}}">
+                                    </div>
+                                    <div class="form-group  col-4">
+                                        <label for="name">Nombre</label>
+                                        <input  type="text" class="form-control form-control-sm" id="name" name="name" value="{{old('name')}}">
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="country">Country</label>
+                                        <select class="form-control form-control-sm" id="country" name="country" >
+                                            <option value="">Selecciona</option>
+                                            <option value="ES">ES</option>
+                                            <option value="PT">PT</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-3">
+                                        <label for="area">Area</label>
+                                        <select class="form-control form-control-sm" id="area_id" name="area_id" >
+                                            <option value="">Selecciona</option>
+                                            @foreach($areas as $area )
+                                            <option value="{{$area->id}}" {{old('area_id')==$area->id ? 'selected' : ''}}>{{$area->area}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-2">
+                                        <label for="segmento">Segmento</label>
+                                        <select class="form-control form-control-sm" id="segmento" name="segmento" >
+                                            <option value="">Selecciona</option>
+                                            @foreach($segmentos as $segmento )
+                                            <option value="{{$segmento->id}}" {{old('segmento')==$segmento->id ? 'selected' : ''}}>{{$segmento->segmento}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <label for="concepto">Concepto</label>
+                                        <select class="form-control form-control-sm" id="concepto_id" name="concepto_id" >
+                                            <option value="">Selecciona</option>
+                                            @foreach($conceptos as $concepto )
+                                            <option value="{{$concepto->id}}" {{old('concepto_id')==$concepto->id ? 'selected' : ''}}>{{$concepto->storeconcept}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-5">
+                                        <label for="imagen">Imagen</label>
+                                        <input  type="file" class="form-control form-control-sm m-0 p-0" id="imagen" name="imagen" value="{{old('imagen')}}">
+                                    </div>
+                                </div>
+                                <div class="form-group m-0 p-0">
+                                        <label for="observaciones">Observacioness</label>
                                         <input  type="text" class="form-control form-control-sm" id="observaciones" name="observaciones" value="{{old('observaciones')}}">
                                     </div>
-
-
-                                    
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary" name="Guardar" onclick="form.submit()">Guardar</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" name="Guardar" onclick="form.submit()">Guardar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+            <form id="formDelete" action="{{route('elemento.destroy',':ELEMENTO_ID')}}" method="POST" style="display:inline">
+                <input type="hidden" name="_method" value="DELETE" />
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                {{-- <button type="submit" class="enlace"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></button> --}}
+            </form>
         </section>
     </div>
-    <form id="formDelete" action="{{route('elemento.destroy',':ELEMENTO_ID')}}" method="POST" style="display:inline">
-            <input type="hidden" name="_method" value="DELETE" />
-            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-            {{-- <button type="submit" class="enlace"><i class="far fa-trash-alt text-danger fa-2x ml-1"></i></button> --}}
-    </form>
+
 
 @endsection
 

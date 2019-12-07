@@ -63,81 +63,76 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <form id="formgaleria" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data">
-                    {{-- <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data"> --}}
-                        @csrf
-                        <div class="card-body">
-                            <input type="text" class="d-none" id="campaigngaleria" name="campaigngaleria" value="{{$campaigngaleria}}">
-                            <div class="row" > 
-                                <div class="col-6 img-thumbnail"  style="max-height: 350px;">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label col-form-label-sm" for="carteleria">Carteleria</label>
-                                        <div class="col-sm-9">
+                <form id="formgaleria" role="form" method="post" action="{{ route('campaign.galeria.update') }}" enctype="multipart/form-data">
+                {{-- <form id="imageUploadForm" role="form" method="post" action="javascript:void(0)" enctype="multipart/form-data"> --}}
+                    @csrf
+                    <div class="card-body">
+                        <input type="text" class="d-none" id="campaigngaleria" name="campaigngaleria" value="{{$campaigngaleria}}">
+                        <div class="row" > 
+                            <div class="col-6 img-thumbnail"  style="max-height: 350px;">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm" for="carteleria">Carteleria</label>
+                                    <div class="col-sm-9">
                                         <input type="text" readonly class="form-control-sm form-control-plaintext" id="carteleria" name="carteleria"
                                             value="{{$campaigngaleria->carteleria}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label col-form-label-sm" for="mobiliario">Mobiliario</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="mobiliario" name="mobiliario"
-                                                value="{{$campaigngaleria->mobiliario}}">
-                                            </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label col-form-label-sm" for="medida">Medida</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="medida" name="medida"
-                                            value="{{$campaigngaleria->medida}}">
-                                        </div>
-                                    </div>
-                                    {{-- <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label col-form-label-sm" for="elemento">Elemento</label>
-                                        <div class="col-sm-9"> --}}
-                                        <input type="hidden" readonly class="form-control-sm form-control-plaintext" id="elemento" name="elemento"
-                                            value="{{$campaigngaleria->elemento}}">
-                                        {{-- </div>
-                                        </div> --}}
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label col-form-label-sm" for="imagen">Imagen</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="imagen" name="imagen"
-                                            value="{{$campaigngaleria->imagen}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label col-form-label-sm" for="observaciones">Observaciones</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="observaciones" name="observaciones"
-                                            value="{{$campaigngaleria->observaciones}}">
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6" style="height: 350px;">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm" for="mobiliario">Mobiliario</label>
                                     <div class="col-sm-9">
-                                        <input type="file" id="inputFile{{$campaigngaleria->id}}" name="photo" style="display:none">
-                                        @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen ))
-                                            <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen)}}" alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
-                                                id="original" class="img-fluid img-thumbnail" 
-                                                style="width: 350px;cursor:pointer"
-                                                onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
-                                        @else
-                                            <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
-                                                id="original" class="img-fluid img-thumbnail" 
-                                                style="width: 350px;cursor:pointer"
-                                                onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
-                                        @endif                                        
-                                    <a href="#" name="Upload" onclick="subirImagen('formgaleria','{{$campaigngaleria->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
-                                    {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
+                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="mobiliario" name="mobiliario"
+                                            value="{{$campaigngaleria->mobiliario}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm" for="medida">Medida</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="medida" name="medida"
+                                            value="{{$campaigngaleria->medida}}">
+                                    </div>
+                                </div>
+                                <input type="hidden" readonly class="form-control-sm form-control-plaintext" id="elemento" name="elemento"
+                                    value="{{$campaigngaleria->elemento}}">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm" for="imagen">Imagen</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" readonly class="form-control-sm form-control-plaintext" id="imagen" name="imagen"
+                                            value="{{$campaigngaleria->imagen}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label col-form-label-sm" for="observaciones">Observaciones</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="observaciones" name="observaciones"
+                                            value="{{$campaigngaleria->observaciones}}">
                                     </div>
                                 </div>
                             </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <div class="col-6" style="">
+                                <div class="col-sm-9">
+                                    <input type="file" id="inputFile{{$campaigngaleria->id}}" name="photo" style="display:none">
+                                    @if(file_exists( 'storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen ))
+                                        <img src="{{asset('storage/galeria/'.$campaign->id.'/'.$campaigngaleria->imagen)}}" alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
+                                            id="original" class="img-fluid img-thumbnail" 
+                                            style="max-height: 250px; max-width: 350px;cursor:pointer"
+                                            onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
+                                    @else
+                                        <img src="{{asset('storage/galeria/pordefecto.jpg')}}"  alt={{$campaigngaleria->imagen}} title={{$campaigngaleria->imagen}}
+                                            id="original" class="img-fluid img-thumbnail" 
+                                            style="max-height: 250px; max-width: 350px;cursor:pointer"
+                                            onclick='document.getElementById("inputFile{{$campaigngaleria->id}}").click()'/>
+                                        @endif                                        
+                                    <a href="#" name="Upload" onclick="subirImagen('formgaleria','{{$campaigngaleria->id}}')"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a>
+                                    {{-- <button type="submit"><i class="fas fa-upload text-primary fa-lg mx-1"></i></a> --}}
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a class="btn btn-default" href="{{route('campaign.galeria',$campaigngaleria->campaign_id)}}" title="Ir la página anterior">Volver</a>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
